@@ -1,38 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '@/components/login/login'
-import chat from  '@/components/chat/chat'
-import user from '@/components/user/user'
-import record from '@/components/record/record'
-import answer from '@/components/answer/answer'
 
 Vue.use(Router)
 
+// export default new Router({
+//   routes: [
+//     {path: '/', redirect: '/Chat'},
+//     {
+//       path: '/Chat',
+//       name: 'chat',
+//       component: resolve => require(['@/components/Page/Chat.vue'], resolve)
+//     }
+//   ]
+// })
+
 export default new Router({
+  mode: 'history',
   routes: [
+    // {path: '/', redirect: '/Chat'},
     {
       path: '/',
-      name: 'login',
-      component: login
-    },{
-      path: '/chat',
       name: 'chat',
-      component: chat
-    },{
-      path: '/user',
-      name: 'user',
-      component: user,
-    },{
-      path: '/record',
-      name: 'record',
-      component: record,
-    },{
-      path: '/answer',
-      name: 'answer',
-      component:  answer
+      component: resolve => require(['@/components/Page/Chat.vue'], resolve)
     }
-  ],
-  mode: 'hash',
-  linkActiveClass:'active'
-  //history
+  ]
 })
