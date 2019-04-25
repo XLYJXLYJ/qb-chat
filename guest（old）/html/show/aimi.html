@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta http-equiv="Pragma" content="no-cache"> 
+		<meta http-equiv="Cache-Control" content="no-cache"> 
+		<meta http-equiv="Expires" content="-1">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/show.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/swiper.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mop-lqs.css" />
+		<link rel="stylesheet prefetch" href="../../css/default-skin.css">
+		<link rel="stylesheet prefetch" href="../../css/photoswipe.css">
+	</head>
+	<body>
+		<div class="aimi">
+			<div class="aside-wrapper">
+				<span></span>
+				<div class="claims_consultation">理赔咨询</div>
+				<div class="artificial_service">人工客服</div>
+			</div>
+			<div class="chat active">
+				<div class="wrapper">
+					<div class="scroll">
+						<div class="aimi-message">
+							<img src="../../img/111.png" />
+							<span class="Aimi">Aimi</span>
+							<span class="helper">全天候保险助手</span>
+						</div>
+						<div class="left">
+							<div class="text1">
+								<div>
+									<img src="/interlocution/img/aimi.png">
+								</div>
+								<div class="radius">
+									你好，我是Aimi，我是您的全天候保险助手。我擅长回答关于保险理赔方面的问题，比如您可以问我“***赔不赔”或者“***保不保。”
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="all-fix">
+				<div class="input">
+					<span class="question active"></span>
+					<span class="send-type active">
+						<input name="text" type="text" onkeydown=KeyDown(event)></input>
+						<span class="picture">
+							<form action="" method="post" id="uploadForm" enctype="multipart/form-data">
+								<input id="uploaderInput" name="service_image" class="weui-uploader__input" type="file" accept="image/*">	
+							</form>	
+						</span>
+					</span>
+					<span class="send">发送</span>
+				</div>
+				<div class="case">
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							<div class=" swiper-slide">
+								<div>产品简介</div>
+								<div>保障范围有什么</div>
+								<div>附加意外门急诊医疗指什么</div>
+								<div>仁医保费用补偿医疗保险</div>
+								<div>仁医保</div>
+								<div>医保费用补偿</div>
+							</div>
+							<div class="swiper-slide">
+								<div>就诊医院规定</div>
+								<div>怎么退保</div>
+								<div>什么是既往症</div>
+								<div>怎么获得发票</div>
+								<div>自购药能否赔付</div>
+								<div>怎么续保</div>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-pagination swiper-pagination-bullets"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
+				</div>
+			</div>
+		</div>
+		<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"> 
+		  <div class="pswp__bg"></div>
+		  <div class="pswp__scroll-wrap"> 
+		    <div class="pswp__container">
+		      <div class="pswp__item"></div>
+		      <div class="pswp__item"></div>
+		      <div class="pswp__item"></div>
+		    </div>
+		    <div class="pswp__ui pswp__ui--hidden">
+		      <div class="pswp__top-bar"> 
+		        <div class="pswp__counter"></div>
+		        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+		        <button class="pswp__button pswp__button--share" title="Share"></button>
+		        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+		        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+		        <div class="pswp__preloader">
+		          <div class="pswp__preloader__icn">
+		            <div class="pswp__preloader__cut">
+		              <div class="pswp__preloader__donut"></div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+		        <div class="pswp__share-tooltip"></div>
+		      </div>
+		      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"> </button>
+		      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"> </button>
+		      <div class="pswp__caption">
+		        <div class="pswp__caption__center"></div>
+		      </div>
+			</div>
+		  </div>
+		</div>
+		<script src="../../js/jquery.js"></script>
+		<script src="../../js/swiper.js"></script>
+		<script src="../../js/store.js"></script>
+		<script src="../../js/RongIMLib.js"></script>
+		<script src="../../js/chat.js"></script>
+		<script src="../../js/scroll-up-bar.min.js"></script>
+		<script src="../../js/photoswipe.js"></script>
+		<script src="../../js/photoswipe-ui-default.min.js"></script>
+		<script src="../../js/photo.js"></script>
+		<script src="../../js/test.js"></script>
+		<!-- <script src="../../js/vconsole.js"></script> -->
+		<script src="../../js/exif.js"></script>
+		<script>
+			var mySwiper = new Swiper('.swiper-container', {
+				width: $(window).width(),
+				resistanceRatio: 0,
+				pagination: {
+					el: '.swiper-pagination',
+				},
+				observer: true,
+			});
+			var u = navigator.userAgent;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			var ua = navigator.userAgent.toLowerCase();
+			var isWeixin = ua.indexOf('micromessenger') != -1;
+			if (isiOS) {
+		        $("input:file").removeAttr("capture");
+		   };
+		</script>
+	</body>
+</html>
