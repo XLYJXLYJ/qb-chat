@@ -81,15 +81,15 @@ export default {
             next();
         }else{
             console.log('你的浏览器支持indexdb!')
-            let urlLength = window.location.href.length
-            let urlStr = window.location.href.slice(urlLength-15,urlLength)
-            console.log(urlStr)
-            let options = {
-              name: urlStr,
-              version: 1,
-              storeName: 'questionAnswer'
-            }
-            window.db=new IndexedDB(options);
+            // let urlLength = window.location.href.length
+            // let urlStr = window.location.href.slice(urlLength-15,urlLength)
+            // console.log(urlStr)
+            // let options = {
+            //   name: urlStr,
+            //   version: 1,
+            //   storeName: 'questionAnswer'
+            // }
+            window.db=new IndexedDB();
             window.db.open();
             // window.db._init();
             setTimeout(function(){
@@ -177,225 +177,225 @@ export default {
         })
 
         //模拟测试数据开始
-        this_.msgs = [
-            {imgData: false,msg: "您好，我是水滴筹，请问有什么可以帮助您？",select: [],selectposition:0,self: false,whether: [], whetherposition: 0,zan: 0},
-            {imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",robotZan: 0,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false,whether: [], whetherposition: 0,zan: 0},
-            {imgData: false,msg: "心脏病保不保",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
-            // {imgData: false,msg: ["太平百万医疗险哈哈哈", "安心百万医疗险哈哈哈"],robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0},
-            {h: 0,imgData: false, msg: "这是一款由太平财产保险有限公司发行的百万医疗险，主要http://www.baidu.com保障这款产品保障的是因意外或在等待期后因疾病导致的住院治疗，具体保障内容请查看保险条款。一般医疗保险金最高累计报销300万，100种重大疾病保险金最高报销600万，除因100种重大疾病导致的住院治疗无免赔额外，其余住院治疗均有1万免赔额/年。在市场上具备极强的竞争力。", msrc: undefined,overzan: 0,robotZan: 1,select: [],selectposition: 0,self: false, w: 0, whether: [], whetherposition: 0,zan: 1,textfold:true,istextfold:1},
-            {imgData: false,msg: "太平百万医疗险",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
-            {imgData: false,msg: "Aimi根据保单理解，心脏病在太平百万医疗险的保障范围内",robotZan: 1,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 1},
-            {imgData: false,msg: "如需咨询具体保障金额，您需回答下列问题：<br />请问保险事故是否发生在等待期30天后呢？", robotZan: 1,select: [],selectposition:0,self: false, whether: ["是", "否"], whetherposition: 1,zan: 0},
-            {imgData: false,msg: "666666666",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
-            {imgData: false,msg: "66666666666666661",robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0},
-            { h: 0,imgData: true, msg: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",msrc: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",robotZan: 0,select: [],selectposition:0,self: false, src: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png", w: 0,whether: [],whetherposition: 0,zan: 0},
-            { h: 0,imgData: false, msg: "您与水滴筹的聊天已结束",msrc: undefined,robotZan: 0,select: [],selectposition:0,self: false,w: 0,whether: [], whetherposition: 0,zan: 0},
-            { h: 0,imgData: false,msg: "123456",msrc: undefined, robotZan: 0,select: [],selectposition:0,self: true,w: 0,whether: [],whetherposition: 0,zan: 0},
-            { h: 0,imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",msrc: undefined,robotZan: 1,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false, w: 0,whether: [],whetherposition: 0,zan: 0},
-        ]
-        let uuid = Math.random().toString();
-        let product_id = 154;
-        let robot_user_id = 29;
-        let name = Math.random();
-        let sesionId = Math.random().toString();
-        this_.priority = 1
-        localStorage.setItem('uuid', uuid);
-        localStorage.setItem('product_id', product_id);
-        localStorage.setItem('robot_user_id', 29);
-        localStorage.setItem('name', name);
-        localStorage.setItem('sesionId',sesionId);
-        let humanDataToken = Qs.stringify({
-            name:localStorage.getItem('name'),
-            uuid:localStorage.getItem('uuid')
-        });
-        Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
-        .then(result => {
-            console.log('uuid = ' + localStorage.getItem('uuid'))
-            localStorage.setItem('token', result.data.token);
-        })
-        RongIMLib.RongIMClient.init(this_.appkey);
-        localStorage.setItem('token', 'jbAwskvioqwF+Pdgx5Dn190+ErJ1xXi9y0K/LM5Yy9Wzwdh+8dhBq495Wv4rZ7FdXCcRCNx3mZQuFpTcoLBwDTjS1J0nu9Pdyv460Uyj4pE=');
-        // 客户查询
-        let humanDataSelect = Qs.stringify({
-            name: localStorage.getItem('name'),
-            uuid:localStorage.getItem('uuid'), // 客户dialog_id
-            product_id:localStorage.getItem('product_id'), // 产品id
-            robot_user_id:localStorage.getItem('robot_user_id') // 用户id
-        });
-        Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
-        .then(result => {
-            console.log('连接前查询之前状态数据 ======')
-            console.log(result)
-            let msg = result.data.msg
-            if(this_.priority ==1){
-                this_.humanButton = false
-                if(msg=='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
-                    this_.huamanOrRobot = true // 切换到人工客服回答
-                    this_.busyText = '' // 关闭忙碌语
-                    this_.inputImg = false // 开启图片开关
-                    localStorage.setItem('token', result.data.data.token);
-                    localStorage.setItem('extra', result.data.data.extra);
-                    localStorage.setItem('targetId', result.data.data.targetId);
-                    localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-                    this_.customerLogin()
-                }else if(msg=='robot'){
-                    console.log('人工优先模式,之前未有过对话')
-                    this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
-                }
-            }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
-                localStorage.setItem('token', result.data.data.token);
-                localStorage.setItem('extra', result.data.data.extra);
-                localStorage.setItem('targetId', result.data.data.targetId);
-                localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-                this_.huamanOrRobot = true
-                this_.busyText = ''
-                this_.humanButtonText = '结束人工'
-            }else if(this_.priority == 0){
-                this_.huamanOrRobot = false // 发送机器人消息
-                this_.inputImg = false // 开启图片开关
-            }
-        })
-        let tokenLogin =  new Promise((resolve, reject) => {
-            // 客户token
-            let humanDataToken = Qs.stringify({
-                name:localStorage.getItem('name'),
-                uuid:localStorage.getItem('uuid')
-            });
-            Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
-            .then(res => {
-                resolve(res.data);
-            })
-            .catch(err =>{
-                reject(err.data)
-            })
-        })
-        tokenLogin.then(
-            function(value){
-                let token = value.data;
-                localStorage.setItem('token', token);
-                console.log('token = ' + token)
-                RongIMClient.connect(token, {
-                    onSuccess: function(userId) {
-                        console.log('Connect successfully. ' + userId);
-                    },
-                    onTokenIncorrect: function() {
-                        console.log('token 无效');
-                    },
-                    onError: function(errorCode){
-                        var info = '';
-                        switch (errorCode) {
-                            case RongIMLib.ErrorCode.TIMEOUT:
-                                info = '超时';
-                                break;
-                            case RongIMLib.ConnectionState.UNACCEPTABLE_PAROTOCOL_VERSION:
-                                info = '不可接受的协议版本';
-                                break;
-                            case RongIMLib.ConnectionState.IDENTIFIER_REJECTED:
-                                info = 'appkey不正确';
-                                break;
-                            case RongIMLib.ConnectionState.SERVER_UNAVAILABLE:
-                                info = '服务器不可用';
-                                break;
-                        }
-                        console.log(info);
-                    }
-                });
-            }
-        )
-        // 设置连接监听状态 （ status 标识当前连接状态 ）
-        // 连接状态监听器
-        // 连接状态监听器
-        RongIMClient.setConnectionStatusListener({
-            onChanged: function (status) {
-                // status 标识当前连接状态
-                switch (status) {
-                    case RongIMLib.ConnectionStatus.CONNECTED:
-                        console.log('链接成功');
-
-                      // 客户token
-                      let datakey = Qs.stringify({
-                        key: window.key
-                      });
-                      // let this_ = this
-                      console.log('请求/chat/priority获得的数据')
-                      Vue.axios.post(window.url+'chat/priority',datakey)
-                        .then(result => {
-                          console.log('请求/chat/priority获得的数据')
-                          console.log(result)
-                          let value = result.data
-                          localStorage.setItem('priority',value.data.priority);
-                          this_.priority = value.data.priority
-                          if(this_.priority==0){
-                            this_.humanButton = false
-                            this_.busyText = ''
-                            this_.inputImg = false
-                          }else if(this_.priority==1){
-                            this_.humanButton = false
-                          }else{
-                            this_.humanButton = true
-                          }
-                          // 客户查询
-                          let humanDataSelect = Qs.stringify({
-                            name: localStorage.getItem('name'),
-                            uuid:localStorage.getItem('uuid'), // 客户dialog_id
-                            product_id:localStorage.getItem('product_id'), // 产品id
-                            robot_user_id:localStorage.getItem('robot_user_id') // 用户id
-                          });
-                          Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
-                            .then(result => {
-                              console.log('连接前查询之前状态数据 ======')
-                              console.log(result)
-                              let msg = result.data.msg
-                              if(this_.priority ==1){
-                                this_.humanButton = false
-                                if(msg='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
-                                  this_.huamanOrRobot = true // 切换到人工客服回答
-                                  this_.busyText = '' // 关闭忙碌语
-                                  this_.inputImg = false // 开启图片开关
-                                  localStorage.setItem('token', result.data.data.token);
-                                  localStorage.setItem('extra', result.data.data.extra);
-                                  localStorage.setItem('targetId', result.data.data.targetId);
-                                  localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-                                  this_.customerLogin()
-                                }else if(msg='robot'){
-                                  console.log('人工优先模式,之前未有过对话')
-                                  this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
-                                }
-                              }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
-                                localStorage.setItem('token', result.data.data.token);
-                                localStorage.setItem('extra', result.data.data.extra);
-                                localStorage.setItem('targetId', result.data.data.targetId);
-                                localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-                                this_.huamanOrRobot = true
-                                this_.busyText = ''
-                                this_.humanButtonText = '结束人工'
-                              }else if(this_.priority == 0){
-                                this_.huamanOrRobot = false // 发送机器人消息
-                                this_.inputImg = false // 开启图片开关
-                              }
-                            })
-                        })
-
-
-                        break;
-                    case RongIMLib.ConnectionStatus.CONNECTING:
-                        console.log('正在链接');
-                        break;
-                    case RongIMLib.ConnectionStatus.DISCONNECTED:
-                        console.log('断开连接');
-                        break;
-                    case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
-                        console.log('其他设备登录');
-                        break;
-                    case RongIMLib.ConnectionStatus.DOMAIN_INCORRECT:
-                        console.log('域名不正确');
-                        break;
-                    case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
-                        console.log('网络不可用');
-                        break;
-                }
-            }
-        });
+        // this_.msgs = [
+        //     {imgData: false,msg: "您好，我是水滴筹，请问有什么可以帮助您？",select: [],selectposition:0,self: false,whether: [], whetherposition: 0,zan: 0},
+        //     {imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",robotZan: 0,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false,whether: [], whetherposition: 0,zan: 0},
+        //     {imgData: false,msg: "心脏病保不保",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
+        //     // {imgData: false,msg: ["太平百万医疗险哈哈哈", "安心百万医疗险哈哈哈"],robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0},
+        //     {h: 0,imgData: false, msg: "这是一款由太平财产保险有限公司发行的百万医疗险，主要http://www.baidu.com保障这款产品保障的是因意外或在等待期后因疾病导致的住院治疗，具体保障内容请查看保险条款。一般医疗保险金最高累计报销300万，100种重大疾病保险金最高报销600万，除因100种重大疾病导致的住院治疗无免赔额外，其余住院治疗均有1万免赔额/年。在市场上具备极强的竞争力。", msrc: undefined,overzan: 0,robotZan: 1,select: [],selectposition: 0,self: false, w: 0, whether: [], whetherposition: 0,zan: 1,textfold:true,istextfold:1},
+        //     {imgData: false,msg: "太平百万医疗险",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
+        //     {imgData: false,msg: "Aimi根据保单理解，心脏病在太平百万医疗险的保障范围内",robotZan: 1,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 1},
+        //     {imgData: false,msg: "如需咨询具体保障金额，您需回答下列问题：<br />请问保险事故是否发生在等待期30天后呢？", robotZan: 1,select: [],selectposition:0,self: false, whether: ["是", "否"], whetherposition: 1,zan: 0},
+        //     {imgData: false,msg: "666666666",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
+        //     {imgData: false,msg: "66666666666666661",robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0},
+        //     { h: 0,imgData: true, msg: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",msrc: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",robotZan: 0,select: [],selectposition:0,self: false, src: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png", w: 0,whether: [],whetherposition: 0,zan: 0},
+        //     { h: 0,imgData: false, msg: "您与水滴筹的聊天已结束",msrc: undefined,robotZan: 0,select: [],selectposition:0,self: false,w: 0,whether: [], whetherposition: 0,zan: 0},
+        //     { h: 0,imgData: false,msg: "123456",msrc: undefined, robotZan: 0,select: [],selectposition:0,self: true,w: 0,whether: [],whetherposition: 0,zan: 0},
+        //     { h: 0,imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",msrc: undefined,robotZan: 1,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false, w: 0,whether: [],whetherposition: 0,zan: 0},
+        // ]
+        // let uuid = Math.random().toString();
+        // let product_id = 154;
+        // let robot_user_id = 29;
+        // let name = Math.random();
+        // let sesionId = Math.random().toString();
+        // this_.priority = 1
+        // localStorage.setItem('uuid', uuid);
+        // localStorage.setItem('product_id', product_id);
+        // localStorage.setItem('robot_user_id', 29);
+        // localStorage.setItem('name', name);
+        // localStorage.setItem('sesionId',sesionId);
+        // let humanDataToken = Qs.stringify({
+        //     name:localStorage.getItem('name'),
+        //     uuid:localStorage.getItem('uuid')
+        // });
+        // Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
+        // .then(result => {
+        //     console.log('uuid = ' + localStorage.getItem('uuid'))
+        //     localStorage.setItem('token', result.data.token);
+        // })
+        // RongIMLib.RongIMClient.init(this_.appkey);
+        // localStorage.setItem('token', 'jbAwskvioqwF+Pdgx5Dn190+ErJ1xXi9y0K/LM5Yy9Wzwdh+8dhBq495Wv4rZ7FdXCcRCNx3mZQuFpTcoLBwDTjS1J0nu9Pdyv460Uyj4pE=');
+        // // 客户查询
+        // let humanDataSelect = Qs.stringify({
+        //     name: localStorage.getItem('name'),
+        //     uuid:localStorage.getItem('uuid'), // 客户dialog_id
+        //     product_id:localStorage.getItem('product_id'), // 产品id
+        //     robot_user_id:localStorage.getItem('robot_user_id') // 用户id
+        // });
+        // Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
+        // .then(result => {
+        //     console.log('连接前查询之前状态数据 ======')
+        //     console.log(result)
+        //     let msg = result.data.msg
+        //     if(this_.priority ==1){
+        //         this_.humanButton = false
+        //         if(msg=='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
+        //             this_.huamanOrRobot = true // 切换到人工客服回答
+        //             this_.busyText = '' // 关闭忙碌语
+        //             this_.inputImg = false // 开启图片开关
+        //             localStorage.setItem('token', result.data.data.token);
+        //             localStorage.setItem('extra', result.data.data.extra);
+        //             localStorage.setItem('targetId', result.data.data.targetId);
+        //             localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+        //             this_.customerLogin()
+        //         }else if(msg=='robot'){
+        //             console.log('人工优先模式,之前未有过对话')
+        //             this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
+        //         }
+        //     }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
+        //         localStorage.setItem('token', result.data.data.token);
+        //         localStorage.setItem('extra', result.data.data.extra);
+        //         localStorage.setItem('targetId', result.data.data.targetId);
+        //         localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+        //         this_.huamanOrRobot = true
+        //         this_.busyText = ''
+        //         this_.humanButtonText = '结束人工'
+        //     }else if(this_.priority == 0){
+        //         this_.huamanOrRobot = false // 发送机器人消息
+        //         this_.inputImg = false // 开启图片开关
+        //     }
+        // })
+        // let tokenLogin =  new Promise((resolve, reject) => {
+        //     // 客户token
+        //     let humanDataToken = Qs.stringify({
+        //         name:localStorage.getItem('name'),
+        //         uuid:localStorage.getItem('uuid')
+        //     });
+        //     Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
+        //     .then(res => {
+        //         resolve(res.data);
+        //     })
+        //     .catch(err =>{
+        //         reject(err.data)
+        //     })
+        // })
+        // tokenLogin.then(
+        //     function(value){
+        //         let token = value.data;
+        //         localStorage.setItem('token', token);
+        //         console.log('token = ' + token)
+        //         RongIMClient.connect(token, {
+        //             onSuccess: function(userId) {
+        //                 console.log('Connect successfully. ' + userId);
+        //             },
+        //             onTokenIncorrect: function() {
+        //                 console.log('token 无效');
+        //             },
+        //             onError: function(errorCode){
+        //                 var info = '';
+        //                 switch (errorCode) {
+        //                     case RongIMLib.ErrorCode.TIMEOUT:
+        //                         info = '超时';
+        //                         break;
+        //                     case RongIMLib.ConnectionState.UNACCEPTABLE_PAROTOCOL_VERSION:
+        //                         info = '不可接受的协议版本';
+        //                         break;
+        //                     case RongIMLib.ConnectionState.IDENTIFIER_REJECTED:
+        //                         info = 'appkey不正确';
+        //                         break;
+        //                     case RongIMLib.ConnectionState.SERVER_UNAVAILABLE:
+        //                         info = '服务器不可用';
+        //                         break;
+        //                 }
+        //                 console.log(info);
+        //             }
+        //         });
+        //     }
+        // )
+        // // 设置连接监听状态 （ status 标识当前连接状态 ）
+        // // 连接状态监听器
+        // // 连接状态监听器
+        // RongIMClient.setConnectionStatusListener({
+        //     onChanged: function (status) {
+        //         // status 标识当前连接状态
+        //         switch (status) {
+        //             case RongIMLib.ConnectionStatus.CONNECTED:
+        //                 console.log('链接成功');
+        //
+        //               // 客户token
+        //               let datakey = Qs.stringify({
+        //                 key: window.key
+        //               });
+        //               // let this_ = this
+        //               console.log('请求/chat/priority获得的数据')
+        //               Vue.axios.post(window.url+'chat/priority',datakey)
+        //                 .then(result => {
+        //                   console.log('请求/chat/priority获得的数据')
+        //                   console.log(result)
+        //                   let value = result.data
+        //                   localStorage.setItem('priority',value.data.priority);
+        //                   this_.priority = value.data.priority
+        //                   if(this_.priority==0){
+        //                     this_.humanButton = false
+        //                     this_.busyText = ''
+        //                     this_.inputImg = false
+        //                   }else if(this_.priority==1){
+        //                     this_.humanButton = false
+        //                   }else{
+        //                     this_.humanButton = true
+        //                   }
+        //                   // 客户查询
+        //                   let humanDataSelect = Qs.stringify({
+        //                     name: localStorage.getItem('name'),
+        //                     uuid:localStorage.getItem('uuid'), // 客户dialog_id
+        //                     product_id:localStorage.getItem('product_id'), // 产品id
+        //                     robot_user_id:localStorage.getItem('robot_user_id') // 用户id
+        //                   });
+        //                   Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
+        //                     .then(result => {
+        //                       console.log('连接前查询之前状态数据 ======')
+        //                       console.log(result)
+        //                       let msg = result.data.msg
+        //                       if(this_.priority ==1){
+        //                         this_.humanButton = false
+        //                         if(msg='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
+        //                           this_.huamanOrRobot = true // 切换到人工客服回答
+        //                           this_.busyText = '' // 关闭忙碌语
+        //                           this_.inputImg = false // 开启图片开关
+        //                           localStorage.setItem('token', result.data.data.token);
+        //                           localStorage.setItem('extra', result.data.data.extra);
+        //                           localStorage.setItem('targetId', result.data.data.targetId);
+        //                           localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+        //                           this_.customerLogin()
+        //                         }else if(msg='robot'){
+        //                           console.log('人工优先模式,之前未有过对话')
+        //                           this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
+        //                         }
+        //                       }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
+        //                         localStorage.setItem('token', result.data.data.token);
+        //                         localStorage.setItem('extra', result.data.data.extra);
+        //                         localStorage.setItem('targetId', result.data.data.targetId);
+        //                         localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+        //                         this_.huamanOrRobot = true
+        //                         this_.busyText = ''
+        //                         this_.humanButtonText = '结束人工'
+        //                       }else if(this_.priority == 0){
+        //                         this_.huamanOrRobot = false // 发送机器人消息
+        //                         this_.inputImg = false // 开启图片开关
+        //                       }
+        //                     })
+        //                 })
+        //
+        //
+        //                 break;
+        //             case RongIMLib.ConnectionStatus.CONNECTING:
+        //                 console.log('正在链接');
+        //                 break;
+        //             case RongIMLib.ConnectionStatus.DISCONNECTED:
+        //                 console.log('断开连接');
+        //                 break;
+        //             case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
+        //                 console.log('其他设备登录');
+        //                 break;
+        //             case RongIMLib.ConnectionStatus.DOMAIN_INCORRECT:
+        //                 console.log('域名不正确');
+        //                 break;
+        //             case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
+        //                 console.log('网络不可用');
+        //                 break;
+        //         }
+        //     }
+        // });
         //模拟测试数据结束
 
         RongIMLib.RongIMClient.init(this_.appkey);
@@ -1324,7 +1324,7 @@ export default {
                         if(this_.loginStatus.robot_hosting==0){
                             this_.msgs = this_.msgs || []
                             let data01 = {
-                                msg: this_.userText,
+                                msg: this_.userText || msg,
                                 //src: this_.userText,
                                 self: true,
                                 imgData:false,

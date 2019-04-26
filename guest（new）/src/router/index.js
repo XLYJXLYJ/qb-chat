@@ -16,12 +16,13 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  base:'/insurebotaimi/SDC-bwyl',
   routes: [
-    {path: '/chat', redirect: '/'},
     {
       path: '/',
       name: 'chat',
       component: resolve => require(['@/components/Page/Chat.vue'], resolve)
-    }
+    },
+    {path: '*', redirect: '/'},
   ]
 })
