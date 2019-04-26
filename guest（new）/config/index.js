@@ -8,7 +8,7 @@ module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'statics',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {},
 
@@ -23,17 +23,17 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: true,
+    // useEslint: true,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
-    showEslintErrorsInOverlay: false,
+    // showEslintErrorsInOverlay: false,
 
     /**
      * Source Maps
      */
     // proxyTable: {
     //   '/':{
-    //     target:"http://47.107.48.61:8820",//设置你调用的接口域名和端口号 别忘了加http
+    //     target:"http://192.168.1.66:8009",//设置你调用的接口域名和端口号 别忘了加http
     //     // target:"https://api.fgoushop.com",
     //     changeOrigin:true,
     //     pathRewrite:{
@@ -64,7 +64,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'statics',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
     /**

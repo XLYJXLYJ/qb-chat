@@ -17,11 +17,24 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    // {path: '/', redirect: '/Chat'},
+    {path: '/chat', redirect: '/'},
     {
       path: '/',
       name: 'chat',
       component: resolve => require(['@/components/Page/Chat.vue'], resolve)
-    }
+    },
+    {path: '*', redirect: '/'},
   ]
 })
+
+// export default new Router({
+//   mode: 'abstract',
+//   routes: [
+//     {path: '/chat', redirect: '/'},
+//     {
+//       path: '/',
+//       name: 'chat',
+//       component: resolve => require(['@/components/Page/Chat.vue'], resolve)
+//     }
+//   ]
+// })
