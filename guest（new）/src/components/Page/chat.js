@@ -811,10 +811,14 @@ export default {
             let file_info = this_.$refs.file_el.files[0]
             console.log(event.target.files[0])
             console.log(EXIF)
-            EXIF.getData(file_info, function() {
-                this_.Orientation = EXIF.getTag(this, 'Orientation');
-                console.log('Orientation ==' + Orientation)
-            });
+            let u = navigator.userAgent;
+            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            console.log(this_.$refs.chattingContent.scrollHeight)
+
+              EXIF.getData(file_info, function() {
+                  this_.Orientation = EXIF.getTag(this, 'Orientation');
+                  console.log('Orientation ==' + Orientation)
+              });
 
             // 使用FileReader对象预览
             let fr = new FileReader()
@@ -839,11 +843,56 @@ export default {
                     istextfold:0,//是否显示折叠控制字符
                 }
                 this_.isOpenSwiper = false
-                this_.sendImg(this_.userImageUrlData)
+                // this_.sendImg(this_.userImageUrlData)
+              console.log('上传图片')
+              console.log(file_info)
+              this_.canvasDataURL(this_.userImageUrlData,{
+                quality:0.1
+              })
             }
+        },
+        //压缩图片
+        canvasDataURL(path, obj){
+          let this_ = this
+          console.log('压缩图片')
+          var img = new Image();
+          img.src = path;
+          img.onload = function(){
+            var that = this;
+            // 默认按比例压缩
+            var w = that.width,
+              h = that.height,
+              scale = w / h;
+            w = obj.width || w;
+            h = obj.height || (w / scale);
+            var quality = 0.7;  // 默认图片质量为0.7
+            //生成canvas
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            // 创建属性节点
+            var anw = document.createAttribute("width");
+            anw.nodeValue = w;
+            var anh = document.createAttribute("height");
+            anh.nodeValue = h;
+            canvas.setAttributeNode(anw);
+            canvas.setAttributeNode(anh);
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(that, 0, 0, w, h);
+            // 图像质量
+            if(obj.quality && obj.quality <= 1 && obj.quality > 0){
+              quality = obj.quality;
+            }
+            // quality值越小，所绘制出的图像越模糊
+            var base64 = canvas.toDataURL('image/jpeg', quality);
+            // 回调函数返回base64的值
+
+            this_.sendImg(base64)
+          }
         },
         //发送图片
         sendImg(userImageUrlData){
+            console.log('发送图片')
             let this_ = this
             console.log('向roy发送图片数据')
             let formData = new FormData();

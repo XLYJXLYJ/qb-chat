@@ -17,16 +17,16 @@ if(window.location.href.indexOf("test") > 0){
 	appkey = "8w7jv4qb829cy";
 }
 
-function getCookie(objName){//获取指定名称的cookie的值 
-    var arrStr = document.cookie.split("; "); 
-    for (var i = 0; i < arrStr.length; i++) { 
-        var temp = arrStr[i].split("="); 
+function getCookie(objName){//获取指定名称的cookie的值
+    var arrStr = document.cookie.split("; ");
+    for (var i = 0; i < arrStr.length; i++) {
+        var temp = arrStr[i].split("=");
         if (temp[0] == objName){
-            return unescape(temp[1]); 
+            return unescape(temp[1]);
         }
-    } 
+    }
     return ""
-} 
+}
 function delCookie(name){
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
@@ -37,7 +37,7 @@ function delCookie(name){
 // $();
 $(
 	function () {
-	 	var appkey = "82hegw5u8ytdx";//82hegw5u8ytdx  8w7jv4qb829cy
+	 	// var appkey = "82hegw5u8ytdx";//82hegw5u8ytdx  8w7jv4qb829cy
 		RongIMLib.RongIMClient.init(appkey);
 		// 设置连接监听状态 （ status 标识当前连接状态 ）
 		// 连接状态监听器
@@ -53,7 +53,7 @@ $(
 						// 	data:{'uuid':uuid,'name':name,'product_id':product_id,'robot_user_id':robot_user_id,'service_id':targetId},
 						// 	async:true,
 						// 	success:function(data){
-								
+
 						// 	}
 						// });
 						timestamp=Date.parse(new Date())
@@ -77,9 +77,9 @@ $(
 				}
 			}
 		});
-	
+
 		// 消息监听器
-	
+
 		RongIMClient.setOnReceiveMessageListener({
 			// 接收到的消息
 			onReceived: function (message) {
@@ -119,7 +119,7 @@ $(
 									console.log('333333333333')
 									msg='您与人工客服的聊天已结束，如果您还想要人工客服服务，请继续点击人工客服按钮';
 								}
-		
+
 								$('.artificial_service').html("人工客服");
 								$('.artificial_service').removeClass('active');
 								$('.send-type').removeClass('active')
@@ -144,7 +144,7 @@ $(
 									s += '</div>';
 								$(".scroll").append(s);
 								$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
-									
+
 								$('.scroll').append(zan1('custom_service',message.content.extra[5],false))
 								$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
 							}
@@ -153,11 +153,11 @@ $(
 								updateDataByKey(myDB.db, 'data', robot_url, [msg, 'aimi']);
 								updateDataByKey(myDB.db, 'data', robot_url, [zan1('custom_service',message.content.extra[5]), 'comment']);
 							} catch (e) {
-			
+
 							}
 							console.log(message.sentTime)
 							console.log(timestamp)
-	
+
 						}else{
 							msg=message.content.content
 
@@ -168,7 +168,7 @@ $(
 									img.onload=function () {
 										var width=this.width;
 										var height=this.height;
-										var temp=width+"x"+height; 
+										var temp=width+"x"+height;
 										msg='<div class="imgshow" data-pswp-uid="1">';
 										msg+='<figure>';
 										msg+='<div class="img-dv">';
@@ -191,7 +191,7 @@ $(
 									try {
 										updateDataByKey(myDB.db, 'data', robot_url, [s, 'picture']);
 									} catch (e) {
-					
+
 									}
 								}
 							}else{
@@ -211,11 +211,11 @@ $(
 								try {
 									updateDataByKey(myDB.db, 'data', robot_url, [msg, 'aimi']);
 								} catch (e) {
-				
+
 								}
 							}
 						}
-						
+
 						break;
 					case RongIMClient.MessageType.VoiceMessage:
 						// message.content.content                        // 对声音进行预加载为 AMR 格式的 base64 码
@@ -260,10 +260,10 @@ $(
 				}
 			}
 		});
-	
-	
+
+
 		var timer;
-		
+
 		var callback = {
 			onSuccess: function (userId) {
 				console.log("Reconnect successfully." + userId);
@@ -340,7 +340,7 @@ function startConnect(msg){ // 链接融云
 	            console.log(errorCode);
 	        }
 	    });
-	}    
+	}
 
 	function initializationStartConnect(msg){ // 链接融云
     	name=localStorage.getItem('name');
@@ -379,7 +379,7 @@ function startConnect(msg){ // 链接融云
 	            console.log(errorCode);
 	        }
 	    });
-	}  
+	}
 
 
 function sendTextMessage(m) {
@@ -418,7 +418,7 @@ function sendTextMessage(m) {
 	                updateDataByKey(myDB.db, 'data', robot_url, [msg, 'aimi']);
 	                updateDataByKey(myDB.db, 'data', robot_url, [zan1('custom_service',token), 'comment']);
 	            } catch (e) {
-					
+
 	            }
 			}
 		})
@@ -427,10 +427,10 @@ function sendTextMessage(m) {
 	    targetId=localStorage.getItem('targetId');
 	    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
 	        onSuccess: function (message) {
-	       		
-	       	}	
-	    })    
-	    
+
+	       	}
+	    })
+
 	}else if(extra.length==1){
 		$(".scroll").append("<div class='right'><div class='text'><div>" + m + "</div></div></div>");
 		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
@@ -443,7 +443,7 @@ function sendTextMessage(m) {
 		s += '</div>';
 		s += '</div>';
 		$(".scroll").append(s);
-		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);	
+		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
 	}else{
 		m=m.url ? m.url : m;
 		var msg = new RongIMLib.TextMessage({content: m,extra:extra });
@@ -459,7 +459,7 @@ function sendTextMessage(m) {
 					try {
 		                updateDataByKey(myDB.db, 'data', robot_url, [m, ['user']]);
 		            } catch (e) {
-		
+
 		            }
 	        	}
 	        },
@@ -491,9 +491,9 @@ function sendTextMessage(m) {
 	            console.log('发送失败:' + info);
 	        }
 	   });
-    
+
 	}
-    
+
 }
 function clearConversation() {
     RongIMClient.getInstance().removeConversation(RongIMLib.ConversationType.PRIVATE,targetId, {
@@ -516,14 +516,16 @@ function deleateconnect() {
 
 $(document).on("click",".s-button",function(event){
 	console.log(event)
-	$(".tableAnswer tbody tr").removeAttr("style");
+	$(".tableAnswer tbody th").removeAttr("style");
+	$(".tableAnswer tbody td").removeAttr("style");
 	if(event.target.innerHTML == '展开'){
-		$(".tableAnswer tbody tr").removeAttr("style");
+		$(".tableAnswer tbody th").removeAttr("style");
+		$(".tableAnswer tbody td").removeAttr("style");
 		event.target.innerHTML = '收起'
 	}else{
 	 event.target.innerHTML = '展开'
-	//  $(".tableAnswer tr:gt(1)").css("display","none");
-	 $(".tableAnswer tbody tr").css("display","none");
+		$(".tableAnswer tbody th").filter(".url").css({ display: "none"});
+		$(".tableAnswer tbody td").filter(".url").css({ display: "none"});
 	}
 })
 
@@ -532,7 +534,7 @@ $(document).on("click",".s-button",function(event){
 //     var vibibleState ='';
 //     var visibleChange ='';
 //     if (typeof document.visibilityState !='undefined') {
-//         visibleChange ='visibilitychange';    
+//         visibleChange ='visibilitychange';   
 //         vibibleState ='visibilityState';
 //     }else if (typeof document.webkitVisibilityState !='undefined') {
 //         visibleChange ='webkitvisibilitychange';    vibibleState ='webkitVisibilityState';
@@ -558,6 +560,6 @@ $(document).on("click",".s-button",function(event){
 // 			// 网络嗅探地址 [http(s)://]cdn.ronghub.com/RongIMLib-2.2.6.min.js 可选
 // 			rate: [100, 1000, 3000, 6000, 10000]
 // 		};
-// 		RongIMClient.reconnect(token, callback, config);       
+// 		RongIMClient.reconnect(token, callback, config);      
 //     }})}
 // })

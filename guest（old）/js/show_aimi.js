@@ -423,9 +423,9 @@ function send(msg) {
 				//var data={"msg":{"data":["基金錶現情況？<br /><br />閣下可通過以下鏈接查看基金錶現情況<br />保證基金：https://eservice.fss.gov.mo/main/Funds/Fund/F00020  <br />平衡基金：https://eservice.fss.gov.mo/main/Funds/Fund/F00021    <br />增長基金：https://eservice.fss.gov.mo/main/Funds/Fund/F00022","您是否還需要瞭解以下問題"],"folds":[0],"select":["本产品申请理赔需要哪些资料？","本产品的续保方式有哪些？","本产品有多少的免赔额\/率？"]}}
 				//var data={"msg":{"data":['登入指引？<div class="imgshow"><figure> <div class="img-dv"><a style="position: static;"  index="1" href="http://test.open.qb-tech.net/kg_img/tupiana.png" data-size="813x1527"><img  src="http://test.open.qb-tech.net/kg_img/tupiana.png"></a></div> </figure></div>',"您是否還需要瞭解以下問題"],"folds":[],"select":["本产品申请理赔需要哪些资料？","本产品的续保方式有哪些？","本产品有多少的免赔额\/率？"]}}
 				// var data={
-				// 	"result": {"无忧人生": [["险类险别", "重疾险"], ["投保年龄", "1岁--60岁"], ["保费", "0万元--1300.0万元"], ["性别", "不限"], ["保障人数", "3人"]], 
-				// 			"爱倍护": [["险类险别", "重疾险"], ["投保年龄", "18岁--65岁"], ["保费", "0万元--1200.0万元"], ["性别", "不限"], ["保障人数", "9人"], ]}, 
-				// 	"status": true, 
+				// 	"result": {"无忧人生": [["险类险别", "重疾险"], ["投保年龄", "1岁--60岁"], ["保费", "0万元--1300.0万元"], ["性别", "不限"], ["保障人数", "3人"]],
+				// 			"爱倍护": [["险类险别", "重疾险"], ["投保年龄", "18岁--65岁"], ["保费", "0万元--1200.0万元"], ["性别", "不限"], ["保障人数", "9人"], ]},
+				// 	"status": true,
 				// 	"table": true
 				// };
 				if(data.hasOwnProperty("iv") && data.iv) {
@@ -435,40 +435,45 @@ function send(msg) {
 				if(data.msg.data instanceof Array) {
 					if(data.msg.data.length > 0) {
 						if(data.msg.table == true){
-							var duolunArr = $.parseJSON(data.msg.data[0])
-							// var str = '<div class="left">';
-							// str += '<div class="text1">';
-							var str = '<div><img src="' + res_url + avatar_small + '"></div>';
-							str += '<div class="radius" style="width:100%;border-radius:1rem 2rem 2rem 1rem">';
-							str += '<div class="tableAnswer">';
-							str += '<table>';
-							for (var index in duolunArr){	
-								str += '<thead>';
-									str += '<tr>';
-										str += '<th>险种名称</th>';
-										str += '<th>'+index+'</th>';
-									str += '</tr>';
-								str += '</thead>';	
-								duolunArr[index].map(
-									function(key,value){
-										str += '<tbody>';
-											str += '<tr style="display:none">';
-												str += '<td>'+key[0]+'</td>';
-												str += '<td>'+key[1]+'</td>';
-											str += '</tr>';
-										str += '</tbody>';
+							var duolunArr = data.msg.data[0]
+							let str1 = '<div class="left">';
+							str1 += '<div class="text1">';
+							str1 += '<div><img src="' + res_url + avatar_small + '"></div>';
+							str1 += '<div class="radius">';
+							str1 += duolunArr[0];
+							str1 += '</div>';
+							str1 += '</div>';
+							str1 += '</div>';
+							$(".left .text1 .radius").eq(-1).html('<div>'+duolunArr[0]+'</div>');
+							$(".scroll").append(str1);
+
+							let str2 = '<div class="left">';
+							str2 += '<div class="text1">';
+							str2 += '<div><img src="' + res_url + avatar_small + '"></div>';
+							str2 += '<div class="tableAnswer">';
+							str2 += '<table id="tb">';
+							for(let i=0;i<duolunArr[1].content.length;i++){
+								console.log(str)
+								str2 += '<tr>';
+								if(i>6){
+									str2 += '<th style="display: none" class="url">'+ duolunArr[1].content[i][0] + '</th>';
+									for(let j=0;j<duolunArr[1].content[i][1].length;j++){
+										str2 += '<td style="display: none" class="url">'+ duolunArr[1].content[i][1][j] + '</td>';
 									}
-								)
+								}else{
+									str2 += '<th style="color:#468fd2">'+ duolunArr[1].content[i][0] + '</th>';
+									for(let j=0;j<duolunArr[1].content[i][1].length;j++){
+										str2 += '<td>'+ duolunArr[1].content[i][1][j] + '</td>';
+									}
+								}
+								str2 += '</tr>';
 							}
-							str += '</table>';
-							str += '<button class="s-button">展开</button>';
-							str += '</div>';
-							str += '</div>';
-							// str += '</div>';
-							// str += '</div>';
-							// $(".scroll").append(str);
-							// $(".left .text1 .radius").eq(-1).html('<div>'+temp+'</div>');
-							$(".left .text1").eq(-1).html('<div>'+str+'</div>');
+							str2 += '</table>';
+							str2 += '<button class="s-button">展开</button>';
+							str2 += '</div>';
+							str2 += '</div>';
+							str2 += '</div>';
+							$(".scroll").append(str2);
 						}else{
 							var data_ = data.msg.data;
 							var folds = data.msg.folds;
@@ -539,7 +544,7 @@ function send(msg) {
 											}
 										}
 									}
-									
+
 									var t = data_[i].replace(/<br \/>/g, "囖");
 									if(hide && t.length > 250) {
 										temp = temp.replace(/<br \/>/g, "囖");
@@ -561,7 +566,7 @@ function send(msg) {
 											if(whether&&i == data_.length - 1){
 												$(".left .text1").eq(-1).append(choice);
 											}
-											
+
 										} else {
 											$(".scroll").append(str);
 										}
@@ -569,7 +574,7 @@ function send(msg) {
 											temp = temp.replace(/囖/g, "<br \/>");
 											updateDataByKey(myDB.db, 'data', robot_url, [temp, 'aimi']);
 										} catch(e) {
-	
+
 										}
 										if(hide && t.length > 250) {
 											var string1 = t.substring(0, 250).replace(/囖/g, "<br \/>");
@@ -582,7 +587,7 @@ function send(msg) {
 											}
 											$('.left').eq(-1).find('.radius').html('<div>' + string1 + '</div><span class="detail">...<span>查看详情</span></span><span class="extra">' + string2 + '</span>' + zan('robot', data.target, true));
 											$('.left').eq(-1).show();
-	
+
 										}
 										$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
 										if(t.indexOf('.bmp') != 0 || t.indexOf('.png') != 0 || t.indexOf('.gif') != 0 || t.indexOf('.jpg') != 0 || t.indexOf('.jpeg') != 0) {
@@ -1036,14 +1041,14 @@ function connect(this_) {
 									try {
 										addData(myDB.db, 'data', value);
 									} catch(e) {
-	
+
 									}
 									result = '';
 								} else {
 									try {
 										updateDataByKey(myDB.db, 'data', robot_url, [temp, 'aimi']);
 									} catch(e) {
-	
+
 									}
 								}
 							}
@@ -1102,7 +1107,7 @@ function connect(this_) {
 }
 
 
-function initializationCustomerLogin() {
+function initializationCustomerLogin(this_) {
 	preRequest = $.ajax({
 		type: "post",
 		url: roy_domain + "/acs/v1.0/customer_login",
@@ -1203,7 +1208,7 @@ function initializationCustomerLogin() {
 					if(data.data != "数据库中没有此机器人对应的客服!") {
 						setTimeout(function() {
 							if(!cancle) {
-								initializationCustomerLogin();
+								initializationCustomerLogin(this_);
 							}
 						}, 10000)
 					}
@@ -1217,7 +1222,7 @@ function initializationCustomerLogin() {
 				if(!cancle) {
 					setTimeout(function() {
 						if(!cancle) {
-							initializationCustomerLogin();
+							initializationCustomerLogin(this_);
 						}
 					}, 10000)
 				}
@@ -1225,7 +1230,7 @@ function initializationCustomerLogin() {
 				if(!cancle) {
 					setTimeout(function() {
 						if(!cancle) {
-							initializationCustomerLogin();
+							initializationCustomerLogin(this_);
 						}
 					}, 10000)
 				}
@@ -1318,7 +1323,7 @@ window.onload = function() {
 						//					startConnect();
 						//				}
 										initializationStartConnect()
-										// temp = data.data.welcome_words;   
+										// temp = data.data.welcome_words;
 										// var s = '<div class="left">';
 										// s += '<div class="text1">';
 										// s += '<div><img src="' + res_url + avatar_small + '"></div>';
@@ -1326,14 +1331,14 @@ window.onload = function() {
 										// s += temp;
 										// s += '</div>';
 										// s += '</div>';
-										// s += '</div>';    
+										// s += '</div>';
 										// $(".scroll").append(s);
-										// $('.wrapper').scrollTop($('.scroll')[0].scrollHeight);       
+										// $('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
 									}else{
-										initializationCustomerLogin()
-										
+										initializationCustomerLogin(this_)
+
 									}
-									huize = true;	
+									huize = true;
 								} else if(data.msg == 'connect') { //链接客服 （机器人优先）
 									localStorage.setItem('targetId', data.data.targetId);
 									localStorage.setItem('token', data.data.token);
@@ -1555,7 +1560,7 @@ function doUpload(url) {
 //单选
 $(document).on('click','.choice',function(){
 	var strTarget = event.target.innerHTML
-    if(strTarget.indexOf('li')!=-1){ 
+    if(strTarget.indexOf('li')!=-1){
 		return;
     }else{
 		$(this).hide();

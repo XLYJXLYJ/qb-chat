@@ -1006,6 +1006,7 @@
         var msg = new RongIMLib.TextMessage({content: '592b71f0-b3f8-4f64-bd45-40b35c0191af',extra:data.extra});
         var conversationtype = RongIMLib.ConversationType.PRIVATE; // 单聊,其他会话选择相应的消息类型即可。
         var targetId = data.targetId; // 目标 Id
+        console.log('targetId = ' + targetId)
         RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
             onSuccess: function (message) {
               //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳

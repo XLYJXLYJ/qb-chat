@@ -4,8 +4,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-		<meta http-equiv="Pragma" content="no-cache"> 
-		<meta http-equiv="Cache-Control" content="no-cache"> 
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
 		<meta http-equiv="Expires" content="-1">
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
@@ -50,8 +50,8 @@
 						<input name="text" type="text" onkeydown=KeyDown(event)></input>
 						<span class="picture">
 							<form action="" method="post" id="uploadForm" enctype="multipart/form-data">
-								<input id="uploaderInput" name="service_image" class="weui-uploader__input" type="file" accept="image/*">	
-							</form>	
+								<input id="uploaderInput" name="service_image" class="weui-uploader__input" type="file" accept="image/*">
+							</form>
 						</span>
 					</span>
 					<span class="send">发送</span>
@@ -81,16 +81,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"> 
+		<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 		  <div class="pswp__bg"></div>
-		  <div class="pswp__scroll-wrap"> 
+		  <div class="pswp__scroll-wrap">
 		    <div class="pswp__container">
 		      <div class="pswp__item"></div>
 		      <div class="pswp__item"></div>
 		      <div class="pswp__item"></div>
 		    </div>
 		    <div class="pswp__ui pswp__ui--hidden">
-		      <div class="pswp__top-bar"> 
+		      <div class="pswp__top-bar">
 		        <div class="pswp__counter"></div>
 		        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 		        <button class="pswp__button pswp__button--share" title="Share"></button>
@@ -144,6 +144,57 @@
 			if (isiOS) {
 		        $("input:file").removeAttr("capture");
 		   };
+		</script>
+		<script>
+			var duolunArr = [
+				['您好，各产品详细对比如下,点击可查看详情'],
+				[
+					['产品名称', ['无忧人生1','无忧人生2','无忧人生3','无忧人生3']],
+					['投保年龄',  ['1岁','10岁','1岁','2岁']],
+					['投保年龄',  ['1岁','10岁','1岁','2岁']],
+					['投保年龄',  ['1岁','10岁','1岁','2岁']],
+					['性别',  ['男','女','性别不限','性别不限']]
+				]
+			]
+			let str1 = '<div class="left">';
+			str1 += '<div class="text1">';
+			str1 += '<div><img src="' + res_url + avatar_small + '"></div>';
+			str1 += '<div class="radius">';
+			str1 += duolunArr[0][0];
+			str1 += '</div>';
+			str1 += '</div>';
+			str1 += '</div>';
+			setTimeout(	$(".scroll").append(str1),500)
+
+
+			let str2 = '<div class="left">';
+			str2 += '<div class="text1">';
+			str2 += '<div><img src="' + res_url + avatar_small + '"></div>';
+			str2 += '<div class="tableAnswer">';
+			str2 += '<table id="tb">';
+			for(let i=0;i<duolunArr[1].length;i++){
+				console.log(str)
+				str2 += '<tr>';
+				if(i>2){
+					str2 += '<th style="display: none" class="url">'+ duolunArr[1][i][0] + '</th>';
+					for(let j=0;j<duolunArr[1][i][1].length;j++){
+						str2 += '<td style="display: none" class="url">'+ duolunArr[1][i][1][j] + '</td>';
+					}
+				}else{
+					str2 += '<th style="color: #468fd2;">'+ duolunArr[1][i][0] + '</th>';
+					for(let j=0;j<duolunArr[1][i][1].length;j++){
+						str2 += '<td>'+ duolunArr[1][i][1][j] + '</td>';
+					}
+				}
+				str2 += '</tr>';
+			}
+			str2 += '</table>';
+			str2 += '<button class="s-button">展开</button>';
+			str2 += '</div>';
+			str2 += '</div>';
+			str2 += '</div>';
+			setTimeout($(".scroll").append(str2),40)
+
 		</script>
 	</body>
 </html>

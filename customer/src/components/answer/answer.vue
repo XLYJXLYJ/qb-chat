@@ -224,6 +224,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
   body {
     margin 0
+    .el-popover img{
+      width 300px!important;
+      height 100px!important;
+    }
     .answer {
       border 1px solid #d6d6d6
       border-right none

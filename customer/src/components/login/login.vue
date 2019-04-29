@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import qs from 'qs'
   export default {
     name: 'login',
     data () {
@@ -66,32 +67,19 @@
           }else{
             this_.password_errmsg="";
           }
-          this_.$ajax({
-            method:"post",
-            url:"/acs/v1.0/service_login",
-            headers:{
-              'Content-type': 'application/x-www-form-urlencoded'
-            },
-            data:{
+          this_.$ajax.post("/acs/v1.0/service_login",
+            qs.stringify({
               'mobile':this_.phone,
               'password':this_.password,
               'timestamp':this_.date
-            },
-            transformRequest: [function (data) {
-              this_.count=1;
-              this_.setCookie('date',this_.date,1)
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-              }
-              return ret
-            }],
-          }).then((res)=>{
+            }),
+          ).then((res)=>{
             if(res.data.msg=="登录成功"){
               this_.setCookie('company',res.data.data.company,1)
               this_.setCookie('s_name',res.data.data.s_name,1);
               this_.setCookie('s_token',res.data.data.s_token,1)
               this_.setCookie('service_id',res.data.data.service_id,1)
+              this.setCookie('date',this_.date,1)
               var state=false;
               if(res.data.state=="在线"){
                 state=true;

@@ -16,7 +16,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base:'/insurebotaimi/SDC-bwyl',
+  base:'/insurebotaimi/T-sdb',
   routes: [
     {
       path: '/',
