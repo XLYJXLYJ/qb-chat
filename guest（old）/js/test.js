@@ -7,6 +7,11 @@ var key = '';
 var skey = '';
 var avatar_small = '';
 var aimi_name = 'Jarvis';
+var extendList = [{personal_image:"iconfont iconicon-test","personal_name":"\u4f60\u597d","personal_url":"http:\/\/test.open.qb-tech.net"},
+{personal_image:"iconfont iconicon-test","personal_name":"\u4f60\u597d","personal_url":"http:\/\/test.open.qb-tech.net"},
+{personal_image:"iconfont iconicon-test","personal_name":"\u4f60\u597d","personal_url":"http:\/\/test.open.qb-tech.net"},
+{personal_image:"iconfont iconicon-test","personal_name":"\u4f60\u597d","personal_url":"http:\/\/test.open.qb-tech.net"},
+{personal_image:"iconfont iconicon-test","personal_name":"\u4f60\u597d","personal_url":"http:\/\/test.open.qb-tech.net"}];
 
 var artificial_service = false;
 var is_robot_hosting = false;
@@ -501,20 +506,24 @@ var chat_height=$(".aimi .chat").height();
 $(document).on("click",".aimi .question",function(){
 	var this_=$(this);
 	$(".input input").blur();
-	if(this_.hasClass("active")){
-		this_.removeClass("active");
-		$(".aimi .case").hide();
-		$(".aimi .wrapper").css({height:'calc(100vh - 3.6rem)'});
-		
-		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
-	}else{
-		this_.addClass("active");
-		$(".aimi .case").show();
-		case_height=$(".all-fix").height();
-		$(".aimi .wrapper").css({'height':chat_height-case_height});
-		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
-	}
+	$(".aimi .case").show();
+	$(".aimi .personcase").hide();
+	case_height=$(".all-fix").height();
+	$(".aimi .wrapper").css({'height':chat_height-case_height});
+	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
+
 })
+
+$(document).on("click",".aimi .person",function(){
+	var this_=$(this);
+	$(".input input").blur();
+	$(".aimi .case").hide()
+	$(".aimi .personcase").show();;
+	case_height=$(".all-fix").height();
+	$(".aimi .wrapper").css({'height':chat_height-case_height});
+	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
+})
+
 $(".aimi .checkbox_input>div").click(function(){
 	if($(this).children(".checkbox_bg").is(":hidden")){
 		$(this).children(".checkbox_bg").show()
@@ -547,8 +556,9 @@ function scrollToEnd(this_){
 $(".input input").on("focus",function (e) {
 	var this_=this;
 	if($(".aimi .question").hasClass("active")){
-		$(".aimi .question").removeClass("active");
+		// $(".aimi .question").removeClass("active");
 		$(".aimi .case").hide();
+		$(".aimi .personcase").hide();
 		$(".aimi .wrapper").css({height:'calc(100vh - 3.6rem)'});
 	}
     interval = setTimeout(function() {
@@ -562,8 +572,9 @@ $(".input input").on("blur",function (e) {
 })
 $(document).on("click",".swiper-slide.swiper-slide-active>div",function(){
 	var msg=$(this).text();
-	$(".aimi .question").removeClass("active");
+	// $(".aimi .question").removeClass("active");
 	$(".aimi .case").hide();
+	$(".aimi .personcase").hide();
 	$(".aimi .wrapper").css({height:'calc(100vh - 3.6rem)'});
 	$(".send").addClass("blue");
     send(msg);
@@ -827,6 +838,62 @@ String.prototype.endWith=function(endStr){
    return (d>=0&&this.lastIndexOf(endStr)==d);
 }
 window.onload=function(){
+	$(".aimi .personcase").hide();
+	var html =''
+	console.log(extendList.length)
+	if(extendList.length>4){
+		html += '<div class="swiper-slide">' +
+		'<div>' +
+			'<ul>' 
+				for(let i=0;i<4;i++){
+					console.log(extendList[i].personal_url)
+					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					'<li>' +
+						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
+						'<p>' + extendList[i].personal_name + '</p>' +
+					'</li>' +
+					'</a>' 
+				}
+			html +='</ul>' +
+			'</div>' +
+		'</div>'
+		html += '<div class="swiper-slide">' +
+		'<div>' +
+			'<ul>' 
+				for(let i=4;i<extendList.length;i++){
+					console.log(extendList[i].personal_url)
+					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					'<li>' +
+						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
+						'<p>' + extendList[i].personal_name + '</p>' +
+					'</li>' +
+					'</a>' 
+				}
+			html +='</ul>' +
+			'</div>' +
+		'</div>'
+		console.log(html)
+		document.getElementById("swiper-wrapper").innerHTML = html;
+	}else{
+			html += '<div class="swiper-slide">' +
+			'<div>' +
+				'<ul>' 
+				for(let i=0;i<extendList.length;i++){
+					console.log(extendList[i].personal_url)
+					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					'<li>' +
+						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
+						'<p>' + extendList[i].personal_name + '</p>' +
+					'</li>' +
+					'</a>' 
+				}
+			html +='</ul>' +
+			'</div>' +
+		'</div>'
+		document.getElementById("swiper-wrapper").innerHTML = html;
+	}
+
+
 	$.ajax({
 		type:'post',
 		url:"/chat/uservice",//http://172.16.3.157:3000

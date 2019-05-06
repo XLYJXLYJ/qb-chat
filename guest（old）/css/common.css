@@ -94,7 +94,7 @@ p{margin: 0rem;}
 .aimi .right .text>div{border-radius:1rem 1rem 1rem 1rem ;padding:0.25rem 1rem;margin-bottom: 0.75rem;background-color: #4a4a4a;color: white;text-align: left;max-width: 15rem; word-break: break-all;}
 .aimi .input{height: 3.6rem;width: 100%;padding: 0rem 0.5rem;background-color: #f6f6f6;box-sizing: border-box;/*position: absolute;*/}
 .aimi .input>input{width:75%;height: 2rem;margin-top: 0.8rem;}
-.aimi .send{float: right;width:20%;height: 2rem;line-height: 2rem;background-color: #c9c9cc;color: white;margin-top: 0.8rem;border-radius: .3rem;text-align: center;}
+.aimi .send{float: right;width:17%;height: 2rem;line-height: 2rem;background-color: #c9c9cc;color: white;margin-top: 0.8rem;border-radius: .3rem;text-align: center;}
 .aimi .blue{background-color: #5349e6;}
 .aimi .scroll{width: 100%;}
 .aimi .record{overflow: auto;}
@@ -342,9 +342,11 @@ ul{padding: 0rem;}
 .aimi .prompt .prompt_div{display: inline-block;width: 100%;margin-bottom: 1.5rem;}
 .aimi .chat{height: calc(100vh - 7rem);/*padding-bottom: 0.5rem;*/margin-top: 3.4rem;  }
 .aimi .scroll{padding-bottom: 0.5rem;}
-.aimi .swiper-container .swiper-slide>div{float: left; margin-top: 1rem;border-radius: 0.8rem;background:white ;padding:0.4rem 0.4rem ;font-size: 0.8rem; width: 42.5%;color: #454545;text-align: center;border:1px solid #EFEFEF ;}
-.aimi .swiper-container {padding-left:1rem;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
-.aimi .swiper-container .swiper-slide>div:nth-child(2n){float: right;padding-left:0rem;margin-right: 1rem;}
+.aimi .case .swiper-container .swiper-slide>div{float: left;border-radius: 0.8rem;background:white ;padding:0.4rem 0.4rem ;font-size: 0.8rem; width: 42.5%;color: #454545;text-align: center;border:1px solid #EFEFEF ;}
+.aimi .case .swiper-container {padding-left:1rem;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+.aimi .case .swiper-container .swiper-slide>div:nth-child(2n){float: right;padding-left:0rem;margin-right: 1rem;}
+.aimi .personcase .swiper-container .swiper-slide>div{float: left;border-radius: 0.8rem;background:white ;width: 100%;height: 100%; color: #454545;}
+.aimi .personcase .swiper-container {box-sizing: border-box;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
 .aimi .aimi-message.active{margin-top: 0rem;}
 .swiper-pagination.swiper-pagination-bullets{display: block;bottom: 0rem;width: 100%;}
 /* .aimi .radius{border-radius:1rem 1rem 1rem 0.3rem ;background-color:#F5F5F5;overflow: auto;max-width: 14rem;padding:0.7rem 1rem;} */

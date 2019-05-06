@@ -9,6 +9,7 @@ import 'lib-flexible/flexible.js'
 import {Alert, Loading, Swiper, SwiperItem,Previewer,TransferDom} from 'vux'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import '@/assets/css/iconfont.css'
 
 // import vConsole from 'vconsole'
 // import EXIF from 'exif-js'

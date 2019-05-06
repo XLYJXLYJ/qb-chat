@@ -5,8 +5,10 @@ import {IndexedDB} from "@/common/indexData"
 export default {
     data () {
         return {
-            isOpenSwiper:true, // 是否打开轮播选项
-            isOpenquestion:true, // 打开轮播选项按钮
+            isOpenSwiper:true, // 是否打开最高提问率
+            openShowLinks:false, //展示跳转list
+            // isOpenquestion:true, // 打开轮播选项按钮
+            isHideSwiper:true, // 打开轮播选项按钮
             userText:'', // 客户发送的消息
             message:'', // 聊天框中的消息
             errorType: '', // 错误类型
@@ -26,7 +28,8 @@ export default {
             avatar_small:window.avatar_small, // 头像小图
             wait_response:window.wait_response, // 等待语
             timeout_msg:window.timeout_msg, // 请求超时结束语
-            qas:[], // 初始化选项
+            extendList:window.extendList, // 初始化个性化选项
+            qas:[], // 初始化问题选项
             showDots:true, // 是否显示轮播圆点
             // solveProblem:'', // 是否显示已解决问题
             answerBack:'以上回答是否解决您的问题?',
@@ -36,6 +39,7 @@ export default {
             rightList:[], // 右边图片列表
             userImageUrl:'', // 用户选择图片
             setIntervalTime:'', // 定时器
+            setIntervalTimeArr:[], //定时器数组
             isbutton:true, // 默认button颜色
             isOpenquestionIcon:true, // 是否显示qa控制图标
             controlYongyunMessage:'',// 控制融云重复消息
@@ -60,15 +64,7 @@ export default {
             let this_ = this
             document.getElementById("foot-contain").setAttribute('style','top:0rem')
             if(this_.isOpenSwiper==true){
-              document.getElementById("chat-contain").setAttribute('style','bottom:3rem')
-              // var u = navigator.userAgent, app = navigator.appVersion;
-              // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-              // if (isiOS) {
-              //   window.setTimeout(function(){
-              //     window.scrollTo(0,document.body.clientHeight);
-              //   }, 1000);
-              // }
-              // document.getElementsByClassName('chatting-content')[0].scrollTop = parseInt(document.getElementsByClassName('chatting-content')['0'].scrollHeight) + 200
+                document.getElementById("chat-contain").setAttribute('style','bottom:3rem')
             }else{
                 document.getElementById("chat-contain").setAttribute('style','bottom:0rem')
             }
@@ -81,20 +77,11 @@ export default {
             next();
         }else{
             console.log('你的浏览器支持indexdb!')
-            // let urlLength = window.location.href.length
-            // let urlStr = window.location.href.slice(urlLength-15,urlLength)
-            // console.log(urlStr)
-            // let options = {
-            //   name: urlStr,
-            //   version: 1,
-            //   storeName: 'questionAnswer'
-            // }
             window.db=new IndexedDB();
             window.db.open();
-            // window.db._init();
             setTimeout(function(){
                 if(localStorage.getItem('uuid')!= null){
-                    window.db.getDataByKey(localStorage.getItem('uuid'),2000).then(data=> {
+                    window.db.getDataByKey(window.key,2000).then(data=> {
                         console.log('从缓存中获取数据 ====== ')
                         if(data){
                             console.log('有缓存，先加载缓存...')
@@ -108,7 +95,7 @@ export default {
                 }else{
                   next();
                 }
-            },1000)
+            },100)
         }
     },
     created(){
@@ -118,11 +105,11 @@ export default {
             console.log('进入测试环境')
             this_.humanBaseUrl = "http://test.chat.qb-tech.net";
             this_.appkey = "8w7jv4qb829cy";//82hegw5u8ytdx正式  8w7jv4qb829cy测试
-          }else{
+        }else{
             console.log('进入正式环境')
             this_.humanBaseUrl = "https://chat.qb-tech.net";
             this_.appkey = "82hegw5u8ytdx";
-          }
+        }
         this_.controlYongyunMessage = 1
         this_.msgs = window.msgs || []
 
@@ -171,234 +158,146 @@ export default {
                         console.log(info);
                     }
                 });
-
             })
-
         })
 
         //模拟测试数据开始
-        // this_.msgs = [
-        //     {imgData: false,msg: "您好，我是水滴筹，请问有什么可以帮助您？",select: [],selectposition:0,self: false,whether: [], whetherposition: 0,zan: 0},
-        //     {imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",robotZan: 0,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false,whether: [], whetherposition: 0,zan: 0},
-        //     {imgData: false,msg: "心脏病保不保",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
-        //     // {imgData: false,msg: ["太平百万医疗险哈哈哈", "安心百万医疗险哈哈哈"],robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0},
-        //     {h: 0,imgData: false, msg: "这是一款由太平财产保险有限公司发行的百万医疗险，主要http://www.baidu.com保障这款产品保障的是因意外或在等待期后因疾病导致的住院治疗，具体保障内容请查看保险条款。一般医疗保险金最高累计报销300万，100种重大疾病保险金最高报销600万，除因100种重大疾病导致的住院治疗无免赔额外，其余住院治疗均有1万免赔额/年。在市场上具备极强的竞争力。", msrc: undefined,overzan: 0,robotZan: 1,select: [],selectposition: 0,self: false, w: 0, whether: [], whetherposition: 0,zan: 1,textfold:true,istextfold:1},
-        //     {imgData: false,msg: "太平百万医疗险",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
-        //     {imgData: false,msg: "Aimi根据保单理解，心脏病在太平百万医疗险的保障范围内",robotZan: 1,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 1},
-        //     {imgData: false,msg: "如需咨询具体保障金额，您需回答下列问题：<br />请问保险事故是否发生在等待期30天后呢？", robotZan: 1,select: [],selectposition:0,self: false, whether: ["是", "否"], whetherposition: 1,zan: 0},
-        //     {imgData: false,msg: "666666666",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0},
-        //     {imgData: false,msg: "66666666666666661",robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0},
-        //     { h: 0,imgData: true, msg: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",msrc: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",robotZan: 0,select: [],selectposition:0,self: false, src: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png", w: 0,whether: [],whetherposition: 0,zan: 0},
-        //     { h: 0,imgData: false, msg: "您与水滴筹的聊天已结束",msrc: undefined,robotZan: 0,select: [],selectposition:0,self: false,w: 0,whether: [], whetherposition: 0,zan: 0},
-        //     { h: 0,imgData: false,msg: "123456",msrc: undefined, robotZan: 0,select: [],selectposition:0,self: true,w: 0,whether: [],whetherposition: 0,zan: 0},
-        //     { h: 0,imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",msrc: undefined,robotZan: 1,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false, w: 0,whether: [],whetherposition: 0,zan: 0},
-        // ]
-        // let uuid = Math.random().toString();
-        // let product_id = 154;
-        // let robot_user_id = 29;
-        // let name = Math.random();
-        // let sesionId = Math.random().toString();
-        // this_.priority = 1
-        // localStorage.setItem('uuid', uuid);
-        // localStorage.setItem('product_id', product_id);
-        // localStorage.setItem('robot_user_id', 29);
-        // localStorage.setItem('name', name);
-        // localStorage.setItem('sesionId',sesionId);
-        // let humanDataToken = Qs.stringify({
-        //     name:localStorage.getItem('name'),
-        //     uuid:localStorage.getItem('uuid')
-        // });
-        // Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
-        // .then(result => {
-        //     console.log('uuid = ' + localStorage.getItem('uuid'))
-        //     localStorage.setItem('token', result.data.token);
-        // })
-        // RongIMLib.RongIMClient.init(this_.appkey);
-        // localStorage.setItem('token', 'jbAwskvioqwF+Pdgx5Dn190+ErJ1xXi9y0K/LM5Yy9Wzwdh+8dhBq495Wv4rZ7FdXCcRCNx3mZQuFpTcoLBwDTjS1J0nu9Pdyv460Uyj4pE=');
-        // // 客户查询
-        // let humanDataSelect = Qs.stringify({
-        //     name: localStorage.getItem('name'),
-        //     uuid:localStorage.getItem('uuid'), // 客户dialog_id
-        //     product_id:localStorage.getItem('product_id'), // 产品id
-        //     robot_user_id:localStorage.getItem('robot_user_id') // 用户id
-        // });
-        // Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
-        // .then(result => {
-        //     console.log('连接前查询之前状态数据 ======')
-        //     console.log(result)
-        //     let msg = result.data.msg
-        //     if(this_.priority ==1){
-        //         this_.humanButton = false
-        //         if(msg=='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
-        //             this_.huamanOrRobot = true // 切换到人工客服回答
-        //             this_.busyText = '' // 关闭忙碌语
-        //             this_.inputImg = false // 开启图片开关
-        //             localStorage.setItem('token', result.data.data.token);
-        //             localStorage.setItem('extra', result.data.data.extra);
-        //             localStorage.setItem('targetId', result.data.data.targetId);
-        //             localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-        //             this_.customerLogin()
-        //         }else if(msg=='robot'){
-        //             console.log('人工优先模式,之前未有过对话')
-        //             this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
-        //         }
-        //     }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
-        //         localStorage.setItem('token', result.data.data.token);
-        //         localStorage.setItem('extra', result.data.data.extra);
-        //         localStorage.setItem('targetId', result.data.data.targetId);
-        //         localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-        //         this_.huamanOrRobot = true
-        //         this_.busyText = ''
-        //         this_.humanButtonText = '结束人工'
-        //     }else if(this_.priority == 0){
-        //         this_.huamanOrRobot = false // 发送机器人消息
-        //         this_.inputImg = false // 开启图片开关
-        //     }
-        // })
-        // let tokenLogin =  new Promise((resolve, reject) => {
-        //     // 客户token
-        //     let humanDataToken = Qs.stringify({
-        //         name:localStorage.getItem('name'),
-        //         uuid:localStorage.getItem('uuid')
-        //     });
-        //     Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
-        //     .then(res => {
-        //         resolve(res.data);
-        //     })
-        //     .catch(err =>{
-        //         reject(err.data)
-        //     })
-        // })
-        // tokenLogin.then(
-        //     function(value){
-        //         let token = value.data;
-        //         localStorage.setItem('token', token);
-        //         console.log('token = ' + token)
-        //         RongIMClient.connect(token, {
-        //             onSuccess: function(userId) {
-        //                 console.log('Connect successfully. ' + userId);
-        //             },
-        //             onTokenIncorrect: function() {
-        //                 console.log('token 无效');
-        //             },
-        //             onError: function(errorCode){
-        //                 var info = '';
-        //                 switch (errorCode) {
-        //                     case RongIMLib.ErrorCode.TIMEOUT:
-        //                         info = '超时';
-        //                         break;
-        //                     case RongIMLib.ConnectionState.UNACCEPTABLE_PAROTOCOL_VERSION:
-        //                         info = '不可接受的协议版本';
-        //                         break;
-        //                     case RongIMLib.ConnectionState.IDENTIFIER_REJECTED:
-        //                         info = 'appkey不正确';
-        //                         break;
-        //                     case RongIMLib.ConnectionState.SERVER_UNAVAILABLE:
-        //                         info = '服务器不可用';
-        //                         break;
-        //                 }
-        //                 console.log(info);
-        //             }
-        //         });
-        //     }
-        // )
-        // // 设置连接监听状态 （ status 标识当前连接状态 ）
-        // // 连接状态监听器
-        // // 连接状态监听器
-        // RongIMClient.setConnectionStatusListener({
-        //     onChanged: function (status) {
-        //         // status 标识当前连接状态
-        //         switch (status) {
-        //             case RongIMLib.ConnectionStatus.CONNECTED:
-        //                 console.log('链接成功');
-        //
-        //               // 客户token
-        //               let datakey = Qs.stringify({
-        //                 key: window.key
-        //               });
-        //               // let this_ = this
-        //               console.log('请求/chat/priority获得的数据')
-        //               Vue.axios.post(window.url+'chat/priority',datakey)
-        //                 .then(result => {
-        //                   console.log('请求/chat/priority获得的数据')
-        //                   console.log(result)
-        //                   let value = result.data
-        //                   localStorage.setItem('priority',value.data.priority);
-        //                   this_.priority = value.data.priority
-        //                   if(this_.priority==0){
-        //                     this_.humanButton = false
-        //                     this_.busyText = ''
-        //                     this_.inputImg = false
-        //                   }else if(this_.priority==1){
-        //                     this_.humanButton = false
-        //                   }else{
-        //                     this_.humanButton = true
-        //                   }
-        //                   // 客户查询
-        //                   let humanDataSelect = Qs.stringify({
-        //                     name: localStorage.getItem('name'),
-        //                     uuid:localStorage.getItem('uuid'), // 客户dialog_id
-        //                     product_id:localStorage.getItem('product_id'), // 产品id
-        //                     robot_user_id:localStorage.getItem('robot_user_id') // 用户id
-        //                   });
-        //                   Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
-        //                     .then(result => {
-        //                       console.log('连接前查询之前状态数据 ======')
-        //                       console.log(result)
-        //                       let msg = result.data.msg
-        //                       if(this_.priority ==1){
-        //                         this_.humanButton = false
-        //                         if(msg='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
-        //                           this_.huamanOrRobot = true // 切换到人工客服回答
-        //                           this_.busyText = '' // 关闭忙碌语
-        //                           this_.inputImg = false // 开启图片开关
-        //                           localStorage.setItem('token', result.data.data.token);
-        //                           localStorage.setItem('extra', result.data.data.extra);
-        //                           localStorage.setItem('targetId', result.data.data.targetId);
-        //                           localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-        //                           this_.customerLogin()
-        //                         }else if(msg='robot'){
-        //                           console.log('人工优先模式,之前未有过对话')
-        //                           this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
-        //                         }
-        //                       }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
-        //                         localStorage.setItem('token', result.data.data.token);
-        //                         localStorage.setItem('extra', result.data.data.extra);
-        //                         localStorage.setItem('targetId', result.data.data.targetId);
-        //                         localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
-        //                         this_.huamanOrRobot = true
-        //                         this_.busyText = ''
-        //                         this_.humanButtonText = '结束人工'
-        //                       }else if(this_.priority == 0){
-        //                         this_.huamanOrRobot = false // 发送机器人消息
-        //                         this_.inputImg = false // 开启图片开关
-        //                       }
-        //                     })
-        //                 })
-        //
-        //
-        //                 break;
-        //             case RongIMLib.ConnectionStatus.CONNECTING:
-        //                 console.log('正在链接');
-        //                 break;
-        //             case RongIMLib.ConnectionStatus.DISCONNECTED:
-        //                 console.log('断开连接');
-        //                 break;
-        //             case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
-        //                 console.log('其他设备登录');
-        //                 break;
-        //             case RongIMLib.ConnectionStatus.DOMAIN_INCORRECT:
-        //                 console.log('域名不正确');
-        //                 break;
-        //             case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
-        //                 console.log('网络不可用');
-        //                 break;
-        //         }
-        //     }
-        // });
-        //模拟测试数据结束
-
+        this_.msgs = [
+            {imgData: false,msg: "您好，我是水滴筹，请问有什么可以帮助您？",select: [],selectposition:0,self: false,whether: [], whetherposition: 0,zan: 0,table:false},
+            {imgData: false,msg:'',select: [],selectposition:0,self: false,whether: [], whetherposition: 0,zan: 0,tableDetail:[
+                ['产品名称', ['人生1','人生2','人生3','人生3','人生1','人生2','人生3','人生3']],
+                ['投保年龄',  ['1岁','10岁','1岁','2岁','1岁','10岁','1岁','2岁']],
+                ['投保年龄',  ['1岁','10岁','1岁','2岁','1岁','10岁','1岁','2岁']],
+                ['投保年龄',  ['1岁','10岁','1岁','2岁','1岁','10岁','1岁','2岁']],
+                ['性别',  ['男','女','性别不限','性别不限','男','女','性别不限','性别不限']]
+            ],table:true},
+            {imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",robotZan: 0,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false,whether: [], whetherposition: 0,zan: 0,table:false},
+            {imgData: false,msg: "心脏病保不保",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0,table:false},
+            {h: 0,imgData: false, msg: "这是一款由太平财产保险有限公司发行的百万医疗险，主要http://www.baidu.com保障这款产品保障的是因意外或在等待期后因疾病导致的住院治疗，具体保障内容请查看保险条款。一般医疗保险金最高累计报销300万，100种重大疾病保险金最高报销600万，除因100种重大疾病导致的住院治疗无免赔额外，其余住院治疗均有1万免赔额/年。在市场上具备极强的竞争力。", msrc: undefined,overzan: 0,robotZan: 1,select: [],selectposition: 0,self: false, w: 0, whether: [], whetherposition: 0,zan: 1,textfold:true,istextfold:1,table:false},
+            {imgData: false,msg: "太平百万医疗险",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0,table:false},
+            {imgData: false,msg: "Aimi根据保单理解，心脏病在太平百万医疗险的保障范围内",robotZan: 1,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 1,table:false},
+            {imgData: false,msg: "如需咨询具体保障金额，您需回答下列问题：<br />请问保险事故是否发生在等待期30天后呢？", robotZan: 1,select: [],selectposition:0,self: false, whether: ["是", "否"], whetherposition: 1,zan: 0,table:false},
+            {imgData: false,msg: "666666666",robotZan: 0,select: [],selectposition:0,self: true,whether: [],whetherposition: 0,zan: 0,table:false},
+            {imgData: false,msg: "66666666666666661",robotZan: 0,select: [],selectposition:0,self: false,whether: [],whetherposition: 0,zan: 0,table:false},
+            { h: 0,imgData: true, msg: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",msrc: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png",robotZan: 0,select: [],selectposition:0,self: false, src: "http://open.qb-tech.net/chat_image/3ef8f2a65d3711e9adbb52540077d8a0.png", w: 0,whether: [],whetherposition: 0,zan: 0,table:false},
+            { h: 0,imgData: false, msg: "您与水滴筹的聊天已结束",msrc: undefined,robotZan: 0,select: [],selectposition:0,self: false,w: 0,whether: [], whetherposition: 0,zan: 0,table:false},
+            { h: 0,imgData: false,msg: "123456",msrc: undefined, robotZan: 0,select: [],selectposition:0,self: true,w: 0,whether: [],whetherposition: 0,zan: 0,table:false},
+            { h: 0,imgData: false,msg: "请问你说的是哪个产品？<br />请选择以下产品：",msrc: undefined,robotZan: 1,select: ["太平百万医疗险", "安心百万医疗险"],selectposition:1,self: false, w: 0,whether: [],whetherposition: 0,zan: 0,table:false},
+        ]
+        let uuid = Math.random().toString();
+        let product_id = 154;
+        let robot_user_id = 29;
+        let name = Math.random();
+        let sesionId = Math.random().toString();
+        this_.priority = 0
+        localStorage.setItem('uuid', uuid);
+        localStorage.setItem('product_id', product_id);
+        localStorage.setItem('robot_user_id', 29);
+        localStorage.setItem('name', name);
+        localStorage.setItem('sesionId',sesionId);
+        let humanDataToken = Qs.stringify({
+            name:localStorage.getItem('name'),
+            uuid:localStorage.getItem('uuid')
+        });
+        Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
+        .then(result => {
+            console.log('uuid = ' + localStorage.getItem('uuid'))
+            localStorage.setItem('token', result.data.token);
+        })
         RongIMLib.RongIMClient.init(this_.appkey);
+        localStorage.setItem('token', 'jbAwskvioqwF+Pdgx5Dn190+ErJ1xXi9y0K/LM5Yy9Wzwdh+8dhBq495Wv4rZ7FdXCcRCNx3mZQuFpTcoLBwDTjS1J0nu9Pdyv460Uyj4pE=');
+        // 客户查询
+        let humanDataSelect = Qs.stringify({
+            name: localStorage.getItem('name'),
+            uuid:localStorage.getItem('uuid'), // 客户dialog_id
+            product_id:localStorage.getItem('product_id'), // 产品id
+            robot_user_id:localStorage.getItem('robot_user_id') // 用户id
+        });
+        Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
+        .then(result => {
+            console.log('连接前查询之前状态数据 ======')
+            console.log(result)
+            let msg = result.data.msg
+            if(this_.priority ==1){
+                this_.humanButton = false
+                if(msg=='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
+                    this_.huamanOrRobot = true // 切换到人工客服回答
+                    this_.busyText = '' // 关闭忙碌语
+                    this_.inputImg = false // 开启图片开关
+                    localStorage.setItem('token', result.data.data.token);
+                    localStorage.setItem('extra', result.data.data.extra);
+                    localStorage.setItem('targetId', result.data.data.targetId);
+                    localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+                    this_.customerLogin()
+                }else if(msg=='robot'){
+                    console.log('人工优先模式,之前未有过对话')
+                    this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
+                }
+            }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
+                localStorage.setItem('token', result.data.data.token);
+                localStorage.setItem('extra', result.data.data.extra);
+                localStorage.setItem('targetId', result.data.data.targetId);
+                localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+                this_.huamanOrRobot = true
+                this_.busyText = ''
+                this_.humanButtonText = '结束人工'
+            }else if(this_.priority == 2 && msg == 'robot'){
+                this_.huamanOrRobot = false
+                this_.busyText = ''
+                this_.humanButton = true
+                this_.humanButtonText = '人工客服'
+            }else if(this_.priority == 0){
+                this_.huamanOrRobot = false // 发送机器人消息
+                this_.inputImg = false // 开启图片开关
+            }
+        })
+        let tokenLogin =  new Promise((resolve, reject) => {
+            // 客户token
+            let humanDataToken = Qs.stringify({
+                name:localStorage.getItem('name'),
+                uuid:localStorage.getItem('uuid')
+            });
+            Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/customer_token',humanDataToken)
+            .then(res => {
+                resolve(res.data);
+            })
+            .catch(err =>{
+                reject(err.data)
+            })
+        })
+        tokenLogin.then(
+            function(value){
+                let token = value.data;
+                localStorage.setItem('token', token);
+                console.log('token = ' + token)
+                RongIMClient.connect(token, {
+                    onSuccess: function(userId) {
+                        console.log('Connect successfully. ' + userId);
+                    },
+                    onTokenIncorrect: function() {
+                        console.log('token 无效');
+                    },
+                    onError: function(errorCode){
+                        var info = '';
+                        switch (errorCode) {
+                            case RongIMLib.ErrorCode.TIMEOUT:
+                                info = '超时';
+                                break;
+                            case RongIMLib.ConnectionState.UNACCEPTABLE_PAROTOCOL_VERSION:
+                                info = '不可接受的协议版本';
+                                break;
+                            case RongIMLib.ConnectionState.IDENTIFIER_REJECTED:
+                                info = 'appkey不正确';
+                                break;
+                            case RongIMLib.ConnectionState.SERVER_UNAVAILABLE:
+                                info = '服务器不可用';
+                                break;
+                        }
+                        console.log(info);
+                    }
+                });
+            }
+        )
         // 设置连接监听状态 （ status 标识当前连接状态 ）
         // 连接状态监听器
         // 连接状态监听器
@@ -408,14 +307,13 @@ export default {
                 switch (status) {
                     case RongIMLib.ConnectionStatus.CONNECTED:
                         console.log('链接成功');
-
                       // 客户token
                       let datakey = Qs.stringify({
                         key: window.key
                       });
                       // let this_ = this
                       console.log('请求/chat/priority获得的数据')
-                      Vue.axios.post('/chat/priority',datakey)
+                      Vue.axios.post(window.url+'chat/priority',datakey)
                         .then(result => {
                           console.log('请求/chat/priority获得的数据')
                           console.log(result)
@@ -472,8 +370,101 @@ export default {
                               }
                             })
                         })
+                        break;
+                    case RongIMLib.ConnectionStatus.CONNECTING:
+                        console.log('正在链接');
+                        break;
+                    case RongIMLib.ConnectionStatus.DISCONNECTED:
+                        console.log('断开连接');
+                        break;
+                    case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
+                        console.log('其他设备登录');
+                        break;
+                    case RongIMLib.ConnectionStatus.DOMAIN_INCORRECT:
+                        console.log('域名不正确');
+                        break;
+                    case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
+                        console.log('网络不可用');
+                        break;
+                }
+            }
+        });
+        //模拟测试数据结束
 
-
+        RongIMLib.RongIMClient.init(this_.appkey);
+        // 设置连接监听状态 （ status 标识当前连接状态 ）
+        // 连接状态监听器
+        // 连接状态监听器
+        RongIMClient.setConnectionStatusListener({
+            onChanged: function (status) {
+                // status 标识当前连接状态
+                switch (status) {
+                    case RongIMLib.ConnectionStatus.CONNECTED:
+                        console.log('链接成功');
+                      // 客户token
+                      let datakey = Qs.stringify({
+                        key: window.key
+                      });
+                      // let this_ = this
+                      console.log('请求/chat/priority获得的数据')
+                      Vue.axios.post('/chat/priority',datakey)
+                        .then(result => {
+                          console.log('请求/chat/priority获得的数据')
+                          console.log(result)
+                          let value = result.data
+                          localStorage.setItem('priority',value.data.priority);
+                          this_.priority = value.data.priority
+                          if(this_.priority==0){
+                            this_.humanButton = false
+                            this_.busyText = ''
+                            this_.inputImg = false
+                          }else if(this_.priority==1){
+                            this_.humanButton = false
+                          }else{
+                            this_.humanButton = true
+                          }
+                          // 客户查询
+                          let humanDataSelect = Qs.stringify({
+                            name: localStorage.getItem('name'),
+                            uuid:localStorage.getItem('uuid'), // 客户dialog_id
+                            product_id:localStorage.getItem('product_id'), // 产品id
+                            robot_user_id:localStorage.getItem('robot_user_id') // 用户id
+                          });
+                          Vue.axios.post(this_.humanBaseUrl+'/acs/v1.0/before_customer_connect',humanDataSelect)
+                            .then(result => {
+                              console.log('连接前查询之前状态数据 ======')
+                              console.log(result)
+                              let msg = result.data.msg
+                              if(this_.priority ==1){
+                                this_.humanButton = false
+                                if(msg='connect'){ // 自动重新链接客服 1、初始化连接时人工客服还有空位 2、客户重新连接断开后，客服未处理，继续连接
+                                  this_.huamanOrRobot = true // 切换到人工客服回答
+                                  this_.busyText = '' // 关闭忙碌语
+                                  this_.inputImg = false // 开启图片开关
+                                  localStorage.setItem('token', result.data.data.token);
+                                  localStorage.setItem('extra', result.data.data.extra);
+                                  localStorage.setItem('targetId', result.data.data.targetId);
+                                  localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+                                  this_.customerLogin()
+                                }else if(msg='robot'){
+                                  console.log('人工优先模式,之前未有过对话')
+                                  this_.setIntervalTime = setInterval(() => this_.customerLoginer(),2000)
+                                  this_setIntervalTimeArr.push(this_.setIntervalTime)
+                                }
+                              }else if(this_.priority == 2 && msg == 'connect') { // 链接客服 （机器人优先）(客户切换到人工客服)
+                                localStorage.setItem('token', result.data.data.token);
+                                localStorage.setItem('extra', result.data.data.extra);
+                                localStorage.setItem('targetId', result.data.data.targetId);
+                                localStorage.setItem('extra', JSON.stringify(result.data.data.extra));
+                                this_.huamanOrRobot = true
+                                this_.busyText = ''
+                                this_.humanButtonText = '结束人工'
+                              }else if(this_.priority == 0){
+                                this_.huamanOrRobot = false // 发送机器人消息
+                                this_.inputImg = false // 关闭图片开关
+                              }
+                            })
+                        })
                         break;
                     case RongIMLib.ConnectionStatus.CONNECTING:
                         console.log('正在链接');
@@ -514,76 +505,37 @@ export default {
                             if(this_.priority==1){
                                 msg='您与'+ localStorage.getItem('service_name') +'的聊天已结束'
                                 let data01 = {
-                                    msg: msg,
-                                    // src: msg,
-                                    self: false,
-                                    zan:0,
-                                    overzan:1,
-                                    robotZan:0,
-                                    imgData:false,
-                                    select:[],
-                                    selectposition:0,
-                                    whether:[],
-                                    whetherposition:0,
-                                    target:'',
-                                    textfold:false,
-                                    istextfold:0
+                                    msg: msg, src: '', self: false, zan:0, overzan:1, robotZan:0, imgData:false,
+                                    select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0
                                 }
                                 this_.msgs.push(data01)
                                 _data.push(data01)
+                                this_.humanButton = false;
                                 // window.db.updateData(localStorage.getItem('uuid'),data01)
                             }else{
                                 msg='您与'+ localStorage.getItem('service_name') +'的聊天已结束，如果您还想要人工客服服务，请继续点击人工客服按钮';
                                 let data01 = {
-                                    msg: msg,
-                                    // src: msg,
-                                    self: false,
-                                    zan:0,
-                                    overzan:1,
-                                    robotZan:0,
-                                    imgData:false,
-                                    select:[],
-                                    selectposition:0,
-                                    whether:[],
-                                    whetherposition:0,
-                                    target:'',
-                                    textfold:false,
-                                    istextfold:0
+                                    msg: msg, src: '', self: false, zan:0, overzan:1, robotZan:0, imgData:false,
+                                    select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0
                                 }
                                 this_.msgs.push(data01)
                                 _data.push(data01)
+                                this_.humanButton = true;
+                                this_.huamanOrRobot = false;
+                                this_.humanButtonText = '人工客服'
                                 // window.db.updateData(localStorage.getItem('uuid'),data01)
                             }
-
                             let data02 = {
-                                msg: '以上回答是否解决您的问题?',
-                                //src: '',
-                                self: false,
-                                zan:1,
-                                overzan:0,
-                                robotZan:0,
-                                imgData:false,
-                                select:[],
-                                selectposition:0,
-                                whether:[],
-                                whetherposition:0,
-                                target:'',
-                                textfold:false,
-                                istextfold:0
+                                msg: '以上回答是否解决您的问题?', src: '', self: false, zan:1, overzan:0, robotZan:0,
+                                imgData:false, select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0
                             }
                             this_.msgs.push(data02)
                             _data.push(data02)
                             setTimeout(() => {
-
-                                window.db.updateData(localStorage.getItem('uuid'),_data)
+                                window.db.updateData(window.key,_data)
                                 this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                             }, 40)
                             // this_.solveProblem = true
-                            if(this_.priority==1){//客服不在线,没有托管机器人,连接客服
-                                this_.humanButton = false;
-                            }else if(this_.priority==2){
-                                this_.humanButton = true;
-                            }
                         }else{
                             localStorage.setItem('controlWelcome',1)
                             // this_.solveProblem = false
@@ -592,28 +544,15 @@ export default {
                                 console.log('显示融云接受到的图片，图片信息 = ' + message.content.content)
                                 // if(this_.controlYongyunMessage !== 1){
                                     let data = {
-                                        msg:message.content.content,
-                                        src:message.content.content,
-                                        self: false,//图片显示位置(左边还是右边)
-                                        imgData:true,//是否显示图片
-                                        zan:0,
-                                        overzan:1,
-                                        robotZan:0,
-                                        select:[],
-                                        selectposition:0,
-                                        whether:[],
-                                        whetherposition:0,
-                                        target:'',
-                                        textfold:false,
-                                        istextfold:0
+                                        msg:message.content.content, src:message.content.content, self: false, imgData:true,
+                                        zan:0, overzan:1, robotZan:0, select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0
                                     }
                                     this_.msgs.push(data);
                                     setTimeout(() => {
-                                        window.db.updateData(localStorage.getItem('uuid'),data)
+                                        window.db.updateData(window.key,data)
                                     }, 20)
                                     this_.controlYongyunMessage = 0
                                 // }
-
                             }else{
                                 console.log('显示融云接受到的文字，文字信息 = ' + message.content.content)
                                 if(message.messageDirection==2){
@@ -626,46 +565,23 @@ export default {
                                     }
                                     if(message.content.extra[8].length !== 0){
                                         let data = {
-                                            msg: message.content.extra[9],
-                                            //src: message.content.content,
-                                            self: false,
-                                            imgData:false,//是否显示图片
-                                            zan:0,
-                                            overzan:1,
-                                            robotZan:0,
-                                            select:message.content.extra[8],
-                                            selectposition:1,
-                                            whether:[],
-                                            whetherposition:0,
-                                            target:'',
-                                            textfold:str.length>250?true:false,
-                                            istextfold:str.length>250?1:0,
+                                            msg: message.content.extra[9], src: '', self: false, imgData:false,
+                                            zan:0, overzan:1, robotZan:0, select:message.content.extra[8], selectposition:1,
+                                            whether:[], whetherposition:0, target:'', textfold:str.length>250?true:false, istextfold:str.length>250?1:0,
                                         }
                                         this_.msgs.push(data);
                                         setTimeout(() => {
-                                            window.db.updateData(localStorage.getItem('uuid'),data)
+                                            window.db.updateData(window.key,data)
                                         }, 20)
                                         this_.controlYongyunMessage = 0
                                     }else{
                                         let data = {
-                                            msg: str,
-                                            //src: message.content.content,
-                                            self: false,
-                                            imgData:false,//是否显示图片
-                                            zan:0,
-                                            overzan:1,
-                                            robotZan:0,
-                                            select:[],
-                                            selectposition:0,
-                                            whether:[],
-                                            whetherposition:0,
-                                            target:'',
-                                            textfold:str.length>250?true:false,
-                                            istextfold:str.length>250?1:0,
+                                          msg: str, src: '', self: false, imgData:false, zan:0, overzan:1, robotZan:0, select:[],
+                                          selectposition:0, whether:[], whetherposition:0, target:'', textfold:str.length>250?true:false, istextfold:str.length>250?1:0,
                                         }
                                         this_.msgs.push(data);
                                         setTimeout(() => {
-                                            window.db.updateData(localStorage.getItem('uuid'),data)
+                                            window.db.updateData(window.key,data)
                                         }, 20)
                                         this_.controlYongyunMessage = 0
                                     }
@@ -761,13 +677,14 @@ export default {
             this_.isOpenSwiper = false
         }
         // document.getElementsByClassName('chatting-content')[0].scrollTop = this_.$refs.chattingContent.scrollHeight
-        document.getElementById("foot-contain").setAttribute('style','top:-3.45rem')
+        // document.getElementById("foot-contain").setAttribute('style','top:-3.45rem')
         if(this_.$refs.chattingContent.scrollHeight){
             this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
-
         }
-        if(window.qas.length ==0){
+        if(window.qas.length == 0){
             this_.isOpenSwiper = false
+        }
+        if(extendList.length == 0 && window.qas.length == 0){
             this_.isOpenquestionIcon = false
         }
     },
@@ -786,15 +703,6 @@ export default {
               }
           }
 　　　　},
-    // computed: {
-    //   content() {
-    //     const maxLen = this.maxLen;
-    //     const haystack = this.haystack.toString();
-    //     return haystack.length > maxLen
-    //       ? haystack.slice(0, maxLen) + "..."
-    //       : haystack;
-    //   }
-    // },
     methods: {
         handleFold(ft,index){
             let this_ = this
@@ -814,12 +722,10 @@ export default {
             let u = navigator.userAgent;
             let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
             console.log(this_.$refs.chattingContent.scrollHeight)
-
-              EXIF.getData(file_info, function() {
-                  this_.Orientation = EXIF.getTag(this, 'Orientation');
-                  console.log('Orientation ==' + Orientation)
-              });
-
+            EXIF.getData(file_info, function() {
+                this_.Orientation = EXIF.getTag(this, 'Orientation');
+                console.log('Orientation ==' + Orientation)
+            });
             // 使用FileReader对象预览
             let fr = new FileReader()
             // 通过fr.readAsDataURL文件的内容进行读取
@@ -843,9 +749,7 @@ export default {
                     istextfold:0,//是否显示折叠控制字符
                 }
                 this_.isOpenSwiper = false
-                // this_.sendImg(this_.userImageUrlData)
               console.log('上传图片')
-              console.log(file_info)
               this_.canvasDataURL(this_.userImageUrlData,{
                 quality:0.1
               })
@@ -886,7 +790,6 @@ export default {
             // quality值越小，所绘制出的图像越模糊
             var base64 = canvas.toDataURL('image/jpeg', quality);
             // 回调函数返回base64的值
-
             this_.sendImg(base64)
           }
         },
@@ -915,36 +818,23 @@ export default {
                 this_.sendHumanMessage(result.data.data)
                 console.log('roy返回图片地址成功')
                 let data = {
-                  msg:result.data.data,
-                  src:result.data.data,
-                  self: true,//图片显示位置(左边还是右边)
-                  imgData:true,//是否显示图片
-                  zan:0,
-                  overzan:1,
-                  robotZan:0,
-                  select:[],
-                  selectposition:0,
-                  whether:[],
-                  whetherposition:0,
-                  target:'',
-                  textfold:false,//是否折叠
-                  istextfold:0,//是否显示折叠控制字符
+                  msg:result.data.data, src:result.data.data, self: true, imgData:true, zan:0, overzan:1, robotZan:0,
+                  select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
                 }
-
                 this_.msgs.push(data);
-                window.db.updateData(localStorage.getItem('uuid'),data)
+                window.db.updateData(window.key,data)
             })
         },
         convertBase64UrlToBlob(urlData){
-             //去掉url的头，并转换为byte
-            var bytes=window.atob(urlData.split(',')[1]);        
-            //处理异常,将ascii码小于0的转换为大于0
-            var ab = new ArrayBuffer(bytes.length);
-            var ia = new Uint8Array(ab);
-            for (var i = 0; i < bytes.length; i++) {
-                ia[i] = bytes.charCodeAt(i);
-            }
-            return new Blob( [ab] , {type : 'image/png'});
+        //去掉url的头，并转换为byte
+        var bytes=window.atob(urlData.split(',')[1]);        
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob( [ab] , {type : 'image/png'});
         },
         //放大左边图片
         logIndexChange(arg){
@@ -964,7 +854,7 @@ export default {
         },
         //点赞人工客服
         clickUp(index,target){
-            window.db.editData(localStorage.getItem('uuid'),index,'感谢您的反馈,我们将继续努力')
+            window.db.editData(window.key,index,'感谢您的反馈,我们将继续努力')
             let this_ = this
             if(this_.msgs[index].robotZan == 1){
                 console.log('机器人点赞成功')
@@ -999,7 +889,7 @@ export default {
         },
         //踩人工客服
         clickDown(index,target){
-            window.db.editData(localStorage.getItem('uuid'),index,'感谢您的反馈,我们将继续努力')
+            window.db.editData(window.key,index,'感谢您的反馈,我们将继续努力')
             let this_ = this
             if(this_.msgs[index].robotZan == 1){
                 console.log('机器人踩成功')
@@ -1035,7 +925,7 @@ export default {
         // 切换人工客服与机器人状态
         clickHumanButton(){
             let this_ = this
-            if(this_.humanButtonText = '结束人工'){
+            if(this_.humanButtonText == '结束人工'){
                 this_.humanButtonText = '人工客服'
                 this_.inputImg = false
                 this_.huamanOrRobot = false
@@ -1043,6 +933,7 @@ export default {
                 this_.humanButtonText = '结束人工'
                 this_.inputImg = true
                 this_.huamanOrRobot = true
+                this_.customerLogin()
             }
         },
         // 客户登录
@@ -1072,6 +963,7 @@ export default {
                     this_.setIntervalTime = setInterval(function(){
                         this_.customerLoginer()
                     },2000)
+                    this_setIntervalTimeArr.push(this_.setIntervalTime)
                 } else if(this_.priority == 1 && result.data.robot_hosting == 1){
                     this_.inputImg = false
                     this_.humanButton = false
@@ -1096,13 +988,18 @@ export default {
                 }, 0)
             } else if(result.data.msg == "connect") {
                 console.log('客户连接人工客服成功')
-                clearInterval(this_.setIntervalTime)
+                // clearInterval(this_.setIntervalTime)
+                for (var i = this_.setIntervalTimeArr.length - 1; i >= 0; i--) {
+                    if (typeof this_.setIntervalTimeArr[i] !== 'undefined') {
+                        clearInterval(this_.setIntervalTimeArr[i])
+                    };
+                };
                 this_.busyText = ''
                 this_.inputImg = true
                 this_.huamanOrRobot = true
                 if(this_.priority == 2){
                   this_.humanButton = true
-                  this_.humanButtonText = '取消客服'
+                  this_.humanButtonText = '结束人工'
                 }
                 localStorage.setItem('token', result.data.data.token);
                 localStorage.setItem('extra', result.data.data.extra);
@@ -1116,24 +1013,11 @@ export default {
                     console.log('曾今拥有的欢迎语')
                 }else{
                     console.log('显示第一条欢迎语')
-                    this_.msgs.push({
-                        msg:  msg,
-                        //src: msg,
-                        self: false,
-                        zan:0,
-                        overzan:1,
-                        imgData:false,
-                        select:[],
-                        selectposition:0,
-                        whether:[],
-                        whetherposition:0,
-                        target:'',
-                        textfold:msg.length>250?true:false,//是否折叠
-                        istextfold:msg.length>250?1:0,//是否显示折叠控制字符
+                    this_.msgs.push({msg:  msg, src: '', self: false, zan:0, overzan:1, imgData:false, select:[],
+                        selectposition:0, whether:[], whetherposition:0, target:'', textfold:msg.length>250?true:false, istextfold:msg.length>250?1:0,
                     });
-                    window.db.updateData(localStorage.getItem('uuid'),this_.msgs)
+                    window.db.updateData(window.key,this_.msgs)
                     localStorage.setItem('controlWelcome',1)
-                    // window.db.addData({'id':localStorage.getItem('uuid'),'value':this_.msgs})
                 }
                 setTimeout(() => {
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
@@ -1156,6 +1040,7 @@ export default {
                 this_.setIntervalTime = setInterval(function(){
                     this_.customerLoginer()
                 },2000)
+                this_setIntervalTimeArr.push(this_.setIntervalTime)
             }
         })
         },
@@ -1196,30 +1081,22 @@ export default {
                     this_.busyText = result.data.data
                     this_.humanButtonText = '人工客服'
                     console.log('机器优先模式')
-                    this_.msgs.push({
-                        msg: msg,
-                        //src: msg,
-                        self: false,
-                        imgData:false,
-                        zan:0,
-                        overzan:1,
-                        robotZan:0,
-                        select:[],
-                        selectposition:0,
-                        whether:[],
-                        whetherposition:0,
-                        target:'',
-                        textfold:msg.length>250?true:false,//是否折叠
-                        istextfold:msg.length>250?1:0,//是否显示折叠控制字符
+                    this_.msgs.push({msg: msg, src: '', self: false, imgData:false, zan:0, overzan:1, robotZan:0, select:[],
+                        selectposition:0, whether:[], whetherposition:0, target:'', textfold:msg.length>250?true:false, istextfold:msg.length>250?1:0,
                     });
                     // window.db.addData({'id':localStorage.getItem('uuid'),'value':this_.msgs})
-                    window.db.updateData(localStorage.getItem('uuid'),this_.msgs)
+                    window.db.updateData(window.key,this_.msgs)
                     setTimeout(() => {
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                     }, 0)
                 }
             } else if(result.data.msg == "connect") {
-                clearInterval(this_.setIntervalTime)
+                // clearInterval(this_.setIntervalTime)
+                for (var i = this_.setIntervalTimeArr.length - 1; i >= 0; i--) {
+                    if (typeof this_.setIntervalTimeArr[i] !== 'undefined') {
+                        clearInterval(this_.setIntervalTimeArr[i])
+                    };
+                };
                 this_.busyText = ''
                 this_.inputImg = true
                 this_.huamanOrRobot = true
@@ -1230,28 +1107,14 @@ export default {
                 console.log('欢迎语' + result.data.data.welcome_words)
                 if(this_.priority == 2){
                     this_.humanButton = true
-                    this_.humanButtonText = '取消客服'
+                    this_.humanButtonText = '结束人工'
                 }
                 // let msg = result.data.data.welcome_words;
-                let connectData = {
-                    msg: result.data.data.welcome_words,
-                    //src: result.data.data.welcome_words,
-                    self: false,
-                    zan:0,
-                    overzan:1,
-                    robotZan:0,
-                    imgData:false,
-                    select:[],
-                    selectposition:0,
-                    whether:[],
-                    whetherposition:0,
-                    target:'',
-                    textfold:false,//是否折叠
-                    istextfold:0,//是否显示折叠控制字符
+                let connectData = {msg: result.data.data.welcome_words, src: '', self: false, zan:0, overzan:1, robotZan:0,
+                    imgData:false, select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
                 }
                 this_.msgs.push(connectData);
-                // window.db.addData({'id':localStorage.getItem('uuid'),'value':this_.msgs})
-                window.db.updateData(localStorage.getItem('uuid'),connectData)
+                window.db.updateData(window.key,connectData)
                 setTimeout(() => {
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                 }, 0)
@@ -1278,30 +1141,37 @@ export default {
             let this_ = this
             this_.isOpenSwiper = !this_.isOpenSwiper
         },
+        //切换置顶问题提示框
+        questionControl(){
+            this.isHideSwiper = true
+            this.openShowLinks = false
+            this.isOpenSwiper = true
+        },
+        //切换links控制按钮
+        linksControl(){
+            this.isHideSwiper = true
+            this.isOpenSwiper = false
+            this.openShowLinks = true
+        },
+        //隐藏swiper
+        hideSwiper(){
+            this.isHideSwiper = false
+        },
+        jumpUrl(item){
+            window.location.href = item.personal_url;
+        },
         //关闭选项框
         closeSwipe(){
             let this_ = this
             this_.isOpenSwiper = false
-            //顶起输入框内容
-            // if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
-            //     document.getElementById("foot-contain").setAttribute('style','bottom:0.5rem')
-            // }
+            this_.isHideSwiper = false
             let u = navigator.userAgent;
             let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            console.log(this_.$refs.chattingContent.scrollHeight)
             if(!isiOS){
                 setTimeout(() => {
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                 }, 500)
             }
-            //  解决ios输入框回弹不了问题
-            // if (!isiOS) {
-            //   document.getElementById("chat-contain").setAttribute('style','bottom:3rem')
-            // }
-            // else {
-            //     console.log('电脑端')
-            // }
-            // document.body.scrollTop = document.body.scrollHeight;
         },
         leaveFocus() {
             let this_ = this
@@ -1314,18 +1184,11 @@ export default {
             if (isiOS) {
                 document.activeElement.scrollIntoViewIfNeeded(true);
             }
-            console.log(this_.$refs.chattingContent.scrollHeight)
             if(!isiOS){
                 setTimeout(() => {
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                 }, 500)
             }
-            // if (!isiOS) {
-            //   document.getElementById("foot-contain").setAttribute('style','bottom:0rem')
-            // }
-            // else {
-            //     console.log('电脑端')
-            // }
         },
         //发送选项框消息
         select(msg){
@@ -1336,7 +1199,7 @@ export default {
         selectWhether(msg,index){
           let this_ = this
           this_.msgs[index].whetherposition = 0
-          window.db.editWhetherData(localStorage.getItem('uuid'),index)
+          window.db.editWhetherData(window.key,index)
           this_.sendMessage(msg)
           this_.isOpenSwiper = false
         },
@@ -1363,166 +1226,122 @@ export default {
         //发送消息
         sendMessage(msg){
             let this_ = this
-            let statusData = this_.checkServiceStatus()
-            statusData.then(
-               function(value){
-                    this_.loginStatus = value
-                    console.log('发送消息，重新检测状态：' + this_.loginStatus.msg)
-                    if(this_.loginStatus.msg=="not online"){
-                        console.log('重新判断状态，状态为 = ' + this_.loginStatus.msg)
-                        if(this_.loginStatus.robot_hosting==0){
-                            this_.msgs = this_.msgs || []
-                            let data01 = {
-                                msg: this_.userText || msg,
-                                //src: this_.userText,
-                                self: true,
-                                imgData:false,
-                                zan:0,
-                                overzan:1,
-                                robotZan:0,
-                                select:[],
-                                selectposition:0,
-                                whether:[],
-                                whetherposition:0,
-                                target:'',
-                                textfold:false,//是否折叠
-                                istextfold:0,//是否显示折叠控制字符
+            if(this_.priority == 0){
+                this_.sendRobotMessage(msg)
+            }else{
+                let statusData = this_.checkServiceStatus()
+                statusData.then(
+                   function(value){
+                        this_.loginStatus = value
+                        console.log('发送消息，重新检测状态：' + this_.loginStatus.msg)
+                        if(this_.loginStatus.msg=="not online"){
+                            console.log('重新判断状态，状态为 = ' + this_.loginStatus.msg)
+                            if(this_.loginStatus.robot_hosting==0){
+                                this_.msgs = this_.msgs || []
+                                let data01 = {msg: this_.userText || msg, src: '', self: true, imgData:false, zan:0, overzan:1,
+                                    robotZan:0, select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
+                                }
+                                this_.msgs.push(data01)
+                                setTimeout(() => {
+                                    window.db.updateData(window.key,data01)
+                                    this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
+                                }, 20)
+
+                                this_.greet_msg = this_.loginStatus.data
+                                let data02 = {msg: this_.greet_msg, src: '', self: false, imgData:false, zan:0, overzan:1, robotZan:0, select:[],
+                                    selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
+                                }
+                                this_.msgs.push(data02)
+
+                                setTimeout(() => {
+                                    window.db.updateData(window.key,data02)
+                                    this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
+                                }, 40)
+                                this_.userText=''
+                            }else{
+                                // this_.greet_msg = this_.loginStatus.data
+                                this_.sendRobotMessage(msg)
                             }
-                            this_.msgs.push(data01)
+                        } else {
+                            let inputMsg = msg || this_.userText
+                            console.log('发送消息' + inputMsg)
+                            console.log('是否发送人工消息=' + this_.huamanOrRobot)
+                            if(this_.priority == 1){
+                                if(this_.loginStatus.msg=='connect'){
+                                    console.log('人工客服优先，发送人工客服消息')
+                                    this_.busyText = ''
+                                    this_.inputImg = true
+                                    this_.huamanOrRobot = true
+                                    localStorage.setItem('token', this_.loginStatus.data.token);
+                                    localStorage.setItem('targetId', this_.loginStatus.data.targetId);
+                                    localStorage.setItem('extra', JSON.stringify(this_.loginStatus.data.extra));
+                                    localStorage.setItem('service_name', this_.loginStatus.data.service_name);
+                                    localStorage.setItem('controlWelcome',1)
+                                    this_.controlYongyunMessage = 0
+                                    this_.sendHumanMessage(inputMsg)
+                                }else if(this_.loginStatus.robot_hosting == 1){
+                                    console.log('人工客服优先，发送机器人消息')
+                                    this_.inputImg = false
+                                    this_.sendRobotMessage(inputMsg)
+                                    this_.controlYongyunMessage = 0
+                                }else{
+                                    this_.inputImg = true
+                                    this_.busyText = this_.loginStatus.data
+                                    if(!inputMsg){
+                                        this_.errorType = '输入内容不能为空'
+                                        this_.alertShow = true
+                                        return;
+                                    }
+                                    this_.greet_msg = '您好，您正在排队，请耐心等候...'
+                                    // 客户输入答案
+                                    this_.controlYongyunMessage = 0
+                                    let data01 = {msg:inputMsg, src:'', self: true, imgData:false, zan:0, overzan:1, robotZan:0, select:[],
+                                        selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
+                                    }
+                                    this_.msgs.push(data01)
+                                    setTimeout(() => {
+                                        window.db.updateData(window.key,data01)
+                                        this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
+                                    }, 20)
 
-                            setTimeout(() => {
-                                window.db.updateData(localStorage.getItem('uuid'),data01)
-                                this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
-                            }, 20)
-
-                            this_.greet_msg = this_.loginStatus.data
-                            let data02 = {
-                                msg: this_.greet_msg,
-                                //msg: this_.greet_msg,
-                                self: false,
-                                imgData:false,
-                                zan:0,
-                                overzan:1,
-                                robotZan:0,
-                                select:[],
-                                selectposition:0,
-                                whether:[],
-                                whetherposition:0,
-                                target:'',
-                                textfold:false,//是否折叠
-                                istextfold:0,//是否显示折叠控制字符
+                                    let data02 = {msg:this_.greet_msg, src:'', self: false, imgData:false, zan:0, overzan:1, robotZan:0,
+                                        select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
+                                    }
+                                    this_.msgs.push(data02)
+                                    setTimeout(() => {
+                                        window.db.updateData(window.key,data02)
+                                        this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
+                                    }, 40)
+                                    this_.userText=''
+                                    this_.setIntervalTime = setInterval(function(){
+                                        this_.customerLoginer()
+                                    },2000)
+                                    this_setIntervalTimeArr.push(this_.setIntervalTime)
+                                }
+                            }else if(this_.priority == 2){
+                                if(this_.huamanOrRobot==true){
+                                    console.log('机器人优先，发送人工客服消息')
+                                    this_.busyText = ''
+                                    this_.inputImg = true
+                                    this_.huamanOrRobot = true
+                                    localStorage.setItem('token', this_.loginStatus.data.token);
+                                    localStorage.setItem('targetId', this_.loginStatus.data.targetId);
+                                    localStorage.setItem('extra', JSON.stringify(this_.loginStatus.data.extra));
+                                    localStorage.setItem('service_name', this_.loginStatus.data.service_name);
+                                    localStorage.setItem('controlWelcome',1)
+                                    this_.controlYongyunMessage = 0
+                                    this_.sendHumanMessage(inputMsg)
+                                }else if(this_.huamanOrRobot==false){
+                                    console.log('机器人优先，发送机器人消息')
+                                    this_.inputImg = false
+                                    this_.sendRobotMessage(inputMsg)
+                                    this_.controlYongyunMessage = 0
+                                }
                             }
-                            this_.msgs.push(data02)
-
-                            setTimeout(() => {
-                                window.db.updateData(localStorage.getItem('uuid'),data02)
-                                this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
-                            }, 40)
-                            this_.userText=''
-                        }else{
-                            // this_.greet_msg = this_.loginStatus.data
-                            this_.sendRobotMessage(msg)
                         }
-                    } else {
-                        let inputMsg = msg || this_.userText
-                        console.log('发送消息' + inputMsg)
-                        console.log('是否发送人工消息=' + this_.huamanOrRobot)
-                        if(this_.huamanOrRobot==true || this_.loginStatus.msg=='connect'){
-                            console.log('发送人工客服消息')
-
-                            this_.busyText = ''
-                            this_.inputImg = true
-                            this_.huamanOrRobot = true
-                            localStorage.setItem('token', this_.loginStatus.data.token);
-                            localStorage.setItem('targetId', this_.loginStatus.data.targetId);
-                            localStorage.setItem('extra', JSON.stringify(this_.loginStatus.data.extra));
-                            localStorage.setItem('service_name', this_.loginStatus.data.service_name);
-                            // let msg = this_.loginStatus.welcome_words;
-                            // console.log('欢迎语 = ' + this_.loginStatus.welcome_words)
-                            // // console.log('刷新不需要欢迎语')
-                            // if(localStorage.getItem('controlWelcome') ==1){
-                            //     console.log('曾今拥有的欢迎语')
-                            // }else{
-                            //     console.log('显示第一条欢迎语')
-                            //     this_.msgs.push({
-                            //         msg:  msg,
-                            //         self: false,
-                            //         zan:0,
-                            //         imgData:false
-                            //     });
-                            //     localStorage.setItem('controlWelcome',1)
-                            //     window.db.updateData(localStorage.getItem('uuid'),msg)
-                            // }
-                            localStorage.setItem('controlWelcome',1)
-                            this_.controlYongyunMessage = 0
-                            this_.sendHumanMessage(inputMsg)
-                        }else if(this_.huamanOrRobot==false || this_.loginStatus.robot_hosting == 1){
-                            console.log('发送机器人消息1')
-                            this_.inputImg = false
-                            this_.sendRobotMessage(inputMsg)
-                            this_.controlYongyunMessage = 0
-                        }else{
-                            this_.inputImg = true
-                            this_.busyText = this_.loginStatus.data
-                            if(!inputMsg){
-                                this_.errorType = '输入内容不能为空'
-                                this_.alertShow = true
-                                return;
-                            }
-                            this_.greet_msg = '您好，您正在排队，请耐心等候...'
-                            // 客户输入答案
-                            this_.controlYongyunMessage = 0
-                            let data01 = {
-                                msg:inputMsg,
-                                //src:inputMsg,
-                                self: true,
-                                imgData:false,
-                                zan:0,
-                                overzan:1,
-                                robotZan:0,
-                                select:[],
-                                selectposition:0,
-                                whether:[],
-                                whetherposition:0,
-                                target:'',
-                                textfold:false,//是否折叠
-                                istextfold:0,//是否显示折叠控制字符
-                            }
-                            this_.msgs.push(data01)
-                            setTimeout(() => {
-                                window.db.updateData(localStorage.getItem('uuid'),data01)
-                                this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
-                            }, 20)
-
-                            let data02 = {
-                                msg:this_.greet_msg,
-                                //src:this_.greet_msg,
-                                self: false,
-                                imgData:false,
-                                zan:0,
-                                overzan:1,
-                                robotZan:0,
-                                select:[],
-                                selectposition:0,
-                                whether:[],
-                                whetherposition:0,
-                                target:'',
-                                textfold:false,//是否折叠
-                                istextfold:0,//是否显示折叠控制字符
-                            }
-                            this_.msgs.push(data02)
-                            setTimeout(() => {
-                                window.db.updateData(localStorage.getItem('uuid'),data02)
-                                this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
-                            }, 40)
-                            this_.userText=''
-                            this_.setIntervalTime = setInterval(function(){
-                                this_.customerLoginer()
-                            },2000)
-                        }
-                    }
-               }
-            )
+                   }
+                )
+            }
         },
         //发送机器人消息
         sendRobotMessage(msg){
@@ -1539,24 +1358,12 @@ export default {
               claims_consultation: 'close'
             })
             let userRobot = {
-              msg: this_.userText || selectItem,
-              //src: this_.userText || selectItem,
-              self: true,
-              imgData:false,
-              zan:0,
-              overzan:1,
-              robotZan:0,
-              select:[],
-              selectposition:0,
-              whether:[],
-              whetherposition:0,
-              target:'',
-              textfold:false,//是否折叠
-              istextfold:0,//是否显示折叠控制字符
+              msg: this_.userText || selectItem, src: '', self: true, imgData:false, zan:0, overzan:1, robotZan:0,
+              select:[], selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
             }
             // 客户输入答案
             this_.msgs.push(userRobot)
-            window.db.updateData(localStorage.getItem('uuid'),userRobot)
+            window.db.updateData(window.key,userRobot)
             this_.userText=''
             Vue.axios.post(window.send_url,robotData)
               .then(result => {
@@ -1572,87 +1379,36 @@ export default {
                       let data;
                       if(i == result.msg.position-1){
                         data = {
-                          msg: result.msg.data[i],
-                          //src: result.msg.data[i],
-                          select:result.msg.select,
-                          selectposition:1,
-                          self: false,
-                          imgData:false, //暂时false
-                          zan:0,
-                          overzan:1,
-                          robotZan:0,
-                          whether:[],
-                          whetherposition:0,
-                          target:'',
-                          textfold:result.msg.data[i].length>250?true:false,//是否折叠
-                          istextfold:result.msg.data[i].length>250?1:0,//是否显示折叠控制字符
+                          msg: result.msg.data[i], src: '', select:result.msg.select, selectposition:1, self: false, imgData:false, zan:0, overzan:1,
+                          robotZan:0, whether:[], whetherposition:0, target:'', textfold:result.msg.data[i].length>250?true:false, istextfold:result.msg.data[i].length>250?1:0,
                         }
                       }else{
                         data = {
-                          msg: result.msg.data[i],
-                          //src: result.msg.data[i],
-                          select:[],
-                          selectposition:0,
-                          self: false,
-                          imgData:false, //暂时false
-                          zan:1,
-                          overzan:0,
-                          robotZan:1,
-                          whether:[],
-                          whetherposition:0,
-                          target:'',
-                          textfold:result.msg.data[i].length>250?true:false,//是否折叠
-                          istextfold:result.msg.data[i].length>250?1:0,//是否显示折叠控制字符
+                          msg: result.msg.data[i], src: '', select:[], selectposition:0, self: false, imgData:false, zan:1, overzan:0, robotZan:1, whether:[],
+                          whetherposition:0, target:'', textfold:result.msg.data[i].length>250?true:false, istextfold:result.msg.data[i].length>250?1:0,
                         }
                       }
                       this_.msgs.push(data);
                       _data.push(data);
                       setTimeout(() => {
-                        // window.db.updateData(localStorage.getItem('uuid'),data)
                         this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                       }, 0)
                     }else if(result.msg.hasOwnProperty('whetherposition')){
                       let data;
                       if(i == result.msg.whetherposition-1){
-
                         data = {
-                          msg: result.msg.data[i],
-                          //src: result.msg.data[i],
-                          self: false,
-                          imgData:false, //暂时false
-                          zan:0,
-                          overzan:1,
-                          robotZan:0,
-                          select:[],
-                          selectposition:0,
-                          whether:result.msg.whether,
-                          whetherposition:1,
-                          target:'',
-                          textfold:result.msg.data[i].length>250?true:false,//是否折叠
-                          istextfold:result.msg.data[i].length>250?1:0,//是否显示折叠控制字符
+                          msg: result.msg.data[i], src: '', self: false, imgData:false, zan:0, overzan:1, robotZan:0, select:[],
+                          selectposition:0, whether:result.msg.whether, whetherposition:1, target:'', textfold:result.msg.data[i].length>250?true:false, istextfold:result.msg.data[i].length>250?1:0,
                         }
                       }else{
                           data = {
-                          msg: result.msg.data[i],
-                          //src: result.msg.data[i],
-                          self: false,
-                          imgData:false, //暂时false
-                          zan:0,
-                          overzan:0,
-                          robotZan:0,
-                          select:[],
-                          selectposition:0,
-                          whether:[],
-                          whetherposition:0,
-                          target:'',
-                          textfold:result.msg.data[i].length>250?true:false,//是否折叠
-                          istextfold:result.msg.data[i].length>250?1:0,//是否显示折叠控制字符
+                            msg: result.msg.data[i], src: '', self: false, imgData:false, zan:0, overzan:0, robotZan:0, select:[], selectposition:0,
+                            whether:[], whetherposition:0, target:'', textfold:result.msg.data[i].length>250?true:false, istextfold:result.msg.data[i].length>250?1:0,
                         }
                       }
                       this_.msgs.push(data);
                       _data.push(data);
                       setTimeout(() => {
-                        // window.db.updateData(localStorage.getItem('uuid'),data)
                         this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                       }, 0)
                     }else if(!result.msg.hasOwnProperty('whetherposition') && result.msg.select == undefined){
@@ -1674,49 +1430,24 @@ export default {
                       // }else{
                       if(i==result.msg.data.length-1){
                         data = {
-                          msg: result.msg.data[result.msg.data.length-1],
-                          //src: result.msg.data[i],
-                          self: false,
-                          imgData:false, //暂时false
-                          zan:1,
-                          overzan:0,
-                          robotZan:1,
-                          select:[],
-                          selectposition:0,
-                          whether:[],
-                          whetherposition:0,
-                          target:result.data.target,
-                          textfold:result.msg.data[result.msg.data.length-1].length>250?true:false,//是否折叠
-                          istextfold:result.msg.data[result.msg.data.length-1].length>250?1:0,//是否显示折叠控制字符
+                          msg: result.msg.data[result.msg.data.length-1], src: '', self: false, imgData:false, zan:1, overzan:0, robotZan:1, select:[], selectposition:0,
+                          whether:[], whetherposition:0, target:result.data.target, textfold:result.msg.data[result.msg.data.length-1].length>250?true:false, istextfold:result.msg.data[result.msg.data.length-1].length>250?1:0,
                         }
                       }else{
                         data = {
-                          msg: result.msg.data[i],
-                          //src: result.msg.data[i],
-                          self: false,
-                          imgData:false, //暂时false
-                          zan:0,
-                          overzan:0,
-                          robotZan:0,
-                          select:[],
-                          selectposition:0,
-                          whether:[],
-                          whetherposition:0,
-                          target:result.data.target,
-                          textfold:result.msg.data[i].length>250?true:false,//是否折叠
-                          istextfold:result.msg.data[i].length>250?1:0,//是否显示折叠控制字符
+                          msg: result.msg.data[i], src: '', self: false, imgData:false, zan:0, overzan:0, robotZan:0, select:[], selectposition:0, whether:[],
+                          whetherposition:0, target:result.data.target, textfold:result.msg.data[i].length>250?true:false, istextfold:result.msg.data[i].length>250?1:0,
                         }
                       }
                       // }
                       this_.msgs.push(data);
                       _data.push(data);
                       setTimeout(() => {
-                        // window.db.updateData(localStorage.getItem('uuid'),data)
                         this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                       }, 0)
                     }
                   }
-                  window.db.updateData(localStorage.getItem('uuid'),_data)
+                  window.db.updateData(window.key,_data)
                 }else{
                   let data = {}
                   // if(i==0){
@@ -1739,20 +1470,8 @@ export default {
                     imgSrc = /(?=\<img src\=\").*((https|ftp|http).*)(?=\"\>)/.exec(result.msg.data)[1]
                   }
                   data = {
-                    msg: result.msg.data,
-                    src: imgSrc,
-                    self: false,
-                    imgData:false, //暂时false
-                    zan:1,
-                    overzan:0,
-                    robotZan:1,
-                    select:[],
-                    selectposition:0,
-                    whether:[],
-                    whetherposition:0,
-                    target:result.data.target,
-                    textfold:result.msg.data.length>250?true:false,//是否折叠
-                    istextfold:result.msg.data.length>250?1:0,//是否显示折叠控制字符
+                    msg: result.msg.data, src: imgSrc, self: false, imgData:false, zan:1, overzan:0, robotZan:1, select:[], selectposition:0,
+                    whether:[], whetherposition:0, target:result.data.target, textfold:result.msg.data.length>250?true:false, istextfold:result.msg.data.length>250?1:0,
                   }
                   // }
                   this_.msgs.push(data);
@@ -1761,7 +1480,7 @@ export default {
                     // window.db.updateData(localStorage.getItem('uuid'),data)
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                   }, 0)
-                  window.db.updateData(localStorage.getItem('uuid'),_data)
+                  window.db.updateData(window.key,_data)
                 }
               })
           }else{
@@ -1789,46 +1508,22 @@ export default {
                 // 客户输入答案
                 this_.controlYongyunMessage = 0
                 let data01 = {
-                    msg: msg,
-                    //src: msg,
-                    self: true,
-                    imgData:false,
-                    zan:0,
-                    overzan:1,
-                    robotZan:0,
-                    select:[],
-                    selectposition:0,
-                    whether:[],
-                    whetherposition:0,
-                    target:'',
-                    textfold:false,//是否折叠
-                    istextfold:0,//是否显示折叠控制字符
+                    msg: msg, src: '', self: true, imgData:false, zan:0, overzan:1, robotZan:0, select:[], selectposition:0, whether:[],
+                    whetherposition:0, target:'', textfold:false, istextfold:0,
                 }
                 this_.msgs.push(data01)
                 setTimeout(() => {
-                    window.db.updateData(localStorage.getItem('uuid'),data01)
+                    window.db.updateData(window.key,data01)
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                 }, 20)
                 this_.greet_msg = '您好，您正在排队，请耐心等候...'
                 let data02 = {
-                    msg: this_.greet_msg,
-                    //src: this_.greet_msg,
-                    self: false,
-                    imgData:false,
-                    zan:0,
-                    overzan:1,
-                    robotZan:0,
-                    select:[],
-                    selectposition:0,
-                    whether:[],
-                    whetherposition:0,
-                    target:'',
-                    textfold:false,//是否折叠
-                    istextfold:0,//是否显示折叠控制字符
+                    msg: this_.greet_msg, src: '', self: false, imgData:false, zan:0, overzan:1, robotZan:0, select:[],
+                    selectposition:0, whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
                 }
                 this_.msgs.push(data02)
                 setTimeout(() => {
-                    window.db.updateData(localStorage.getItem('uuid'),data02)
+                    window.db.updateData(window.key,data02)
                     this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
                 }, 40)
                 // this_.sendMessage(msg)
@@ -1839,6 +1534,7 @@ export default {
                     this_.setIntervalTime = setInterval(function(){
                         this_.customerLoginer()
                     },2000)
+                    this_setIntervalTimeArr.push(this_.setIntervalTime)
                 }
                 return;
             } else{
@@ -1859,23 +1555,11 @@ export default {
             }else{
                 console.log('向人工客服发送文字')
                 let data = {
-                    msg: msg,
-                    //src: msg,
-                    self: true,
-                    imgData:false,
-                    zan:0,
-                    overzan:1,
-                    robotZan:0,
-                    select:[],
-                    selectposition:0,
-                    whether:[],
-                    whetherposition:0,
-                    target:'',
-                    textfold:false,//是否折叠
-                    istextfold:0,//是否显示折叠控制字符
+                    msg: msg, src: '', self: true, imgData:false, zan:0, overzan:1, robotZan:0, select:[], selectposition:0,
+                    whether:[], whetherposition:0, target:'', textfold:false, istextfold:0,
                 }
                 this_.msgs.push(data)
-                window.db.updateData(localStorage.getItem('uuid'),data)
+                window.db.updateData(window.key,data)
             }
             console.log('右边聊天数组数据')
             console.log(this_.msgs)

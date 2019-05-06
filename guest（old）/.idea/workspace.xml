@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70b4652e-bc34-4e8d-b7b5-6a2648d27fec" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../ai_cms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ai_cms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat/dist.rar" beforeDir="false" afterPath="$PROJECT_DIR$/../chat/dist.rar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chat/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat/src/components/answer/answer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../chat/src/components/answer/answer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat/src/components/chat/chat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../chat/src/components/chat/chat.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../h5-vue-chat" beforeDir="false" afterPath="$PROJECT_DIR$/../h5-vue-chat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/show.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/show.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/show/aimi.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/show/aimi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/chat.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/show_aimi.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/show_aimi.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -28,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/show_aimi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-304">
-              <caret line="553" column="36" selection-start-line="553" selection-start-column="36" selection-end-line="553" selection-end-column="66" />
+            <state relative-caret-position="305">
+              <caret line="1328" column="74" lean-forward="true" selection-start-line="1328" selection-start-column="74" selection-end-line="1328" selection-end-column="74" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
@@ -47,13 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/show/aimi.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
+            <state relative-caret-position="4575">
               <caret line="183" column="75" selection-start-line="183" selection-start-column="75" selection-end-line="183" selection-end-column="78" />
-              <folding>
-                <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -61,7 +48,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/show.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
+            <state relative-caret-position="18050">
               <caret line="722" column="12" selection-start-line="722" selection-start-column="4" selection-end-line="722" selection-end-column="12" />
             </state>
           </provider>
@@ -70,11 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/chat.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
+            <state relative-caret-position="13150">
               <caret line="526" column="54" selection-start-line="526" selection-start-column="54" selection-end-line="526" selection-end-column="54" />
-              <folding>
-                <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -90,6 +74,7 @@
       <find>display</find>
       <find>display:</find>
       <find>s-button</find>
+      <find>this_</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,7 +112,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,12 +144,13 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../chat" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -196,6 +181,7 @@
       <workItem from="1556181604943" duration="6315000" />
       <workItem from="1556334599032" duration="6356000" />
       <workItem from="1556414368655" duration="13434000" />
+      <workItem from="1556527832735" duration="589000" />
     </task>
     <task id="LOCAL-00001" summary="aimi.tml">
       <created>1553742838814</created>
@@ -208,7 +194,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30510000" />
+    <option name="totallyTimeSpent" value="31099000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -262,39 +248,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/show.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="722" column="12" selection-start-line="722" selection-start-column="4" selection-end-line="722" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/chat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="526" column="54" selection-start-line="526" selection-start-column="54" selection-end-line="526" selection-end-column="54" />
-          <folding>
-            <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/html/show/aimi.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="183" column="75" selection-start-line="183" selection-start-column="75" selection-end-line="183" selection-end-column="78" />
-          <folding>
-            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/show_aimi.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-304">
-          <caret line="553" column="36" selection-start-line="553" selection-start-column="36" selection-end-line="553" selection-end-column="66" />
+        <state relative-caret-position="305">
+          <caret line="1328" column="74" lean-forward="true" selection-start-line="1328" selection-start-column="74" selection-end-line="1328" selection-end-column="74" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
@@ -305,6 +262,27 @@
             <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/show/aimi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4575">
+          <caret line="183" column="75" selection-start-line="183" selection-start-column="75" selection-end-line="183" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/show.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18050">
+          <caret line="722" column="12" selection-start-line="722" selection-start-column="4" selection-end-line="722" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/chat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13150">
+          <caret line="526" column="54" selection-start-line="526" selection-start-column="54" selection-end-line="526" selection-end-column="54" />
         </state>
       </provider>
     </entry>

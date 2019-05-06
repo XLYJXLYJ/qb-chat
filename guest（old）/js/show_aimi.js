@@ -99,17 +99,7 @@ function zan(type, target, isLine) {
 		temp += '<p><span class="flower"></span><span>感谢您的反馈,我们将继续努力</span></p>';
 		temp += '</div>';
 	}
-	// $(".left").eq(-3)
-	// var this_ = $(this);
-	// var helloSay = $(".left").eq(-3)[0].innerText
-	// helloSay = helloSay.substring(helloSay.length-11)
-	// if(helloSay=='请问有什么可以帮助您？'){
-	// 	// $(".left").eq(-3).remove()
-	// 	$(".left").eq(-1).after(
-	// 		$(".left").eq(-3)
-	// 	)
-	// 	connect(this_)
-	// }
+
 	return temp;
 }
 
@@ -445,7 +435,7 @@ function send(msg) {
 							str1 += '</div>';
 							str1 += '</div>';
 							$(".left .text1 .radius").eq(-1).html('<div>'+duolunArr[0]+'</div>');
-							$(".scroll").append(str1);
+							// $(".scroll").append(str1);
 
 							let str2 = '<div class="left">';
 							str2 += '<div class="text1">';
@@ -474,6 +464,7 @@ function send(msg) {
 							str2 += '</div>';
 							str2 += '</div>';
 							$(".scroll").append(str2);
+							updateDataByKey(myDB.db, 'data', robot_url, [duolunArr[0], 'aimi']);
 						}else{
 							var data_ = data.msg.data;
 							var folds = data.msg.folds;
@@ -755,27 +746,28 @@ $(document).on("click", ".radius .option", function() {
 })
 var case_height;
 var chat_height = $(".aimi .chat").height();
-$(document).on("click", ".aimi .question", function() {
-	var this_ = $(this);
-	$(".input input[type='text']").blur();
-	if(this_.hasClass("active")) {
-		this_.removeClass("active");
-		$(".aimi .case").hide();
-		$(".aimi .wrapper").css({
-			height: 'calc(100vh - 3.6rem)'
-		});
 
-		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
-	} else {
-		this_.addClass("active");
-		$(".aimi .case").show();
-		case_height = $(".all-fix").height();
-		$(".aimi .wrapper").css({
-			'height': chat_height - case_height
-		});
-		$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
-	}
+$(document).on("click",".aimi .question",function(){
+	var this_=$(this);
+	$(".input input").blur();
+	$(".aimi .case").show();
+	$(".aimi .personcase").hide();
+	case_height=$(".all-fix").height();
+	$(".aimi .wrapper").css({'height':chat_height-case_height});
+	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
+
 })
+
+$(document).on("click",".aimi .person",function(){
+	var this_=$(this);
+	$(".input input").blur();
+	$(".aimi .case").hide()
+	$(".aimi .personcase").show();;
+	case_height=$(".all-fix").height();
+	$(".aimi .wrapper").css({'height':chat_height-case_height});
+	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
+})
+
 $(".aimi .checkbox_input>div").click(function() {
 	if($(this).children(".checkbox_bg").is(":hidden")) {
 		$(this).children(".checkbox_bg").show()
@@ -808,8 +800,9 @@ $(".input input[type='text']").on("focus", function(e) {
 //	alert('点击')
 	var this_ = this;
 	if($(".aimi .question").hasClass("active")) {
-		$(".aimi .question").removeClass("active");
+		// $(".aimi .question").removeClass("active");
 		$(".aimi .case").hide();
+		$(".aimi .personcase").hide();
 		$(".aimi .wrapper").css({
 			height: 'calc(100vh - 3.6rem)'
 		});
@@ -829,8 +822,9 @@ $(".input input[type='text']").blur(function(){
 })
 $(document).on("click", ".swiper-slide.swiper-slide-active>div", function() {
 	var msg = $(this).text();
-	$(".aimi .question").removeClass("active");
+	// $(".aimi .question").removeClass("active");
 	$(".aimi .case").hide();
+	$(".aimi .personcase").hide();
 	$(".aimi .wrapper").css({
 		height: 'calc(100vh - 3.6rem)'
 	});
@@ -1248,6 +1242,60 @@ String.prototype.endWith = function(endStr) {
 	return(d >= 0 && this.lastIndexOf(endStr) == d);
 }
 window.onload = function() {
+	$(".aimi .personcase").hide();
+	var html =''
+	console.log(extendList.length)
+	if(extendList.length>4){
+		html += '<div class="swiper-slide">' +
+		'<div>' +
+			'<ul>' 
+				for(let i=0;i<4;i++){
+					console.log(extendList[i].personal_url)
+					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					'<li>' +
+						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
+						'<p>' + extendList[i].personal_name + '</p>' +
+					'</li>' +
+					'</a>' 
+				}
+			html +='</ul>' +
+			'</div>' +
+		'</div>'
+		html += '<div class="swiper-slide">' +
+		'<div>' +
+			'<ul>' 
+				for(let i=4;i<extendList.length;i++){
+					console.log(extendList[i].personal_url)
+					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					'<li>' +
+						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
+						'<p>' + extendList[i].personal_name + '</p>' +
+					'</li>' +
+					'</a>' 
+				}
+			html +='</ul>' +
+			'</div>' +
+		'</div>'
+		console.log(html)
+		document.getElementById("swiper-wrapper").innerHTML = html;
+	}else{
+			html += '<div class="swiper-slide">' +
+			'<div>' +
+				'<ul>' 
+				for(let i=0;i<extendList.length;i++){
+					console.log(extendList[i].personal_url)
+					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					'<li>' +
+						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
+						'<p>' + extendList[i].personal_name + '</p>' +
+					'</li>' +
+					'</a>' 
+				}
+			html +='</ul>' +
+			'</div>' +
+		'</div>'
+		document.getElementById("swiper-wrapper").innerHTML = html;
+	}
 	$.ajax({
 		type:"post",
 		url:"/chat/priority", // 判断哪个优先

@@ -8,7 +8,7 @@
         </div>
         <!-- 聊天头结束 -->
         <!-- 聊天窗口开始 -->
-        <div class="chatting-content" id="chattingContent" ref="chattingContent">
+        <div class="chatting-content" id="chattingContent" ref="chattingContent" @click="hideSwiper()">
             <!-- 欢迎语开始 -->
             <transition name="pull-up">
                 <div class="slogon">
@@ -17,7 +17,6 @@
                     <p class="two">{{slogon}}</p>
                 </div>
             </transition>
-
             <!-- 欢迎语结束 -->
             <!-- 左边对话开始 -->
             <div v-for="(item,index) in msgs" :key="index">
@@ -26,29 +25,42 @@
                         <div class="left">
                             <div class="text-content">
                                 <img :src="avatar_small">
-                                    <div :class="item.textfold?'text-fold':'text-unfold'" v-show="!item.imgData && item.msg !== ''" v-html="$options.filters.urlMsg(item.msg)">
-<!--                                  <div class="text" v-show="!item.imgData && item.msg !== ''" v-html="urlMsg(item.msg)">-->
+                                <div :class="item.textfold?'text-fold':'text-unfold'" v-show="!item.imgData && item.msg !== ''" v-html="$options.filters.urlMsg(item.msg)">
+                                <!--<div class="text" v-show="!item.imgData && item.msg !== ''" v-html="urlMsg(item.msg)">-->
+                                </div>
+                                <div class="fold" @click='handleFold(true,index)' v-if="item.msg.length>250 && item.istextfold == 1"> 展开详情 &gt;&gt;&gt;</div>
+                                <div class="fold" @click='handleFold(false,index)' v-if="item.msg.length>250 && item.istextfold == 2"> &lt;&lt;&lt; 收起详情 </div>
+                                <!-- 选择选项 -->
+                                <div class="text-select" v-if="!item.imgData && item.selectposition==1">
+                                    <div v-if="item.selectposition==1">
+                                        <ul>
+                                            <li  v-for="(selectItem,selectIndex) in item.select" :key="selectIndex" @click="select(selectItem)"><img src="../../assets/star.png">{{selectItem}}</li>
+                                        </ul>
                                     </div>
-                                    <div class="fold" @click='handleFold(true,index)' v-if="item.msg.length>250 && item.istextfold == 1"> 展开详情 >>></div>
-                                    <div class="fold"@click='handleFold(false,index)' v-if="item.msg.length>250 && item.istextfold == 2"> <<< 收起详情 </div>
-                                    <div class="text-select" v-if="!item.imgData && item.selectposition==1">
-                                        <div v-if="item.selectposition==1">
-                                            <ul>
-                                                <li  v-for="(selectItem,selectIndex) in item.select" :key="selectIndex" @click="select(selectItem)"><img src="../../assets/star.png">{{selectItem}}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                </div>
+                                <!-- 图片放大 -->
                                 <div class="text" v-show="item.imgData">
                                     <img :src="item.msg" v-if="item.imgData" class="text-img" @click="show(index)">
                                     <div v-transfer-dom>
                                         <previewer :list="msgs" ref="previewer" @on-index-change="logIndexChange"></previewer>
                                     </div>
                                 </div>
+                                <!-- 表格 -->
+                                <div class="table" v-if="item.table==true">
+                                    <table>
+                                        <tr v-for="(itemTable,indexTable) in item.tableDetail" :key="indexTable">
+                                            <th>{{itemTable[0]}}</th>
+                                            <td v-for="(itemTableTd,indexTableTd) in itemTable[1]" :key="indexTableTd">{{itemTableTd}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- 是或者否选项 -->
                                 <div class="whether-ul" v-if="item.whetherposition==1">
                                     <ul>
                                         <li  v-for="(whetherItem,whetherIndex) in item.whether" :key="whetherIndex" @click="selectWhether(whetherItem,index)">{{whetherItem}}</li>
                                     </ul>
                                 </div>
+                                <!-- 结束语 -->
                                 <div class="text-ul" v-if="!item.imgData && item.zan == 1 || item.robotZan == 2 && item.whetherposition == 0 && item.select == [] || item.overzan == 0">
                                     <span v-if=" item.msg !== '以上回答是否解决您的问题?' && item.zan == 1 || item.robotZan == 1 && item.overzan !== 1">以上回答是否解决您的问题?</span>
                                     <span v-if="item.zan ==0 && item.robotZan == 2 || item.overzan == 1">感谢您的反馈,我们将继续努力</span>
@@ -71,15 +83,10 @@
                                     {{item.msg}}
                                 </div>
                                 <div class="text" v-show="item.imgData">
-
-                                    <!-- <img :src="item.msg" class="text-img" @click="rightShow(index)"> -->
-
                                     <img v-if="item.imgData" :src="item.msg" class="text-img" @click="rightShow(index)">
                                     <div v-transfer-dom>
                                         <previewer :list="msgs" ref="rightpreviewer" @on-index-change="logIndexChange"></previewer>
                                     </div>
-
-                                    <!-- <img class="text-img" :src="item.msg"> -->
                                 </div>
                             </div>
                         </div>
@@ -92,26 +99,34 @@
 
         <!-- 聊天尾部开始 -->
         <div class="foot-content" id="foot-contain" ref="foot-contain">
-            <img class="qs" src="../../assets/questionsOne.png" v-if="isOpenquestion && isOpenquestionIcon" @click="swiperControl()">
-            <img class="qs" src="../../assets/questionsTwo.png" v-if="!isOpenquestion && isOpenquestionIcon" @click="swiperControl()">
-            <img class="qs" v-if="!isOpenquestionIcon">
-            <input class="send-text" id="fileImg" type="text" v-model="userText" @focus="closeSwipe()" @blur="leaveFocus()" @keyup.enter="sendMessage()">
-            <input v-if="inputImg" class="picture-input"  ref="file_el" @change="choise_file" type="file" name="file" accept="image/*"/>
-            <img v-if="inputImg" class="picture-input-img" src="../../assets/uploadImg.png">
-            <button  :class="{button01:isbutton,button02:!isbutton}" @click="sendMessage()">发送</button>
-            <!-- 轮播文字开始 -->
-            <swiper  dots-position="center" :show-dots="showDots" v-if="isOpenSwiper == true">
-                <swiper-item class="black">
-                    <ul>
-                        <li v-for="item in qas.slice(0,6)" :key="item" @click="select(item)">{{item}}</li>
-                    </ul>
-                </swiper-item>
-                <swiper-item class="black" v-if="qas.length>6">
-                    <ul>
-                        <li v-for="item in qas.slice(6)" :key="item" @click="select(item)">{{item}}</li>
-                    </ul>
-                </swiper-item>
-            </swiper>
+             <img class="qs" src="../../assets/questions.png" v-if="isOpenquestionIcon" @click="questionControl()">
+             <img class="qs" v-if="!isOpenquestionIcon">
+             <img class="links" src="../../assets/add.png" v-if="isOpenquestionIcon" @click="linksControl()">
+             <img class="qs" v-if="!isOpenquestionIcon">
+             <input class="send-text" id="fileImg" type="text" v-model="userText" @focus="closeSwipe()" @blur="leaveFocus()" @keyup.enter="sendMessage()">
+             <input v-if="inputImg" class="picture-input"  ref="file_el" @change="choise_file" type="file" name="file" accept="image/*"/>
+             <img v-if="inputImg" class="picture-input-img" src="../../assets/uploadImg.png">
+             <button  :class="{button01:isbutton,button02:!isbutton}" @click="sendMessage()">发送</button><!-- 轮播文字开始 -->
+             <div class="swiperList" v-if="isHideSwiper">
+                <swiper  dots-position="center" :show-dots="showDots" v-if="isOpenSwiper">
+                    <swiper-item class="black" v-for="i in Math.ceil(qas.length/6)" :key='i'>
+                        <ul>
+                            <li v-for="item in qas.slice((i-1)*6,(i-1)*6+6)" :key="item" @click="select(item)" >{{item}}</li>
+                        </ul>
+                    </swiper-item>
+                </swiper>
+                <swiper  dots-position="center" :show-dots="showDots" v-else-if="openShowLinks">
+                    <swiper-item class="black" v-for="i in Math.ceil(extendList.length/4)" :key='i'>
+                        <ul class="jumpLinks">
+                            <li v-for="(item,index) in extendList.slice((i-1)*4,(i-1)*4+4)" :key="index" @click="jumpUrl(item)" >
+<!--                                 <img :src="item.personal_image" >-->
+                                <div  :class='item.personal_image'> </div>
+                                <p>{{item.personal_name}}</p>
+                            </li>
+                        </ul>
+                    </swiper-item>
+                </swiper>
+            </div>
             <!-- 轮播文字结束>-->
         </div>
         <!-- 聊天尾部结束 -->
