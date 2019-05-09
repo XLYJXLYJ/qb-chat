@@ -503,22 +503,40 @@ $(document).on("click",".radius>a.option",function(){
 })
 var case_height;
 var chat_height=$(".aimi .chat").height();
+
+var doubleClickQuestion = 0;
+var doubleClickPerson = 0;
 $(document).on("click",".aimi .question",function(){
 	var this_=$(this);
+	console.log(doubleClickQuestion)
+	if(doubleClickQuestion == 1){
+		$(".aimi .case").hide();
+		doubleClickQuestion = 0;
+	}else{
+		$(".aimi .case").show();
+		doubleClickQuestion = 1;
+	}
+	doubleClickPerson = 0;
 	$(".input input").blur();
-	$(".aimi .case").show();
 	$(".aimi .personcase").hide();
 	case_height=$(".all-fix").height();
 	$(".aimi .wrapper").css({'height':chat_height-case_height});
 	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
-
 })
 
 $(document).on("click",".aimi .person",function(){
 	var this_=$(this);
+	console.log(doubleClickPerson)
+	if(doubleClickPerson == 1){
+		$(".aimi .personcase").hide();
+		doubleClickPerson = 0;
+	}else{
+		$(".aimi .personcase").show();
+		doubleClickPerson = 1;
+	}
+	doubleClickQuestion = 0;
 	$(".input input").blur();
-	$(".aimi .case").hide()
-	$(".aimi .personcase").show();;
+	$(".aimi .case").hide();
 	case_height=$(".all-fix").height();
 	$(".aimi .wrapper").css({'height':chat_height-case_height});
 	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
@@ -555,6 +573,8 @@ function scrollToEnd(this_){
 }
 $(".input input").on("focus",function (e) {
 	var this_=this;
+	doubleClickQuestion = 0;
+	doubleClickPerson = 0;
 	if($(".aimi .question").hasClass("active")){
 		// $(".aimi .question").removeClass("active");
 		$(".aimi .case").hide();

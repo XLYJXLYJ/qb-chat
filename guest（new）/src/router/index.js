@@ -9,7 +9,8 @@ export default new Router({
       path: '/',
       name: 'chat',
       component: resolve => require(['@/components/Page/Chat.vue'], resolve)
-    }
+    },
+    {path: '*', redirect: '/'},
   ]
 })
 

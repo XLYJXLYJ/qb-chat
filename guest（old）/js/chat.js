@@ -53,7 +53,6 @@ $(
 						// 	data:{'uuid':uuid,'name':name,'product_id':product_id,'robot_user_id':robot_user_id,'service_id':targetId},
 						// 	async:true,
 						// 	success:function(data){
-
 						// 	}
 						// });
 						timestamp=Date.parse(new Date())
@@ -312,45 +311,6 @@ function startConnect(msg){ // 链接融云
 	    RongIMClient.connect(token, {
 	        onSuccess: function (userId) {
 	        	disconnect = false;
-	        	if(msg){
-		            sendTextMessage(msg);
-	        	}
-	            console.log("Connect successfully." + userId);
-//	            setInterval( sessionTextMessage, 1000 );
-	        },
-	        onTokenIncorrect: function () {
-	            console.log('token无效');
-	        },
-	        onError: function (errorCode) {
-	            var info = '';
-	            switch (errorCode) {
-	                case RongIMLib.ErrorCode.TIMEOUT:
-	                    info = '超时';
-	                    break;
-	                case RongIMLib.ConnectionState.UNACCEPTABLE_PAROTOCOL_VERSION:
-	                    info = '不可接受的协议版本';
-	                    break;
-	                case RongIMLib.ConnectionState.IDENTIFIER_REJECTED:
-	                    info = 'appkey不正确';
-	                    break;
-	                case RongIMLib.ConnectionState.SERVER_UNAVAILABLE:
-	                    info = '服务器不可用';
-	                    break;
-	            }
-	            console.log(errorCode);
-	        }
-	    });
-	}
-
-	function initializationStartConnect(msg){ // 链接融云
-    	name=localStorage.getItem('name');
-    	uuid=localStorage.getItem('uuid');
-		product_id=localStorage.getItem('product_id');
-	 	robot_user_id=localStorage.getItem('robot_user_id');
-	 	token=localStorage.getItem('token');
-	    RongIMClient.connect(token, {
-	        onSuccess: function (userId) {
-	        	// disconnect = false;
 	        	if(msg){
 		            sendTextMessage(msg);
 	        	}
