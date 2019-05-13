@@ -2,7 +2,7 @@
  <div id="chat-contain">
         <alert v-model="alertShow">{{errorType}}</alert>
         <!-- 聊天头开始 -->
-        <div class="head-content">
+        <div class="head-content" id="head-content">
             <div class="busy-line-prompt">{{busyText}}</div>
             <button class="human-answer-button" v-if="humanButton" @click="clickHumanButton()">{{humanButtonText}}</button>
         </div>
@@ -101,7 +101,7 @@
         <div class="foot-content" id="foot-contain" ref="foot-contain">
              <img class="qs" src="../../assets/questions.png" v-if="isOpenquestionIcon" @click="questionControl()">
              <img class="links" src="../../assets/add.png" v-if="isOpenLinkIcon" @click="linksControl()">
-             <input :class="{'send-text':isOpenquestionIcon&&isOpenquestionIcon,'send-text-one':isOpenquestionIcon||isOpenquestionIcon,'send-text-two':!isOpenquestionIcon&&!isOpenquestionIcon}" id="fileImg" type="text" v-model="userText" @focus="closeSwipe()" @blur="leaveFocus()" @keyup.enter="sendMessage()">
+             <input :class="{'send-text':isOpenquestionIcon&&isOpenLinkIcon,'send-text-one':oneShow,'send-text-two':!isOpenquestionIcon&&!isOpenLinkIcon}" id="fileImg" type="text" v-model="userText" @focus="closeSwipe()" @blur="leaveFocus()" @keyup.enter="sendMessage()">
              <input v-if="inputImg" class="picture-input"  ref="file_el" @change="choise_file" type="file" name="file" accept="image/*"/>
              <img v-if="inputImg" class="picture-input-img" src="../../assets/uploadImg.png">
              <button  :class="{button01:isbutton,button02:!isbutton}" @click="sendMessage()">发送</button><!-- 轮播文字开始 -->

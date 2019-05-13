@@ -742,6 +742,11 @@ $(document).on("click",".aimi .question",function(){
 $(document).on("click",".aimi .chat",function(){
 	$(".aimi .case").hide();
 	$(".aimi .personcase").hide();
+	case_height=$(".all-fix").height();
+	doubleClickQuestion = 0;
+	doubleClickPerson = 0;
+	$(".aimi .wrapper").css({'height':chat_height-case_height});
+	$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
 
 })
 
@@ -1117,7 +1122,7 @@ window.onload = function() {
 			'<ul>' 
 				for(let i=0;i<4;i++){
 					console.log(extendList[i].personal_url)
-					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					html += '<a href="' + extendList[i].personal_url + '">' +
 					'<li>' +
 						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
 						'<p>' + extendList[i].personal_name + '</p>' +
@@ -1132,7 +1137,7 @@ window.onload = function() {
 			'<ul>' 
 				for(let i=4;i<extendList.length;i++){
 					console.log(extendList[i].personal_url)
-					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					html += '<a href="' + extendList[i].personal_url + '">' +
 					'<li>' +
 						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
 						'<p>' + extendList[i].personal_name + '</p>' +
@@ -1150,7 +1155,7 @@ window.onload = function() {
 				'<ul>' 
 				for(let i=0;i<extendList.length;i++){
 					console.log(extendList[i].personal_url)
-					html += '<a href="' + extendList[i].personal_url + '" target="_blank">' +
+					html += '<a href="' + extendList[i].personal_url + '">' +
 					'<li>' +
 						'<div class="' + extendList[i].personal_image + ' iconpic"></div>' +
 						'<p>' + extendList[i].personal_name + '</p>' +

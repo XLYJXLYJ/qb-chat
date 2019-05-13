@@ -50,7 +50,8 @@ export default {
             textfold:false,//控制是否折叠
             istextfold:0,//是否显示控制折叠文字
             doubleClickQuestion:0,//双击初始化问题
-            doubleClickPerson:0//双击个性化设置
+            doubleClickPerson:0,//双击个性化设置
+            oneShow:''
         }
     },
     watch: {
@@ -679,33 +680,41 @@ export default {
         }
         if(window.qas.length==0 && window.extendList.length!=0){
             this_.isOpenquestionIcon= false
+            this_.isOpenLinkIcon = true
+            this_.isOpenSwiper = false
+            this_.openShowLinks = true
             this_.isHideSwiper = true
+            this_.oneShow = true
         }
         if(window.extendList.length==0 && window.qas.length!=0){
-            this_.isOpenLinkIcon = false
-            this_.isHideSwiper = true
-        }
-        if(window.qas.length!=0 && window.extendList.length!=0){
             this_.isOpenquestionIcon= true
             this_.isOpenLinkIcon = false
             this_.isHideSwiper = true
+            this_.oneShow = true
+        }
+        if(window.qas.length!=0 && window.extendList.length!=0){
+            this_.isOpenquestionIcon= true
+            this_.isOpenLinkIcon = true
+            this_.isHideSwiper = true
+            this_.isOpenSwiper = true
+            this_.openShowLinks = false
+            this_.oneShow = false
         }
         if(window.qas.length==0 && window.extendList.length==0){
             this_.isOpenquestionIcon= false
             this_.isOpenLinkIcon = false
             this_.isHideSwiper = false
+            this_.oneShow = false
         }
         // document.getElementsByClassName('chatting-content')[0].scrollTop = this_.$refs.chattingContent.scrollHeight
-        // document.getElementById("foot-contain").setAttribute('style','top:-3.45rem')
+        if(this_.IsPC()){
+            document.getElementById("chattingContent").setAttribute('style','border-left: 1px solid #ececec;border-right: 1px solid #ececec;')
+            document.getElementById("head-content").setAttribute('style','border-left: 1px solid #ececec;border-right: 1px solid #ececec;')
+        }
         if(this_.$refs.chattingContent.scrollHeight){
             this_.$refs.chattingContent.scrollTop = this_.$refs.chattingContent.scrollHeight
         }
-        if(window.qas.length == 0){
-            this_.isOpenSwiper = false
-        }
-        if(extendList.length == 0 && window.qas.length == 0){
-            this_.isOpenquestionIcon = false
-        }
+
         let urlLength = window.location.href.length
         let urlStr = window.location.href.slice(0,urlLength-2)
         var stateObject = {};
@@ -728,6 +737,20 @@ export default {
           }
 　　　　},
     methods: {
+        IsPC() {
+            let userAgentInfo = navigator.userAgent;
+            let Agents = ["Android", "iPhone",
+                        "SymbianOS", "Windows Phone",
+                        "iPad", "iPod"];
+            let flag = true;
+            for (let v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        },
         handleFold(ft,index){
             let this_ = this
             this_.msgs[index].textfold = !this_.msgs[index].textfold
@@ -1077,7 +1100,7 @@ export default {
                 this_.setIntervalTime = setInterval(function(){
                     this_.customerLoginer()
                 },2000)
-                this_setIntervalTimeArr.push(this_.setIntervalTime)
+                this_.setIntervalTimeArr.push(this_.setIntervalTime)
             }
         })
         },
@@ -1257,6 +1280,8 @@ export default {
         //隐藏swiper
         hideSwiper(){
             this.isHideSwiper = false
+            this.doubleClickQuestion = 0
+            this.doubleClickPerson = 0
         },
         jumpUrl(item){
             window.location.href = item.personal_url;
@@ -1419,7 +1444,7 @@ export default {
                                     this_.setIntervalTime = setInterval(function(){
                                         this_.customerLoginer()
                                     },2000)
-                                    this_setIntervalTimeArr.push(this_.setIntervalTime)
+                                    this_.setIntervalTimeArr.push(this_.setIntervalTime)
                                 }
                             }else if(this_.priority == 2){
                                 if(this_.huamanOrRobot==true){
@@ -1637,7 +1662,7 @@ export default {
                     this_.setIntervalTime = setInterval(function(){
                         this_.customerLoginer()
                     },2000)
-                    this_setIntervalTimeArr.push(this_.setIntervalTime)
+                    this_.setIntervalTimeArr.push(this_.setIntervalTime)
                 }
                 return;
             } else{
