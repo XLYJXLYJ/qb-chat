@@ -609,6 +609,10 @@ a {
     margin-left: 20px;
     cursor: pointer;
 }
+.new-add {
+    margin-left: 30px;
+    margin-top: 20px;
+}
 
 .condition .file {
     padding: 0 10px;
@@ -1826,7 +1830,7 @@ td.operation {
     border-radius: 0px 0px 10px 10px;
 }
 
-.alert .prompt .prompt_operation .cancel, .alert .prompt .prompt_operation .sure {
+.alert .prompt .prompt_operation .cancel, .alert .prompt .prompt_operation .sure .confirmChoose{
     background-color: #524AE7;
     width: 49.8%;
     float: left;

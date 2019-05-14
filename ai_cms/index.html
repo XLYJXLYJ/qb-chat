@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<link rel="shortcut icon" href="./img/qibao.png" type="image/x-icon"/>
 		<link rel="stylesheet" href="css/common.css" />
 		<style>
 			.conent{
@@ -286,7 +287,7 @@
 							magic_number(msg.month_count,$('.month_answer').prev());
 							magic_number(msg.month_people_count,$('.month_service').prev());
 						}else if(data.errmsg=='用户未登录'){
-							// window.location.href="login.html";
+							 window.location.href="login.html";
 						}	
 					}
 				});
@@ -338,7 +339,7 @@
 							}
 							
 						}else if(data.errmsg=='用户未登录'){
-							// window.location.href="login.html";
+							 window.location.href="login.html";
 						}	
 					}
 					
@@ -383,14 +384,14 @@
 			        data: []
 			    }]
 			};
-			// $.getJSON('/merchant/v1.0/record/hot_words', function(data) {
-			// 	if(data.errmsg=='用户未登录'){
-			// 		window.location.href="login.html";
-			// 	}			
-			// 	data=data.data.hot_words_list;
-			// 	worldCloudoption.series[0].data = data;
-			// 	worldCloudcharts.setOption(worldCloudoption);
-			// })
+			$.getJSON('/merchant/v1.0/record/hot_words', function(data) {
+				if(data.errmsg=='用户未登录'){
+					window.location.href="login.html";
+				}			
+				data=data.data.hot_words_list;
+				worldCloudoption.series[0].data = data;
+				worldCloudcharts.setOption(worldCloudoption);
+			})
 	</script>
 
 	</body>

@@ -311,7 +311,14 @@ function send(msg) {
 			if(disconnect) {
 				startConnect(msg);
 			} else {
-				sendTextMessage(msg);
+				// sendTextMessage(msg);
+				$(".scroll").append("<div class='right'><div class='text'><div>" + msg + "</div></div></div>");
+				$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
+				updateDataByKey(myDB.db, 'data', robot_url, [msg, 'user']);
+				$.post('/easemob/send', {
+					'msg': msg,
+					'key': key,
+				}, function(data) {}, 'json');
 			}
 		} else {
 			$('.send-type').removeClass("active");
@@ -910,35 +917,14 @@ $('.artificial_service').click(function() {
 	// clearInterval(intervalId);
 	//获取当前用户信息
 	if(this_.hasClass('active')) {
-		this_.removeClass('active')
 		this_.text('人工客服');
-		$('.send-type').removeClass('active')
+		this_.removeClass('active')
 		artificial_service = false
-		if($('.aside-wrapper>span').text().length > 0) { //取消排队
-			preRequest.abort();
-			cancle = true;
-			$.ajax({
-				type: "put",
-				url: roy_domain + "/acs/v1.0/customer_login",
-				async: true,
-				data: {
-					'uuid': localStorage.getItem('uuid'),
-					'name': localStorage.getItem('name'),
-					'product_id': localStorage.getItem('product_id'),
-					'robot_user_id': localStorage.getItem('robot_user_id'),
-					'customer_token': localStorage.getItem('token')
-				},
-				success: function(data) {
-					$('.aside-wrapper>span').text("");
-				}
-			})
-		} else { //退出人工客服
-			artificial_service = false;
-			sendTextMessage('592b71f0-b3f8-4f64-bd45-40b35c0191af');
-		}
 	} else {
-		connect(this_)
-
+		// connect(this_)
+		artificial_service = true
+		this_.addClass('active')
+		this_.text('结束人工');
 	}
 })
 
@@ -1473,5 +1459,37 @@ $(document).on('click','.choice',function(){
     }
 })
 
+var time = '';
+ref = setInterval(function(){
+    $.post(message_url, {'key':key,'time': time}, function(data) {
+		time = data.time;
+		var jsonArr = data.data;
+		console.log(jsonArr);
+		for(var i in jsonArr){
+			var str = '<div class="left">';
+			str += '<div class="text1">';
+			str += '<div><img src="' + res_url + avatar_small + '"></div>';
+			str += '<div class="radius">';
+			let content_str = '';
+			if(jsonArr[i].type == 'img'){
+				content_str = '<div class="imgshow" data-pswp-uid="1"><figure><div class="img-dv"><a style="position:static;" index="1" href="' + jsonArr[i].content + '" data-size="'+jsonArr[i].width+'x'+jsonArr[i].height+'"><img src="' + jsonArr[i].content + '"></a></div></figure></div>';
+			}else{
+				content_str = jsonArr[i].content;
+			}
+			str += content_str;
+			str += '</div>';
+			str += '</div>';
+			str += '</div>';
+			$(".scroll").append(str);
+			$('.wrapper').scrollTop($('.scroll')[0].scrollHeight);
+			try {
+				updateDataByKey(myDB.db, 'data', robot_url, [content_str, 'aimi']);
+			} catch(e) {
+
+			}
+		}
+		
+	}, 'json');
+},2000);
 
 

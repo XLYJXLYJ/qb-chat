@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<link rel="shortcut icon" href="./img/qibao.png" type="image/x-icon"/>
 		<link rel="stylesheet" href="css/common.css" />
 		<style>
 			.conent{
@@ -333,7 +334,7 @@
 		</div>
 		<div class="alert">
 			<div class="reset">
-				<form id="reset" method="put" action="/merchant/v2.0/service/service_manage" method="put">
+				<form id="reset" method="put" action="/merchant/v2.0/service/service_manage">
 					<p>信息修改</p>
 					<input type="hidden" name="service_id" />
 					<div>
@@ -344,7 +345,7 @@
 					</div>
 					<div>
 						<label>密码:</label>
-						<input type="text" name="service_password"  placeholder="不需修改可不填" autocomplete="off"/>
+						<input type="text" name="service_password"  placeholder="如无需修改可不用填写" autocomplete="off"/>
 					</div>
 					
 					<div class="bar">
@@ -362,7 +363,7 @@
 					</div>
 					<div>
 						<label>客服名:</label>
-						<input type="text" name="service_name" placeholder="请输入客服名称" nullmsg="请输入客服名" datatype="name" errormsg="长度在1-8位之间(只支持中文和字母)" autocomplete="off"/>
+						<input type="text" name="service_name" placeholder="请输入客服名称" nullmsg="请输入客服名" datatype="name" errormsg="长度在1-8位之间" autocomplete="off"/>
 					</div>
 					<div class="bar">
 						<span class="sure_add">确认新增</span>
@@ -385,7 +386,7 @@
 		<script src="js/common.js"></script>
 		<script src="js/Validform_ncr_min.js"></script>
 		<script type="text/javascript">
-			var regex=/^[\u4e00-\u9fa5_a-zA-Z]{1,8}$/
+			var regex=/^[\u4e00-\u9fa5_a-zA-Z_1-9]{1,8}$/
 			$('.alert .cancel').click(function(){
 				$(".Validform_checktip").text("");
 				$('form input').val("");
@@ -399,11 +400,14 @@
 				$('.alert .remove').hide();
 			})
 			$(document).on("click",".QA_edit",function(){
+				console.log($('.alert .reset input[name="service_id"]').val($(this).data('id')))
+				console.log($(this))
 				$('.alert').show();
 				$('.alert .reset').show();
 				$('form input').val("");
 				$('.alert .add_customer_service').hide();
 				$('.alert .remove').hide();
+				
 				$('.alert .reset input[name="service_id"]').val($(this).data('id'));
 				$('.alert .reset input[name="service_mobile"]').val($(this).data('mobile'));
 				$('.alert .reset input[name="service_name"]').val($(this).data('name'));

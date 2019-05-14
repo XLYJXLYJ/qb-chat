@@ -25,13 +25,15 @@ if(cookie=="not find"){
 	/*if(cookie[1]=="中国人寿保险（海外）股份有限公司"){
 		$('.li_sub').eq(-3).hide();//隐藏销售漏斗
 	}*/
-	if(cookie[2]==2){
+	// cookie[2]不为1时开通了人工客服 typeof(cookie[2])   string
+	if(cookie[2]!=='1'){
 		$('.li_father').eq(3).hide();//隐藏人工客服
+		$('.li_sub').eq(-2).hide();//隐藏客服数据
 		$('.role .special').hide();
 	}
-	if(cookie[2]!==1){
-		$('.li_sub').eq(-2).hide();//隐藏客服数据
-	}
+	// if(cookie[2]!=="1" || cookie[2]!==1){
+	// 	$('.li_sub').eq(-2).hide();//隐藏客服数据
+	// }
 	if(cookie[3]=="0" || cookie[3]==0){
 		$('.li_father').eq(6).hide();//隐藏智能呼叫
 	}
@@ -44,7 +46,7 @@ if(cookie=="not find"){
 			if(window.location.href.indexOf("test") > 0){
 				window.location = "http://test.merchant.qb-tech.net/qt.html#/" 
 			}else{
-				window.location = "http://test.merchant.qb-tech.net/qt.html#/" 
+				window.location = "http://merchant.qb-tech.net/qt.html#/" 
 			}
 		}
 	}
@@ -128,7 +130,7 @@ $('.login_out').click(function(){
 })
 $.ajax({
 	type:"get",
-	url:"/merchant/v2.0/plan_balance",
+	url:"http://merchant.qb-tech.net/merchant/v2.0/plan_balance",
 	async:true,
 	success:function(data){
 		if(data.msg=='ok'){

@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<link rel="shortcut icon" href="./img/qibao.png" type="image/x-icon"/>
 		<link rel="stylesheet" href="css/common.css" />
 		<style>
 			.robot_settings>div{
@@ -343,7 +344,7 @@
 				cookie=cookie.split("&&");
 				$.ajax({
 					type:"get",
-					url:"http://test.merchant.qb-tech.net/merchant/v1.0/user/info",
+					url:"/merchant/v1.0/user/info",
 					async:true,
 					success:function(data){
 						if(data.errmsg=='用户未登录'){

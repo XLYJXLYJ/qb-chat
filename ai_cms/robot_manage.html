@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<link rel="shortcut icon" href="./img/qibao.png" type="image/x-icon"/>
 		<link rel="stylesheet" href="css/common.css"/>
 	</head>
 	<body>
@@ -507,12 +508,10 @@
 									}else{
 										str+='<td><p><span>'+data[i].comment+'</span></p></td>';
 									}
-									
-	
 									str+='<td>';
-									// str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
+								    str+='<a href="Individualization.html?robot_id='+data[i].id+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
 									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>详情</span></a>';
-									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>Q&A配置</span></a>';
+									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>知识库</span></a>';
 									str+='</td>';
 									str+='</tr>';
 								}
