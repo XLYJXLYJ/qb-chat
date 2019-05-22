@@ -1,0 +1,82 @@
+{
+    "aside_list": [
+        {
+            "aside_name": "概况统计",
+            "index":"1",
+            "icon": "el-icon-location",
+            "show": true,
+            "belong": [
+                {
+                    "belong_name": "概况统计",
+                    "index":"/manage/survey"
+                }
+            ]
+        },
+        {
+            "aside_name": "管理中心",
+            "index":"2",
+            "icon": "el-icon-location",
+            "show": true,
+            "belong": [
+                {
+                    "belong_name": "机器人管理",
+                    "index":"/manage/robotManage"
+                }
+            ]
+        },
+        {
+            "aside_name": "用户中心",
+            "index":"3",
+            "icon": "el-icon-location",
+            "show": true,
+            "belong": [
+                {
+                    "belong_name": "套餐/余额管理",
+                    "index":"/manage/packageBalanceManage"
+                },
+                {
+                    "belong_name": "流量/余额管理",
+                    "index":"/manage/flowBalanceManage"
+                }
+            ]
+        },
+        {
+            "aside_name": "数据分析",
+            "index":"4",
+            "icon": "el-icon-menu",
+            "show": true,
+            "belong": [
+                {
+                    "belong_name": "销售漏斗",
+                    "index":"/manage/salesFunnel"
+                },
+                {
+                    "belong_name": "机器人数据",
+                    "index":"/manage/robotData"
+                },
+                {
+                    "belong_name": "客服数据",
+                    "index":"/manage/customerServiceData"
+                }
+            ]
+        },
+        {
+            "aside_name": "人工客服",
+            "index":"5",
+            "icon": "el-icon-document",
+            "show": true,
+            "belong": [
+                {
+                    "belong_name": "客服管理",
+                    "index":"/manage/customerServiceManage"
+                },
+                {
+                    "belong_name": "当天/历史客服工作统计",
+                    "index":"/manage/workStatistics"
+                }
+            ]
+        }
+        
+        
+    ]
+}
