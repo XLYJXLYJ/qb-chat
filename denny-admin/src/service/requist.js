@@ -111,4 +111,26 @@ export default {
         }
         )
     },
+    delete (url, data) {
+        return axios({
+            method: 'delete',
+            baseURL: '/api/',
+            url,
+            data: qs.stringify(data),
+            withCredentials: true,
+            timeout: 10000,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(
+            (response) => {
+                return checkStatus(response)
+            }
+        ).then(
+        (res) => {
+            return checkCode(res)
+        }
+        )
+    },
 }

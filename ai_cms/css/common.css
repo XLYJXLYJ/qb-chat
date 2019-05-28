@@ -2070,3 +2070,55 @@ td.operation {
     display: none;
 }
 
+.newRobot{
+    float: right;
+    margin-right: 100px;
+}
+.newRobot button{
+    padding: 10px;
+    background-color: #524AE7;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    border: none;
+    margin-bottom: 20px;
+}
+.platform-manage-detail{
+    width: 100%;
+}
+.platform-manage-detail ul{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.platform-manage-detail ul li{
+    width: 40%;
+    float: left;
+    display: flex;
+    align-items:center;/*垂直居中*/
+    margin-top: 10px;
+}
+.necessary{
+    margin-left: 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.options{
+    margin-left: 20px;
+    font-size: 16px;
+    margin-top: 40px;
+}
+.product-save{
+    text-align: center;
+    padding: 10px;
+    padding-left: 60px;
+    padding-right: 60px;
+    background-color: #524AE7;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-left: 40%;
+    margin-bottom: 80px;
+    margin-top: 80px;
+}
+

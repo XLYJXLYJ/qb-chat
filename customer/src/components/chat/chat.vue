@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+  import  Qs from 'qs';
   import Bus from '../../bus.js';
   import v_aside from "../aside/aside"
   import v_head from "../head/head"
@@ -159,11 +160,11 @@
       })
 //      this_.environment="http://test.open.qb-tech.net/chat_image/"
       if(window.location.href.indexOf("test") > 0 || window.location.href.indexOf("127.0.0.1") > 0) {
-        this_.environment= "http://test.open.qb-tech.net/chat_image/";
-        this.appkey = "8w7jv4qb829cy";//82hegw5u8ytdx正式  8w7jv4qb829cy测试
+        this_.environment= "http://192.168.1.66:8009";
+        this.appkey = "82hegw5u8xncx";//82hegw5u8ytdx正式  8w7jv4qb829cy测试 82hegw5u8xncx
       }else{
-        this_.environment= "http://open.qb-tech.net/chat_image/";
-        this.appkey = "82hegw5u8ytdx";//82hegw5u8ytdx正式  8w7jv4qb829cy测试
+        this_.environment= "http://192.168.1.66:8009";
+        this.appkey = "82hegw5u8xncx";//82hegw5u8ytdx正式  8w7jv4qb829cy测试
       }
 //      setTimeout(function () {
 //        this_.$ajax.get('/acs/v1.0/service_message').then(res=>{})
@@ -201,6 +202,7 @@
         // 接收到的消息
         onReceived: function (message) {
           // 判断消息类型
+          console.log(message)
           var flag=true;
           switch (message.messageType) {
             case RongIMClient.MessageType.TextMessage:
@@ -676,25 +678,30 @@
       getAnswer(sentence,dialogId,productId,index,sentTime,customer){
         return new  Promise((resolve,reject)=> {
           var this_ = this
-          this_.$ajax({
-            method: "post",
-            url: "/acs/v1.0/robot_answer",///acs http://127.0.0.1:80
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded'
-            },
-            data: {
+          this_.$ajax.post("/acs/v1.0/robot_answer",Qs.stringify({
               'sentence': sentence,
               'dialogId': dialogId,
               'productId':productId
-            },
-            transformRequest: [function (data) {
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-              }
-              return ret
-            }],
-          }).then((res) => {
+            })).then((res) => {
+          // this_.$ajax({
+          //   method: "post",
+          //   url: "/acs/v1.0/robot_answer",///acs http://127.0.0.1:80
+          //   headers: {
+          //     'Content-type': 'application/x-www-form-urlencoded'
+          //   },
+          //   data: {
+          //     'sentence': sentence,
+          //     'dialogId': dialogId,
+          //     'productId':productId
+          //   },
+          //   transformRequest: [function (data) {
+          //     let ret = ''
+          //     for (let it in data) {
+          //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          //     }
+          //     return ret
+          //   }],
+          // }).then((res) => {
             var lAnswer //接受异步数据
             var display_name
             // this_.aplayAudio()
@@ -706,25 +713,29 @@
               this_.robot_uu_id_ = res.data.data.robot_uu_id
               this_.sentTime_ = sentTime
               function getFlowAnswer(robot_answer_,dialogId_,robot_uu_id_){
-                new Promise((resolve,reject)=> {
-                  this_.$ajax({
-                    method: "post",
-                    url: "/acs/v1.0/process_guidance",///acs http://127.0.0.1:80
-                    headers: {
-                      'Content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
+              new Promise((resolve,reject)=> {
+                  //   this_.$ajax({
+                  //   method: "post",
+                  //   url: "/acs/v1.0/process_guidance",///acs http://127.0.0.1:80
+                  //   headers: {
+                  //     'Content-type': 'application/x-www-form-urlencoded'
+                  //   },
+                  //   data: {
+                  //     'dialogId': this_.dialogId_ ,
+                  //     'process_id':this_.process_id_
+                  //   },
+                  //   transformRequest: [function (data) {
+                  //     let ret = ''
+                  //     for (let it in data) {
+                  //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                  //     }
+                  //     return ret
+                  //   }],
+                  // })
+                  this_.$ajax.post("/acs/v1.0/process_guidance",Qs.stringify({
                       'dialogId': this_.dialogId_ ,
                       'process_id':this_.process_id_
-                    },
-                    transformRequest: [function (data) {
-                      let ret = ''
-                      for (let it in data) {
-                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                      }
-                      return ret
-                    }],
-                  }).then((res) => {
+                    })).then((res) => {
                     resolve(res.data)
                     lAnswer = res.data.data
                     display_name = res.data.display_name
@@ -827,23 +838,27 @@
       listenClose(){
         // this.checkActive=!this.checkActive;
         let state=this.state=="上线"? "在线":"不在线"
-        this.$ajax({
-          method:"post",
-          url:"/acs/v1.0/change_service_state",
-          headers:{
-            'Content-type': 'application/x-www-form-urlencoded'
-          },
-          data:{
-            'state':state,
-          },
-          transformRequest: [function (data) {
-            let ret = ''
-            for (let it in data) {
-              ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-            }
-            return ret
-          }],
-        }).then((res)=>{
+        this.$ajax.post('/acs/v1.0/change_service_state',Qs.stringify({
+          'state':state,
+        }))
+        // ({
+        //   method:"post",
+        //   url:"/acs/v1.0/change_service_state",
+        //   headers:{
+        //     'Content-type': 'application/x-www-form-urlencoded'
+        //   },
+        //   data:{
+        //     'state':state,
+        //   },
+        //   transformRequest: [function (data) {
+        //     let ret = ''
+        //     for (let it in data) {
+        //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        //     }
+        //     return ret
+        //   }],
+        // })
+        .then((res)=>{
           if(res.data.data=="客服状态变更成功"){
             this.checkActive=!this.checkActive;
           }else if(res.data.msg=="用户未登录"){
@@ -1011,29 +1026,36 @@
             onSuccess: function (message) {
               //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
               /*  console.log(message);*/
-              this_.$ajax({
-                method:"post",
-                url:"/acs/v1.0/customer_logout",
-                headers:{
-                  'Content-type': 'application/x-www-form-urlencoded'
-                },
-                data:{
+              //   this_.$ajax({
+              //   method:"post",
+              //   url:"/acs/v1.0/customer_logout",
+              //   headers:{
+              //     'Content-type': 'application/x-www-form-urlencoded'
+              //   },
+              //   data:{
+              //     'uuid':data.targetId,
+              //     'name':data.extra[3],
+              //     'product_id':data.extra[4],
+              //     'robot_user_id':data.extra[6],
+              //     'service_id':this_.getCookie('service_id')
+              //   },
+              //   transformRequest: [function (data) {
+              //     let ret = ''
+              //     for (let it in data) {
+              //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+              //     }
+              //     return ret
+              //   }],
+              // })
+              this_.$ajax.post("/acs/v1.0/customer_logout",Qs.stringify({
                   'uuid':data.targetId,
                   'name':data.extra[3],
                   'product_id':data.extra[4],
                   'robot_user_id':data.extra[6],
                   'service_id':this_.getCookie('service_id')
-                },
-                transformRequest: [function (data) {
-                  let ret = ''
-                  for (let it in data) {
-                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                  }
-                  return ret
-                }],
-              }).then((res)=>{
+                })).then((res)=>{
                 this_.removeConversation(targetId);
-              })            }
+              })}
           }
         );
       },

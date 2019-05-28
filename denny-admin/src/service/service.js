@@ -28,6 +28,18 @@ export const delOrRepireRobot = params =>{
 export const getRobot = params => {
     return axios.get('/merchant/v1.0/record/dialogs',params)
 }
+//机器人数据选项
+export const robotNumber = params => {
+    return axios.get('/merchant/v2.0/robot/robot_number',params)
+}
+//机器人导出数据
+export const recordCsv = params => {
+    return axios.get('/merchant/v1.0/record/csv',params)
+}
+//点赞点踩
+export const solveChange = params => {
+    return axios.post('/merchant/v2.0/robot/solve_change',params)
+}
 //客服数据  merchant/v2.0/service/service_record
 export const getCustomer = params => {
     return axios.get('merchant/v2.0/service/service_record',params)
@@ -55,6 +67,19 @@ export const dataType = params =>{
 export const planBalance = params =>{
     return axios.get('merchant/v2.0/plan_balance',params)
 }
+//客服管理 新增客服  merchant/v2.0/service/service_manage
+export const pServiceManage = params =>{
+    return axios.post('merchant/v2.0/service/service_manage',params)
+}
+//客服管理 删除客服  merchant/v2.0/service/service_manage
+export const dServiceManage = params =>{
+    return axios.delete('merchant/v2.0/service/service_manage',params)
+}
+//客服管理 编辑客服  merchant/v2.0/service/service_manage
+export const eServiceManage = params =>{
+    return axios.put('merchant/v2.0/service/service_manage',params)
+}
+
 //登出
 // export const relogin = (params) => {
 //     return axios.post(url,params)

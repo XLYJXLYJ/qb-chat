@@ -9,11 +9,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {//http://test.chat.qb-tech.net/acs
-      '/acs': {
-        target: 'http://test.chat.qb-tech.net/acs ',//http://172.16.3.148:8888/acs
+      '/': {
+        target: 'http://192.168.1.66:8010 ',//http://test.chat.qb-tech.net/acs
         changeOrigin: true,
         pathRewrite: {
-          '^/acs': ''
+          '^/': ''
         }
       }
     },

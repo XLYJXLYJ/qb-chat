@@ -20,18 +20,18 @@
                             <el-radio-button label="left">历史访问</el-radio-button>
                         </el-radio-group>
                     </div>
-                    
+
                 </div>
                 <div class="pie" id="pie" style="height:80%;width:100%">
 
                 </div>
             </div>
-            <div class="serve" > 
+            <div class="serve" >
                 <el-tabs type="border-card">
                     <el-tab-pane label="本天">
                         <div id="bottomTips"  style="width:530px;height:400px">
                             <!-- 用户管理 -->
-                        </div> 
+                        </div>
                     </el-tab-pane>
                     <el-tab-pane label="本周">
                         <div id="bottomTips" style="width:530px;height:350px">
@@ -64,13 +64,13 @@
                             <el-radio-button label="top" class="el-icon-refresh" >换一批</el-radio-button>
                         </el-radio-group>
                     </div>
-                    
+
                 </div>
                 <div class="pie" id="wordcloud" style="height:80%;width:100%">
 
                 </div>
             </div>
-            <div class="serve" style="margin-top:20px"> 
+            <div class="serve" style="margin-top:20px">
                 <el-tabs type="border-card">
                     <el-tab-pane label="今天">
                         <div id="bottomTips"  style="width:530px;height:400px">
@@ -99,7 +99,7 @@
                                 label="地址">
                                 </el-table-column>
                             </el-table>
-                        </div> 
+                        </div>
                     </el-tab-pane>
                     <el-tab-pane label="一周">
                         <div id="bottomTips" style="width:530px;height:350px">
@@ -124,6 +124,7 @@
 </template>
 
 <script>
+    // import {login} from 'service/service'
 var echarts = require('echarts/lib/echarts');
 // 引入柱状图
 require('echarts/lib/chart/bar');
@@ -202,8 +203,8 @@ export default {
                         }
                     }
                 ]
-                        
-                
+
+
             },
             month: {
                 title: {
@@ -240,7 +241,7 @@ export default {
                 yAxis: {
                     type : 'category',
                     data : ['5级', '4级', '3级', '2级', '1级']
-                
+
                 },
                 series: [
                     {
@@ -256,12 +257,12 @@ export default {
                                     ];
                                     return colorList[params.dataIndex]
                                 }
-                                
+
                             }
                         },
                         data: [13, 42, 59, 68, 77]
                     },
-                
+
                 ]
             },
             word:{
@@ -403,7 +404,7 @@ export default {
                 },
                 calculable : true,
                 series : [
-                    
+
                     {
                         name:'面积模式',
                         type:'pie',
@@ -416,7 +417,7 @@ export default {
                             {value:15, name:'3级'},
                             {value:25, name:'4级'},
                             {value:20, name:'5级'},
-                            
+
                         ]
                     }
                 ]
@@ -578,12 +579,35 @@ export default {
                     ]
                 } ]
         }
-        
+
         myChartDay.setOption(this.day)
         myChartMonth.setOption(this.pie)
         wordcloud.setOption(this.word)
-    }
-  
+        // this.jump()
+    },
+    // methods:{
+    //     jump :async function(){
+    //         let res = await login({
+    //             mobile:18320863946,
+    //             password:12345678
+    //         })
+    //         if(res.errcode =='0' && res.errmsg == "登录成功"){
+    //             console.log(res.data)
+    //             localStorage.setItem('useInfo',JSON.stringify(res.data))
+    //             localStorage.setItem('product_id',res.data.product_id),
+    //             this.$router.push({ path: '/platfrom/choosePlatform' })
+    //             this.$message({
+    //                 message: res.errmsg,
+    //                 type: 'success'
+    //             });
+    //         } else {
+    //             this.$message({
+    //                 message: res.errmsg,
+    //                 type: 'fail'
+    //             });
+    //         }
+    //     }
+    // }
 }
 </script>
 
@@ -603,7 +627,7 @@ export default {
             .visit{
                 width: 440px;
                 height: 480px;
-                margin-right:30px; 
+                margin-right:30px;
                 background:rgba(255,255,255,1);
                 border:1px solid rgba(221, 221, 221, 1);
                 .visitHeader{
@@ -623,7 +647,7 @@ export default {
                         .spice{
                             flex:1;
                             display: flex;
-                            margin-bottom:5px; 
+                            margin-bottom:5px;
                             div{
                                 flex: 1
                             }
@@ -650,7 +674,7 @@ export default {
                     box-shadow: none;
                 }
             }
-            
+
         }
     }
 </style>

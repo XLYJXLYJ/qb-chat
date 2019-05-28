@@ -4,21 +4,37 @@
             <el-breadcrumb-item :to="{ path:'/' }">人工客服</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path:'salesFunnel'}">客服管理</el-breadcrumb-item>
         </el-breadcrumb>
-        <el-row> 
-            <el-button type="primary">添加</el-button>
+        <el-row>
+            <el-button type="primary" @click="addCustomer()">添加</el-button>
         </el-row>
+
+        <el-dialog title="新增客服" :visible.sync="dialogFormVisible" width='25%'>
+            <el-form :model="form">
+                <el-form-item label="用户名" :label-width="formLabelWidth">
+                    <el-input v-model="form.phone" aria-placeholder="请输入客服手机号码"></el-input>
+                </el-form-item>
+                <el-form-item label="客服名" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" aria-placeholder="请输入客服名称"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer" style="text-align:center">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="difineAddCustomer()">确 定</el-button>
+            </div>
+        </el-dialog>
+
         <el-table
+            v-loading="loading"
             ref="multipleTable"
             :data="tableData"
             border
             tooltip-effect="dark"
             header-row-class-name='lll'
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-                <el-table-column
-                type="selection"
-                width="55">
-                </el-table-column>
+            style="width: 100%">
+<!--            <el-table-column-->
+<!--            type="selection"-->
+<!--            width="55">-->
+<!--            </el-table-column>-->
             <el-table-column
                 label="排序"
                 type="index"
@@ -59,34 +75,62 @@
                 prop="address"
                 label="操作"
                 >
-                <template >
-                    <el-button type="text" size="small">查看详情</el-button>
-                    <el-button type="text" size="small">查看详情</el-button>
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="editCustomer(scope)">编辑</el-button>
+                    <el-button type="text" size="small" @click="handleDelete(scope)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-dialog title="修改客服" :visible.sync="editDialogFormVisible" width='25%'>
+            <el-form :model="form">
+                <el-form-item label="用户名" :label-width="formLabelWidth">
+                    <el-input v-model="form.resetName" aria-placeholder="请输入客服用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" :label-width="formLabelWidth">
+                    <el-input type='password' v-model="form.resetPassword" aria-placeholder="请输入客服密码"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer" style="text-align:center">
+                <el-button @click="editDialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="difineEditCustomer()">确 定</el-button>
+            </div>
+        </el-dialog>
+
         <el-row>
              <el-pagination
                 background
                 @current-change="handleCurrentChange"
                 :page-size="5"
                 layout="prev, pager, next,jumper"
-                :total='total_num ||100'>
+                :total='total_page'>
             </el-pagination>
         </el-row>
-         
+
     </div>
 </template>
 
 <script>
-import {serviceManage} from 'service/service'
+import {serviceManage,pServiceManage,dServiceManage,eServiceManage} from 'service/service'
 export default {
     data() {
         return {
-            total_num: 6,
-            total_page: 2,
+            total_num: 1,
+            total_page: 1,
             tableData: [],
-            multipleSelection: []
+            multipleSelection: [],
+            isShowAlert:false,//是否显示弹框
+            dialogFormVisible: false,
+            editDialogFormVisible:false,
+            formLabelWidth: '60px',
+            loading:false,
+            editScope:'',
+            form:{
+                name:'',
+                phone:'',
+                resetName:'',
+                resetPassword:''
+            }
         }
     },
     mounted(){
@@ -99,21 +143,82 @@ export default {
                 this.$refs.multipleTable.toggleRowSelection(row);
             });
             } else {
-            this.$refs.multipleTable.clearSelection();
+                this.$refs.multipleTable.clearSelection();
             }
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
         async getServiceManage(val){
+            this.loading = true
            let manageData = await serviceManage({
                 pageSize: val || 1
            })
            if(manageData.msg == 'ok' && manageData.status == '200'){
-               console.log(111)
-               this.tableData = manageData.data
+               this.$nextTick(() => {
+                    this.tableData = manageData.data
+                    this.total_page = manageData.total_page*5
+               })
+               this.loading = false
            }
-
+        },
+        async addCustomer(){
+            this.dialogFormVisible = true
+        },
+        async editCustomer(scope){
+            this.editDialogFormVisible = true
+            this.editScope = scope
+        },
+        async difineAddCustomer(){
+            this.dialogFormVisible = false
+            let resultData = await pServiceManage({
+                service_mobile: this.form.phone,
+                service_name: this.form.name,
+           })
+            if(resultData.msg == 'ok' && resultData.status == '200'){
+                this.$message({
+                    type: 'info',
+                    message: resultData.data
+                });
+            }
+            this.loading = false;
+        },
+        async difineEditCustomer(){
+            this.editDialogFormVisible = false
+            let resultData = await eServiceManage({
+                service_id:this.editScope.row.id,
+                service_password:this.form.resetPassword,
+                // service_mobile: this.form.phone,
+                service_name: this.form.resetName,
+           })
+            if(resultData.msg == 'ok' && resultData.status == '200'){
+                this.$message({
+                    type: 'info',
+                    message: resultData.data
+                });
+                this.$router.go(0)
+            }
+        },
+        handleDelete(scope){
+            let that = this
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(async function(){
+                let resultData = await dServiceManage({
+                    service_id: scope.row.id
+            })
+            if(resultData.msg == 'ok' && resultData.status == '200'){
+                that.$message({
+                    type: 'info',
+                    message: resultData.data
+                });
+            }  
+            })
+        },
+        handleCurrentChange(val){
+            this.getServiceManage(val)
         }
     }
 }
@@ -144,9 +249,9 @@ export default {
 .el-row{
     padding: 20px 40px;
     text-align: right;
-    margin-right:50px; 
+    margin-right:50px;
     .el-button{
-        margin-right:20px; 
+        margin-right:20px;
         padding:10px 20px;
         border-radius:6px;
         opacity: 1;

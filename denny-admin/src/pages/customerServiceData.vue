@@ -7,24 +7,27 @@
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <el-form-item label="筛选:" style="float:left">
                 <el-select v-model="formInline.region" placeholder="按机器人名称筛选">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-option label="按客户评价筛选" value="按客户评价筛选"></el-option>
+                <el-option label="已解决" value="已解决"></el-option>
+                <el-option label="未解决" value="未解决"></el-option>
+                <el-option label="无反馈" value="无反馈"></el-option>
                 </el-select>
             </el-form-item>
              <el-form-item style="float:right">
                 <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-form-item>
              <el-form-item label="" style="float:right">
-                <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 100%;"></el-date-picker>
+                <el-col :span="11" style="margin-right:5px">
+                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-col>
-                <el-col class="line" :span="2">至</el-col>
-                <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date2" style="width: 100%;"></el-date-picker>
+                <el-col class="line" :span="1">至</el-col>
+                <el-col :span="11" style="margin-left:5px">
+                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date2" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-col>
             </el-form-item>
         </el-form>
          <el-table
+            v-loading="loading"
             ref="multipleTable"
             :data="tableData"
             border
@@ -35,7 +38,7 @@
             <el-table-column
                 label="对话组ID"
                 type="index"
-                show-overflow-tooltip=true
+                :show-overflow-tooltip='true'
                 width="100"
                 >
                 <template slot-scope="scope">{{ scope.row.customer_token }}</template>
@@ -59,7 +62,7 @@
             </el-table-column>
             <el-table-column
                 prop="address"
-                show-overflow-tooltip='true'
+                :show-overflow-tooltip='true'
                 label="聊天时常"
                 >
                 <template slot-scope="scope">{{ scope.row.time_length }}</template>
@@ -93,7 +96,7 @@
                 layout="prev, pager, next,jumper"
                 :total='total_num ||100'>
             </el-pagination>
-           
+
         </el-row>
 
             </div>
@@ -109,10 +112,11 @@ export default {
                 data1:'',
                 date2:''
             },
+            loading:false,
             total_num:'',
             total_page:'',
             tableData: [],
-           
+
 
         }
     },
@@ -120,22 +124,30 @@ export default {
         this.getData(1)
     },
     methods: {
-        onSubmit() {
-            console.log('submit!');
+        async onSubmit(val) {
+            this.getData(val)
         },
         handleCurrentChange(val) {
+            console.log(val)
             this.getData(val)
         },
         async getData(val){
+            console.log(typeof(val))
+            if(typeof(val) != 'number'){
+                val = 1
+            }
+            this.loading = true
            let data =await getCustomer({
-                start_date: '',
-                end_date: '',
+                start_date: this.formInline.date1 || '',
+                end_date: this.formInline.date2 || '',
                 p: val || 1,
                 product_id: JSON.parse(localStorage.getItem('useInfo')).product_id,
-                customer_satf: ''
+                customer_satf: this.formInline.region || ''
            })
            if(data.msg=='ok' && data.status == '200'){
                this.tableData = data.data.log_dict_list
+               this.loading = false
+               this.total_num = data.data.total_page
            }
         }
     }
@@ -154,7 +166,7 @@ export default {
             text-align: left;
             margin-top: 20px;
             .el-button{
-                margin-right:20px; 
+                margin-right:20px;
                 padding:10px 20px;
                 border-radius:6px;
                 opacity: 1;
@@ -184,9 +196,9 @@ export default {
         .el-row{
             padding: 20px 40px;
             text-align: right;
-            margin-right:50px; 
+            margin-right:50px;
             .el-button{
-                margin-right:20px; 
+                margin-right:20px;
                 padding:10px 20px;
                 border-radius:6px;
                 opacity: 1;

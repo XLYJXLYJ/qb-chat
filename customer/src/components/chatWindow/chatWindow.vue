@@ -98,7 +98,7 @@
       <span class="picture">
           <input type="file"  name="service_image" ref="referenceUpload"   @change="updateFile">
         </span>
-      <textarea v-model="text" id="textarea"  ref=""    @keyup="keyDown($event)"></textarea>
+      <textarea v-model="text" id="textarea" ref="" @keyup="keyDown($event)"></textarea>
       <span class="send" @click="sent($event)">发送</span>
       <!--</div>-->
     </div>
@@ -106,6 +106,7 @@
   </div>
 </template>
 <script>
+  import Qs from 'qs'
   import Bus from '../../bus.js';
   import v_close from "../close/close"
   import Viewer from 'viewerjs'
@@ -554,26 +555,31 @@
           /*  console.log('编辑前')
             console.log('编辑后'+html)*/
         }
-        if(localStorage.getItem('selectEdit') == 1) {
-          this.$ajax({
-            method: "put",
-            url: "/acs/v1.0/robot_answer",
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded'
-            },
-            data: {
+      if(localStorage.getItem('selectEdit') == 1) {
+          // this.$ajax({
+          //   method: "put",
+          //   url: "/acs/v1.0/robot_answer",
+          //   headers: {
+          //     'Content-type': 'application/x-www-form-urlencoded'
+          //   },
+          //   data: {
+          //     'robot_uu_id':  this.robot_uu_id,
+          //     'modify_content': html,
+          //     'service_send_status':2
+          //   },
+          //   transformRequest: [function (data) {
+          //     let ret = ''
+          //     for (let it in data) {
+          //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          //     }
+          //     return ret
+          //   }],
+          // })
+          this.$ajax.put("/acs/v1.0/robot_answer",Qs.stringify({
               'robot_uu_id':  this.robot_uu_id,
               'modify_content': html,
               'service_send_status':2
-            },
-            transformRequest: [function (data) {
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-              }
-              return ret
-            }],
-          }).then(res => {
+            })).then(res => {
             localStorage.setItem('selectEdit',0)
           })
         }

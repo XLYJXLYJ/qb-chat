@@ -60,8 +60,9 @@
   </div>
 </template>
 <script>
-  import v_aside from "../aside/aside"
-  import v_head from "../head/head"
+  import Qs from 'qs';
+  import v_aside from "../aside/aside";
+  import v_head from "../head/head";
   var timeer;
   export default {
     name:"user",
@@ -170,26 +171,32 @@
           this_.verify_code_errmsg=""
         }
 
-        this_.$ajax({
-          method:"post",
-          url:"/acs/v1.0/reset_password",
-          headers:{
-            'Content-type': 'application/x-www-form-urlencoded'
-          },
-          data:{
+        // this_.$ajax({
+        //   method:"post",
+        //   url:"/acs/v1.0/reset_password",
+        //   headers:{
+        //     'Content-type': 'application/x-www-form-urlencoded'
+        //   },
+        //   data:{
+        //     'mobile':this.mobile,
+        //     'password':this.passwd,
+        //     'password2':this.passwd2,
+        //     'sms_code':this.verify_code
+        //   },
+        //   transformRequest: [function (data) {
+        //     let ret = ''
+        //     for (let it in data) {
+        //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        //     }
+        //     return ret
+        //   }],
+        // })
+        this_.$ajax.post("/acs/v1.0/reset_password",Qs.stringify({
             'mobile':this.mobile,
             'password':this.passwd,
             'password2':this.passwd2,
             'sms_code':this.verify_code
-          },
-          transformRequest: [function (data) {
-            let ret = ''
-            for (let it in data) {
-              ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-            }
-            return ret
-          }],
-        }).then((res)=>{
+          })).then((res)=>{
           if(res.data.errmsg=="修改密码成功"){
             this_.reset_phone();
             this_.success=true;

@@ -462,16 +462,9 @@ function send(msg) {
 											var HQurl=window.location.href;
 											var index = HQurl.lastIndexOf("\/");
 											var str = HQurl.substring(index + 1,HQurl.length);
-											if(str=='HQ001'){
-												for(var m = 0; m < data.msg.select.length; m++) {
-													temp += "<a class='option'><img style='width:.8rem;height:.8rem;position:relative' src='../../img/stat.png'>" + " " + data.msg.select[m] + "</a></br>";
-													last += "<a class='option'><img style='width:.8rem;height:.8rem;position:relative' src='../../img/stat.png'>"  + " " + data.msg.select[m] + "</a></br>";
-												}
-											}else{
-												for(var m = 0; m < data.msg.select.length; m++) {
-													temp += "<a class='option'>" + (m + 1) + "." + data.msg.select[m] + "</a></br>";
-													last += "<a class='option'>" + (m + 1) + "." + data.msg.select[m] + "</a></br>";
-												}
+											for(var m = 0; m < data.msg.select.length; m++) {
+												temp += "<a class='option'><img style='width:.8rem;height:.8rem;position:relative' src='../../img/stat.png'>" + " " + data.msg.select[m] + "</a></br>";
+												last += "<a class='option'><img style='width:.8rem;height:.8rem;position:relative' src='../../img/stat.png'>"  + " " + data.msg.select[m] + "</a></br>";
 											}
 										}
 										if((!claims_consultation || !artificial_service)&& !whether) {

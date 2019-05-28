@@ -46,6 +46,7 @@
 </template>
 <script>
   import Bus from '../../bus.js';
+  import Qs from 'qs';
   export default {
     name: 'answer',
     props: {
@@ -151,25 +152,11 @@
         var target = event.target
         this.robot_balance(target.getAttribute("robot_uu_id"), target.getAttribute("dialogId"));
         Bus.$emit('sent', {data_text: target.getAttribute("data-text"), 'index': this_.index,'a':a})
-        this.$ajax({
-            method: "put",
-            url: "/acs/v1.0/robot_answer",
-            headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
-          },
-          data: {
+        this.$ajax.put( "/acs/v1.0/robot_answer",qs.stringify({
               'robot_uu_id': a.robot_uu_id,
               'modify_content': a.a,
               'service_send_status':1
-          },
-          transformRequest: [function (data) {
-            let ret = ''
-            for (let it in data) {
-              ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-            }
-            return ret
-          }],
-        }).then(res => {
+          })).then(res => {
         })
       },
       sentProcess(event) {
@@ -180,24 +167,30 @@
          Bus.$emit('look', {data_text: target.title, 'index': this_.index})
       },
       robot_balance(robot_uu_id, dialogId) {
-        this.$ajax({
-          method: "post",
-          url: "/acs/v1.0/robot_balance",
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
-          },
-          data: {
+
+        //         this.$ajax({
+        //   method: "post",
+        //   url: "/acs/v1.0/robot_balance",
+        //   headers: {
+        //     'Content-type': 'application/x-www-form-urlencoded'
+        //   },
+        //   data: {
+        //     'robot_uu_id': robot_uu_id,
+        //     'dialogId': dialogId
+        //   },
+        //   transformRequest: [function (data) {
+        //     let ret = ''
+        //     for (let it in data) {
+        //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        //     }
+        //     return ret
+        //   }],
+        // })
+
+        this.$ajax.post("/acs/v1.0/robot_balance",Qs.stingify({
             'robot_uu_id': robot_uu_id,
             'dialogId': dialogId
-          },
-          transformRequest: [function (data) {
-            let ret = ''
-            for (let it in data) {
-              ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-            }
-            return ret
-          }],
-        }).then(res => {
+          })).then(res => {
         })
       },
       Spread(index) {

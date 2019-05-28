@@ -38,15 +38,26 @@
 				        	  	<span>管理中心</span>
 				        	  	<span class="left active"></span>
 				        	</a>
-				            <ul class="show">
-				                <li class="li_sub active">
-				                	<a href="robot_manage.html">
-				                		<span class="icon icon3"></span>
-						        	  	<span>机器人管理</span>
-						        	  
-				                	</a>
-				                </li>
-				            </ul>
+							<ul class="show">
+								<li class="li_sub">
+									<a href="platform_manage.html">
+										<span class="icon icon3"></span>
+										<span>平台管理</span>
+									</a>
+								</li>
+								<li class="li_sub">
+									<a href="robot_manage.html">
+										<span class="icon icon3"></span>
+										<span>机器人管理</span>
+									</a>
+								</li>
+								<li class="li_sub">
+									<a href="product_manage.html">
+										<span class="icon icon3"></span>
+										<span>保险产品管理</span>
+									</a>
+								</li>
+							</ul>
 				        </li>
 				        <li class="li_father">
 				        	<a>
@@ -167,13 +178,16 @@
 					<span></span>
 					<span>机器人管理</span>
 				</p>
+				<div class="newRobot"><a href="new_robot_detail.html"><button>新增机器人</button></a></div>
 				<table class="robot_manage">
 					<thead>
 						<tr>
 							<th>编号</th>
 							<th>机器人名称</th>
-							<th>机器人类型</th>
+							<th>对应保险产品</th>
+							<th>对应平台</th>
 							<th>部署形式</th>
+							<th>部署状态</th>
 							<th>备注</th>
 							<th>操作</th>
 						</tr>	
@@ -479,6 +493,7 @@
 			//merchant/v2.0/robot/robot_manage
 			function paging(pageSize){
 				$('tbody').empty();
+				console.log(cookie[2],pageSize)
 				return  new  Promise(function(resolve,reject){
 					$.ajax({
 						type:"get",
@@ -510,7 +525,7 @@
 									}
 									str+='<td>';
 								    str+='<a href="Individualization.html?robot_id='+data[i].id+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
-									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>详情</span></a>';
+									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>设置</span></a>';
 									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>知识库</span></a>';
 									str+='</td>';
 									str+='</tr>';

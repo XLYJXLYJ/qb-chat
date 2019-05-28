@@ -2,7 +2,7 @@
     <div id="login">
         <div class="login-form">
             <div class="bg">
-                 
+
             </div>
             <div class="form">
                 <el-form :model="form" :rules="rules" ref="ruleForm" >
@@ -78,7 +78,7 @@ export default {
             }
         }
     }
-  
+
 }
 </script>
 
@@ -91,10 +91,10 @@ export default {
         width: 100%;
         overflow: hidden;
         .bg{
-            margin-top:63px; 
+            margin-top:63px;
             width: 100%;
             height: 140px;
-            background: url('../assets/image/robot@2x.png') no-repeat bottom -30px center; 
+            background: url('../assets/image/robot@2x.png') no-repeat bottom -30px center;
             background-size: 108px 140px;
         }
         .form{
@@ -132,8 +132,8 @@ export default {
                         font-size: 14px;
                     }
                 }
-               
-                
+
+
              }
         }
     }

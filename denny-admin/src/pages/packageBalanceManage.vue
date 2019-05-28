@@ -4,7 +4,7 @@
             <el-breadcrumb-item :to="{ path:'/' }">用户中心</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path:'salesFunnel'}">套餐/余额管理</el-breadcrumb-item>
         </el-breadcrumb>
-        <div class="balance">
+        <div class="balance" v-loading="loading">
             <div class="accont-balance">
                  <div class="num">
                      <span style="font-size:50px;color:rgba(107,155,241,1);padding:0 5px;">{{mMan.user_money}}</span>
@@ -32,8 +32,8 @@
         <el-breadcrumb separator="/" style='margin-top:50px'>
             <el-breadcrumb-item >套餐类型</el-breadcrumb-item>
         </el-breadcrumb>
-        <div class="types">
-            <div class="flow" v-for="(value,key) in setType" :key='key' v-if="key<4">
+        <div class="types" v-loading="loading">
+            <div class="flow" v-for="(value,key) in setType" :class="activeClass == key ? 'active' : ''" :key='key' v-if="key<4" @click="bgColor(key,value)" ref="flow">
                 <div style="line-height: 45px;height: 10px;text-indent:10px">{{value.type}}</div>
                 <el-divider></el-divider>
                 <div style="text-align:center">
@@ -46,7 +46,7 @@
         <div class="formList">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item label="对话条数">
-                    <el-input v-model="formInline.user" placeholder="请输入对话条数"></el-input>
+                    <el-input v-model="formInline.user" placeholder="请输入需要购买的对话条数"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">购买</el-button>
@@ -54,13 +54,14 @@
             </el-form>
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item label="充值余额：">
-                    <el-input v-model="formInline.user" placeholder="请输入充值金额"></el-input>
+                    <el-input v-model="formInline.region" placeholder="请输入需要充值的金额"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">购买</el-button>
                 </el-form-item>
             </el-form>
         </div>
+        <p style="color:red;text-align: center;margin-left: -30%;margin-top: 5%;">温馨提示：所有套餐和余额一经购买,无法退款,请按需购买哦</p>
     </div>
 </template>
 
@@ -71,8 +72,10 @@ export default {
         return {
             setType:'',//套餐类型
             mMan:{},//套餐余额数据
+            activeClass:'',//选择套餐颜色
+            loading:false,
             formInline: {
-                user: '',
+                user: 3000,
                 region: ''
             }
         }
@@ -97,6 +100,15 @@ export default {
                 this.mMan = resultData.data[0]
             }
             this.loading = false;
+        },
+        bgColor(key,value){
+            this.activeClass = key
+            if(value.total_num == '自定义'){
+                this.formInline.user = ''
+            }else{
+                this.formInline.user = value.total_num
+            }
+
         },
         onSubmit(){
 
@@ -155,7 +167,7 @@ export default {
         font-weight:400;
         color:rgba(97,97,97,1);
         .flow{
-            width: 250px;
+            width: 240px;
             height: 145px;
             text-align: left;
             background:rgba(255,255,255,1);
@@ -164,15 +176,26 @@ export default {
             box-shadow: 0 0 8px rgba(23, 32, 195, 0.19);
             margin-top:20px;
         }
+        .flow:hover{
+            transform: scale(1.05, 1.05);
+            cursor: pointer;
+        }
+        .active{
+            background: #2E008B;
+            color: #fff;
+            span{
+                color: #fff!important;
+            }
+        }
     }
     .formList{
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         margin-top:80px;
         flex-wrap: nowrap;
-        width: 100%;
+        width: 73%;
         .el-form{
-            margin-right:170px;
+            margin-right:0px;
         }
     }
 }
