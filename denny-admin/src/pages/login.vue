@@ -37,7 +37,7 @@ export default {
             date1: '',
             date2: '',
             delivery: false,
-            type: [],
+            type: true,
             resource: '',
             desc: ''
         },
@@ -55,15 +55,28 @@ export default {
       }
     },
     mounted(){
+            if(JSON.parse(localStorage.getItem('message'))){
+                this.form.name = JSON.parse(localStorage.getItem('message')).name
+                this.form.region = JSON.parse(localStorage.getItem('message')).region
+            }
     },
     methods:{
-        jump :async function(){
+        async jump (){
+           
+            if(this.form.type == true && this.form.name.length>0 && this.form.region.length>0){
+                let params = {
+                    name: this.form.name,
+                    region:this.form.region
+                }
+                localStorage.setItem('message',JSON.stringify(params))
+
+            }
+            
             let res = await login({
                 mobile:this.form.name,
                 password:this.form.region
             })
             if(res.errcode =='0' && res.errmsg == "登录成功"){
-                console.log(res.data)
                 localStorage.setItem('useInfo',JSON.stringify(res.data))
                 this.$router.push({ path: '/platfrom/choosePlatform' })
                 this.$message({

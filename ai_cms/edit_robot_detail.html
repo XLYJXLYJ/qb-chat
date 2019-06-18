@@ -6,18 +6,15 @@
     <title></title>
     <link rel="shortcut icon" href="./img/qibao.png" type="image/x-icon"/>
     <link rel="stylesheet" href="css/common.css"/>
+
+
     <style>
-        .conent {
+        /* .conent {
             font-size: 0;
-        }
+        } */
 
         .robot_settings > div {
             margin-bottom: 20px;
-        }
-
-        .robot_settings > div textarea {
-            display: none;
-            padding: 5px;
         }
 
         .robot_settings > div > span:first-child + p {
@@ -130,14 +127,26 @@
                 <li class="li_father">
                     <a class="active">
                         <span class="icon icon2"></span>
-                        <span>管理中心</span>
-                        <span class="left active"></span>
+                            <span>管理中心</span>
+                            <span class="left active"></span>
                     </a>
                     <ul class="show">
                         <li class="li_sub">
                             <a href="robot_manage.html">
-                                <span class="icon icon3"></span>
+                                <span class="icon icon4"></span>
                                 <span>机器人管理</span>
+                            </a>
+                        </li>
+                        <li class="li_sub">
+                            <a href="platform_manage.html">
+                                <span class="icon icon3"></span>
+                                <span>平台管理</span>
+                            </a>
+                        </li>
+                        <li class="li_sub">
+                            <a href="product_manage.html">
+                                <span class="icon icon5"></span>
+                                <span>保险产品管理</span>
                             </a>
                         </li>
                     </ul>
@@ -281,109 +290,74 @@
         <div class="robots">
             <div class="robot_base_message">
                 <div class="img">
-
+                    <img src="http://open.qb-tech.net/img/aimi-big.png" alt="" style="width: 125px;height:125px;margin-left:30px;">
                 </div>
-                <div class="rightWord">
+                <!-- <div class="rightWord">
                     <span class="robot_name"></span>
                     <span class="robot_code"></span>
                     <span class="robot_type"></span>
                     <span class="deployment_form"></span>
                     <span class="uri"></span>
-                </div>
+                </div> -->
             </div>
+            
             <div class="robot_settings">
-                <div>常用语设置</div>
+                <div>功能设置</div>
                 <span class="product_id"></span>
-                <div class="robot_name">
+                <div class="robot_name" style="display: flex;align-items: center;">
                     <span>平台配置：</span>
                     <p class="welcome_words"></p>
-                    <input type="radio" name="robot_name" value="齐欣">
-                    <input type="radio" name="robot_name" value="聚米">
-                    <input type="radio" name="robot_name" value="惠泽">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                        <span class="edit_text">新增平台</span>
-                    </span>
+                    <select name="platform_name" id="platform_name">
+                        <!-- <option value="齐欣">齐欣</option>
+                        <option value="聚米">聚米</option> -->
+                    </select>
+                    <a href="platform_manage_detail.html?type=0" style="color: #524AE7;margin-left:20px;font-size:16px;">新增平台</a>
                 </div>
-                <div class="welcome">
-                    <span>机器人类型：</span>
-                    <p class="welcome_words"></p>
-                    <input type="radio" name="robot_type" value="咨询机器人">
-                    <input type="radio" name="robot_type" value="理赔咨询机器人">
-                    <input type="radio" name="robot_type" value="销售机器人">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">新增机器人</span>
-                    </span>
-                </div>
-                <div class="wait">
+                <div class="wait" style="display: flex;align-items: center;">
                     <span>保险产品配置：</span>
                     <p class="wait_words"></p>
-                    <input type="radio" name="product_set" value="平安意外险">
-                    <input type="radio" name="product_set" value="平安医疗险">
-                    <input type="radio" name="product_set" value="平安重疾险">
-                    <input type="radio" name="product_set" value="平安意外险">
-                    <input type="radio" name="product_set" value="平安医疗险">
-                    <input type="radio" name="product_set" value="平安重疾险">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">新增保险产品</span>
-                    </span>
+                    <div id="product_set" style="display: flex;align-items: center;">
+                        <!-- <input type="checkbox" name="product_set">1
+                        <input type="checkbox" name="product_set">2
+                        <input type="checkbox" name="product_set">3
+                        <input type="checkbox" name="product_set">4 -->
+                    </div>
+                    <a href="product_manage_detail.html?type=0" style="color: #524AE7;margin-left:20px;font-size:16px;">新增保险产品</a>
                 </div>
-                <div class="timeout">
+                <div class="timeout" style="display: flex;align-items: center;">
                     <span>默认回答保险产品：</span>
                     <p class="wait_words"></p>
-                    <input type="radio" name="product_set" value="平安意外险">
-                    <input type="radio" name="product_set" value="平安医疗险">
-                    <input type="radio" name="product_set" value="平安重疾险">
-                    <input type="radio" name="product_set" value="平安意外险">
-                    <input type="radio" name="product_set" value="平安医疗险">
-                    <input type="radio" name="product_set" value="平安重疾险">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">新增保险产品</span>
-                    </span>
+                    <select name="default_product" id="default_product">
+                        <!-- <option value="齐欣">齐欣</option>
+                        <option value="聚米">聚米</option> -->
+                    </select>
                 </div>
-                <div class="bottom_timeout">
+                <div class="bottom_timeout" style="display: flex;align-items: center;">
                     <span>机器人托管：</span>
                     <p class="timeout_words"></p>
-                    <input type="radio" name="product_set" value="开">
-                    <input type="radio" name="product_set" value="关">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">当开启人工客服优先接待，可设置所有客服发布在线时客户咨询问题机器人是否答复</span>
-                    </span>
+                    <input type="radio" name="robot_mana" value="1">开启
+                    <input type="radio" name="robot_mana" value="0">关闭
                 </div>
-                <div class="comment">
+                <div class="comment" style="display: flex;align-items: center;">
                     <span>关联问题：</span>
                     <p class="timeout_words"></p>
-                    <input type="radio" name="product_set" value="开">
-                    <input type="radio" name="product_set" value="关">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">当打开关联问题开关时，客户咨询问题，机器人给出答案后，在答案的后面还会给出5个关联问题提供客户选择</span>
-                    </span>
+                    <input type="radio" name="robot_ques" value="1">开启
+                    <input type="radio" name="robot_ques" value="0">关闭
                 </div>
-                <div class="comment">
+                <div class="comment" style="display: flex;align-items: center;">
                     <span>闲聊：</span>
                     <p class="timeout_words"></p>
-                    <input type="radio" name="product_set" value="开">
-                    <input type="radio" name="product_set" value="关">
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">当打开闲聊开关时，客户闲聊时(不涉及保险知识时)，机器人会进行答复</span>
-                    </span>
+                    <input type="radio" name="robot_talk" value="1">开启
+                    <input type="radio" name="robot_talk" value="0">关闭
                 </div>
-                <div class="comment">
+                <div class="comment" style="display: flex;align-items: center;">
                     <span>机器人类型：</span>
                     <p class="timeout_words"></p>
-                    <select name="" id="">
-                        <option value=""></option>
+                    <select name="robot_type" id="robot_type">
+                        <option value="理赔机器人">理赔机器人</option>
+                        <option value="销售机器人">销售机器人</option>
+                        <option value="咨询机器人">咨询机器人</option>
                     </select>
-                    <span class="edit">
-                        <span class="edit_icon"></span>
-                    <span class="edit_text">当打开闲聊开关时，客户闲聊时(不涉及保险知识时)，机器人会进行答复</span>
-                    </span>
                 </div>
                 <div class="hosting">
                     <!-- <span class="robot_hosting">机器人托管</span>
@@ -400,6 +374,22 @@
 <script src="js/common.js"></script>
 <script>
     $(function () {
+
+        // var html = '';
+        // var a = 111333;
+        // var b = 222333;
+        // html = '<option value = "'+ a +'">' + a + '</option>'
+        // html += '<option value = "'+ b +'">' + b + '</option>'
+        // $('#platform_name').append(html);
+        // console.log(0)
+
+        // var html2 = ''
+        // var c = 111333666;
+        // var d = 222333666;
+        // html = '<input type="checkbox" name="set_product">'+c
+        // html += '<input type="checkbox" name="set_product">'+d
+        // $('#product_set').append(html);
+
         var str = '';
         var cookie;
         var url = location.search;
@@ -412,56 +402,60 @@
                 temp.push(str[i].split("="))
             }
             //console.log(temp)
-            if (temp[0][0] == "robot_code") {
                 cookie = getCookie('user');
                 cookie = cookie.split("&&");
                 $.ajax({
                     type: "get",
-                    url: "merchant/v2.0/robot/robot_detail",
+                    url: "merchant/v2.0/robot/robot_config",
                     /*  url: "mockJson/xiangqing.json",*/
                     async: true,
-                    data: {'robot_code': temp[0][1], 'product_id': temp[1][1]},
+                    // data: {'robot_id': temp[0][1]},
+                    data: {'robot_id': temp[0][1]},
                     success: function (data) {
                         var html = '';
                         var html1 = '';
+                        var html2 = '';
+                        console.log(data.data)
                         if (data.status == '200') {
-                            data = data.data[0];
-                            if (data.avatar) {
-                                html += '<img src="' + data.avatar + '" />';
-                            } else {
-                                html += '<img src="img/robot.png" />';
+                            for(let i=0;i<data.data.platform_message.length;i++){
+                                html += '<option value = "'+ data.data.platform_message[i].platform_manage_id +'">' + data.data.platform_message[i].platform_manage_name + '</option>'
+                            }
+                            $('#platform_name').append(html);
+
+                            for(let i=0;i<data.data.product_message.length;i++){
+                                html1 += '<input type="checkbox" name="set_product" value = "'+ data.data.product_message[i].product_manage_id +'">' + data.data.product_message[i].product_manage_name
+                            }
+                            $('#product_set').append(html1);
+
+                            for(let i=0;i<data.data.platform_message.length;i++){
+                                html2 += '<option value = "'+ data.data.platform_message[i].platform_manage_id +'">' + data.data.platform_message[i].platform_manage_name + '</option>'
+                            }
+                            $('#default_product').append(html2);
+
+                            if(data.data.robot_hosting == 0){
+                                $("input[name='robot_mana'][value=0]").attr("checked",true); 
+                            }else{
+                                $("input[name='robot_mana'][value=1]").attr("checked",true);
                             }
 
-                            if (data.customer_service_priority == 1) {
-//					var robot_hosting = msg[i].robot_hosting == 0 ? "机器人托管" : "取消托管";
-
-                                if (data.robot_hosting == 0) {
-                                    html1 += '<span class="robot_hosting">' + "机器人托管" + '</span>'
-                                } else {
-                                    html1 += '<span class="robot_hosting active">' + "取消托管" + '</span>'
-                                }
-                                html1 += '<span title="点击机器人托管按钮后，在所有客服不在线时机器人将会自动回复客户。"></span>'
+                            if(data.data.qas == 0){
+                                $("input[name='robot_ques'][value=0]").attr("checked",true); 
+                            }else{
+                                $("input[name='robot_ques'][value=1]").attr("checked",true);
                             }
 
-                            $('.img').append(html);
-                            $('.hosting').append(html1);
-                            $('.rightWord .robot_name').text("机器人名称：" + data.robot_name);
-                            $('.robot_type').text("机器人类型：" + data.robot_type);
-                            $('.robot_code').text("机器人编号：" + data.robot_code);
-                            $('.deployment_form').text("部署形式：" + data.deployment_form);
-                            $('.uri').text("链接地址：" + data.uri);
-                            $(".product_id").text(data.product_id);
-                            $(".welcome_words").text(data.welcome_words);
-                            $(".wait_words").text(data.wait_words);
-                            $(".timeout_words").text(data.timeout_words);
-                            $(".weight").text(data.comment)
+                            if(data.data.gossip == 0){
+                                $("input[name='robot_talk'][value=0]").attr("checked",true); 
+                            }else{
+                                $("input[name='robot_talk'][value=1]").attr("checked",true);
+                            }
 
                         } else if (data.errmsg == '用户未登录') {
                             window.location.href = "login.html";
                         }
                     }
                 });
-            }
+
         }
         $(".comment .edit").click(function () {
             var this_ = $(this)
@@ -472,44 +466,34 @@
             }
         })
         $('.save').click(function () {
-            var text = $('.comment textarea').val();//备注内容
-            var welcome_words = $(".welcome textarea").val();//欢迎语
-            var wait_words = $(".wait textarea").val();//结束语
-            var timeout_words = $(".timeout textarea").val();//超时语
-            var robot_hosting = $('.robot_hosting').hasClass('active') ? 1 : 0;//机器人是否托管
-            if ($.trim(text).length > 100) {
-                alert('限100字以内');
-                return false;
-            }
-            if ($.trim(text).length <= 0) {
-                alert('备注不能为空');
-                return false;
-            }
-            if ($.trim(welcome_words).length <= 0) {
-                alert('请输入欢迎语');
-                return false;
-            }
-            if ($.trim(wait_words).length <= 0) {
-                alert('请输入等待答复语');
-                return false;
-            }
-            if ($.trim(timeout_words).length <= 0) {
-                alert('请输入超时结束语');
-                return false;
-            }
+            var product_set = []
+            var platform_name = $('#platform_name').val();
+            var robot_type = $("#robot_type").val();
+            var chk_value =[]; 
+            $('input[name="set_product"]:checked').each(function(){ 
+                chk_value.push($(this).val()); 
+            }); 
+            chk_value = chk_value.toString()
+            var default_product = $("#default_product").val();
+            var faq = $("input[name='robot_ques']:checked").val();
+            var gossip = $("input[name='robot_talk']:checked").val();;
+            var robot_hosting = $("input[name='robot_mana']:checked").val();;
             $.ajax({
                 type: "post",
-                url: "merchant/v2.0/robot/robot_detail",
+                url: "merchant/v2.0/robot/robot_config",
                 /* url: "mockJson/xiangqing.json",*/
                 async: true,
+                // traditional: "true",
                 data: {
-                    'robot_code': temp[0][1],
-                    'product_id': temp[1][1],
-                    'comment': text,
-                    'welcome_words': welcome_words,
-                    'wait_words': wait_words,
-                    'timeout_words': timeout_words,
-                    'robot_hosting': robot_hosting
+                    robot_id:temp[0][1],
+                    platform_manage_id:platform_name,
+                    // robot_status:0,
+                    robot_type:robot_type,
+                    product_manage_id:chk_value,
+                    default_product:default_product,
+                    robot_hosting:robot_hosting,
+                    faq:faq,
+                    gossip:gossip,
                 },
                 success: function (data) {
                     if (data.data == '备注信息更新成功') {

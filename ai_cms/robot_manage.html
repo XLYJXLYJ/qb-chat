@@ -33,12 +33,18 @@
 				        	</a>
 				        </li>
 				        <li class="li_father">
-				        	<a class="active">
+				        	<a>
 				        		<span class="icon icon2"></span>
 				        	  	<span>管理中心</span>
 				        	  	<span class="left active"></span>
 				        	</a>
 							<ul class="show">
+								<li class="li_sub">
+									<a href="robot_manage.html">
+										<span class="icon icon4"></span>
+										<span>机器人管理</span>
+									</a>
+								</li>
 								<li class="li_sub">
 									<a href="platform_manage.html">
 										<span class="icon icon3"></span>
@@ -46,14 +52,8 @@
 									</a>
 								</li>
 								<li class="li_sub">
-									<a href="robot_manage.html">
-										<span class="icon icon3"></span>
-										<span>机器人管理</span>
-									</a>
-								</li>
-								<li class="li_sub">
 									<a href="product_manage.html">
-										<span class="icon icon3"></span>
+										<span class="icon icon5"></span>
 										<span>保险产品管理</span>
 									</a>
 								</li>
@@ -182,7 +182,7 @@
 				<table class="robot_manage">
 					<thead>
 						<tr>
-							<th>编号</th>
+							<!-- <th>编号</th> -->
 							<th>机器人名称</th>
 							<th>对应保险产品</th>
 							<th>对应平台</th>
@@ -493,7 +493,6 @@
 			//merchant/v2.0/robot/robot_manage
 			function paging(pageSize){
 				$('tbody').empty();
-				console.log(cookie[2],pageSize)
 				return  new  Promise(function(resolve,reject){
 					$.ajax({
 						type:"get",
@@ -502,30 +501,43 @@
 						data:{'product_id':cookie[2],'pageSize':pageSize},
 					}).done((data)=>{
 						if(data.status=='200'){
-							var size= data.total_num%5==0 ? data.total_num/5: parseInt(data.total_num/5)+1;
-							data=data.data;
-							console.log(data)
+							var size= data.data.total_num%5==0 ? data.data.total_num/5: parseInt(data.data.total_num/5)+1;
+							data=data.data.all_robot;
 							$('.footer').show();
 							var temp
 							if(data.length>0){
 								var str='';
 								var temp="";
 								var title="";
+								var product_manage_n = []
 								for(var i=0;i<data.length;i++){
 									str+='<tr>';
-									str+='<td>'+data[i].robot_code+'</td>';
-									str+='<td>'+data[i].robot_name+'</td>';
-									str+='<td>'+data[i].robot_type+'</td>';
-									str+='<td>'+data[i].deployment_form+'</td>';
-									if(data[i].comment&&data[i].comment.length>20){
-										temp=data[i].comment.substring(0,20);
-										str+='<td><p><span title="'+data[i].comment+'">'+temp+'...</span></p></td>';
+									// str+='<td>'+data[i].robot_code+'</td>';
+									if(data[i].robot_name==null){
+										str+='<td> — </td>';
 									}else{
-										str+='<td><p><span>'+data[i].comment+'</span></p></td>';
+										str+='<td>'+data[i].robot_name+'</td>';
 									}
+									for(let j=0;j<data[i].product_manage.length;j++){
+										product_manage_n.push(data[i].product_manage[j].product_manage_name)
+									}
+									str+='<td>'+product_manage_n.join(' ')+'</td>';
+									str+='<td>'+data[i].platform_manage.platform_manage_name+'</td>';
+									str+='<td>'+data[i].deployment_form+'</td>';
+									str+='<td>'+data[i].robot_status+'</td>';
+									if(data[i].comment==null){
+										str+='<td> — </td>';
+									}else{
+										str+='<td>'+data[i].comment+'</td>';
+									}
+									
 									str+='<td>';
-								    str+='<a href="Individualization.html?robot_id='+data[i].id+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
-									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>设置</span></a>';
+								    str+='<a href="Individualization.html?robot_id='+data[i].robot_id+'&robot_id='+data[i].robot_id+'"><span>个性化设置</span></a>';
+									if(data[i].robot_status == '已完成'){
+										str+='<a href="detail.html?robot_code='+data[i].robot_code+'&robot_id='+data[i].robot_id+'"><span>修改设置</span></a>';
+									}else{
+										str+='<a href="detail.html?robot_code='+data[i].robot_code+'&robot_id='+data[i].robot_id+'"><span>继续设置</span></a>';
+									}
 									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>知识库</span></a>';
 									str+='</td>';
 									str+='</tr>';

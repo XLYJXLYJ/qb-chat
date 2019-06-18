@@ -672,6 +672,7 @@ table, th, td {
 
 .footer {
     margin-top: 30px;
+    margin-right: 30px;
     float: right;
     overflow: auto;
     font-size: 15px;
@@ -2089,7 +2090,7 @@ td.operation {
 .platform-manage-detail ul{
     display: flex;
     justify-content: space-around;
-    width: 100%;
+    width: 90%;
 }
 .platform-manage-detail ul li{
     width: 40%;
@@ -2097,6 +2098,10 @@ td.operation {
     display: flex;
     align-items:center;/*垂直居中*/
     margin-top: 10px;
+    justify-content: flex-end;
+}
+.platform-manage-detail ul li textarea{
+    resize: vertical;
 }
 .necessary{
     margin-left: 20px;
@@ -2117,8 +2122,44 @@ td.operation {
     border-radius: 5px;
     color: white;
     border: none;
-    margin-left: 40%;
-    margin-bottom: 80px;
-    margin-top: 80px;
+    margin-left: 42%;
+    margin-bottom: 40px;
 }
-
+.product-save-three-button{
+    text-align: center;
+    padding: 10px;
+    padding-left: 60px;
+    padding-right: 60px;
+    background-color: #524AE7;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-left: 42%;
+    margin-bottom: 40px;
+}
+.product-save-two{
+    text-align: center;
+    padding: 10px;
+    padding-left: 60px;
+    padding-right: 60px;
+    background-color: #524AE7;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-left: 41%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.product-save-three{
+    text-align: center;
+    padding: 10px;
+    padding-left: 60px;
+    padding-right: 60px;
+    background-color: #524AE7;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-left: 40%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}

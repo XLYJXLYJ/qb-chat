@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="shortcut icon" href="./img/qibao.png" type="image/x-icon"/>
+		<link rel="stylesheet" href="css/common.css"/>
+	</head>
+	<body>
+		<div id="count">
+			<div class="top">
+				<span>当前位置:<span class="current">管理中心</span><span>></span><span>保险产品管理</span><span>></span><span class="active">新增保险产品</span></span>
+				<span>
+					<a href='user.html'><span class="user"></span><span class="username"></span><span class="insured_company"></span></a>
+					<span class="login_out">退出</span>
+				</span>	
+				
+			</div>
+			<div class="aside">
+				<div class="logo">
+					<div>
+						<div>企保科技</div>
+						<p>科技连接保险未来</p>
+					</div>
+				</div>
+				<div class="list">
+					<ul>
+				        <li class="li_father">
+				        	<a href="index.html">
+				        	  	<span class="icon icon1"></span>
+				        	  	<span>概况统计</span>
+				        	  	<!--<span class="left active"></span>-->
+				        	</a>
+				        </li>
+				        <li class="li_father">
+				        	<a class="active">
+				        		<span class="icon icon2"></span>
+				        	  	<span>管理中心</span>
+				        	  	<span class="left active"></span>
+				        	</a>
+							<ul class="show">
+								<li class="li_sub">
+									<a href="robot_manage.html">
+										<span class="icon icon4"></span>
+										<span>机器人管理</span>
+									</a>
+								</li>
+								<li class="li_sub">
+									<a href="platform_manage.html">
+										<span class="icon icon3"></span>
+										<span>平台管理</span>
+									</a>
+								</li>
+								<li class="li_sub">
+									<a href="product_manage.html">
+										<span class="icon icon5"></span>
+										<span>保险产品管理</span>
+									</a>
+								</li>
+							</ul>
+				        </li>
+				        <li class="li_father">
+				        	<a>
+				        		<span class="icon icon7"></span>
+				        	  	<span>用户中心</span>
+				        	  	<span class="left"></span>
+				        	</a>
+				        	<ul>
+				                <li class="li_sub">
+			                		<a href="user.html">
+				                		<span class="icon icon8"></span>
+				        	  			<span>基本设置</span>
+				                	</a>
+				                </li>
+				                <li class="li_sub">
+				                	<a href="manage.html">
+				                		<span class="icon icon9"></span>
+				        	  			<span>套餐&余额管理</span>
+				        	  			<sup></sup>
+				                	</a>
+				                </li>
+			                	<li class="li_sub">
+				                	<a href="order.html ">
+				                		<span class="icon icon10"></span>
+				        	  			<span>流量订单管理</span>
+				                	</a>
+				                </li>
+				                <li class="li_sub">
+				                	<a href="balance_order_management.html">
+				                		<span class="icon icon15"></span>
+				        	  			<span>余额订单管理</span>
+				                	</a>
+				                </li>
+				               
+				            </ul>
+				        </li>
+				        <li class="li_father">
+				        	<a>
+				        	  	<span class="icon icon13"></span>
+				        	  	<span>人工客服</span>
+				        	  	<span class="left"></span>
+				        	</a>
+				        	<ul>
+				                <li class="li_sub" >
+				                	<a href="customer_service_manage.html">
+				                		<span class="icon icon12"></span>
+				        	  			<span>客服管理</span>
+				                	</a>
+				                </li>
+				                <li class="li_sub">
+				                	<a href="work_statistics.html">
+				                		<span class="icon icon14"></span>
+				        	  			<span>历史客服工作统计</span>
+				                	</a>
+				                </li>
+				                <li class="li_sub">
+				                	<a href="the_day_work_statistics.html">
+				                		<span class="icon icon16"></span>
+				        	  			<span>当天客服工作统计</span>
+				                	</a>
+				                </li>
+				            </ul>
+				        </li>
+						<li class="li_father">
+							<a>
+								<span class="icon icon17"></span>
+								<span>数据分析</span>
+								<span class="left"></span>
+							</a>
+							<ul>
+								<li class="li_sub">
+									<a href="data_statistics.html">
+										<span class="icon icon18"></span>
+										<span>销售漏斗</span>
+									</a>
+								</li>
+								<li class="li_sub">
+									<a href="robotData.html">
+										<span class="icon icon6"></span>
+										<span>机器人数据</span>
+									</a>
+								</li>
+								<li class="li_sub">
+									<a href="serviceData.html">
+										<span class="icon icon20"></span>
+										<span>客服数据</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="li_father show_none" style="margin-left:8px;">
+							<a>
+								<span><img src="./img/qt01.png"></span>
+								<span>智能质检</span>
+								<span class="left"></span>
+							</a>
+							<ul>
+								<li class="li_sub">
+									<a href="qt.html" target="_blank">
+										<span><img src="./img/qt02.png"></span>
+										<span>语音质检</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="li_father">
+							<a class="callBtn">
+								<span class="icon icon19"></span>
+								<span>智能呼叫中心</span>
+								<!--<span class="left active"></span>-->
+							</a>
+						</li>
+				    </ul>
+				</div>
+			</div>
+			<div class="conent platform-manage-detail">
+				<p class="conent_title">
+					<span></span>
+					<span>新增产品</span>
+				</p>
+				<form action="">
+					<div class="necessary">保险产品相关(填写类)</div>
+					<ul>
+						<li>付款方式：<textarea name="payment_terms" id="payment_terms" cols="50" rows="3"></textarea></li>
+						<li>诉讼时效：<textarea name="statute_limit" id="statute_limit" cols="50" rows="3"></textarea></li>
+					</ul>
+					<ul>
+						<li>保单获取方式：<textarea name="policy_ccess" id="policy_ccess" cols="50" rows="3"></textarea></li>
+						<li>投保资料：<textarea name="insurance_information" id="insurance_information" cols="50" rows="3"></textarea></li>
+					</ul>
+					<ul>
+						<li>投保的社保要求：<textarea name="social_security_reuire" id="social_security_reuire" cols="50" rows="3"></textarea></li>
+						<li>受益人说明：<textarea name="beneficiary_statement" id="beneficiary_statement" cols="50" rows="3"></textarea></li>
+					</ul>
+					<ul>
+						<li>被投保人与投保人关系限制：<textarea name="relationship_limit" id="relationship_limit" cols="50" rows="3"></textarea></li>
+						<li>缴费期间和次数：<textarea name="payment_period" id="payment_period" cols="50" rows="3"></textarea></li>
+					</ul>
+					<ul>
+						<li>被保险人国籍限制：<textarea name="nationality" id="nationality" cols="50" rows="3"></textarea></li>
+						<li>能否减额交清：<textarea name="deduction_cleared" id="deduction_cleared" cols="50" rows="3"></textarea></li>
+					</ul>
+					<ul>
+					    <li>承保职业类别：<textarea name="professional_cateory" id="professional_cateory" cols="50" rows="3"></textarea></li>
+						<li>投保基本要求：<textarea name="basic_requirement" id="basic_requirement" cols="50" rows="3"></textarea></li>
+					</ul>
+					<ul>
+						<li>续保政策：<textarea name="insurance_policy" id="insurance_policy" cols="50" rows="3"></textarea></li>
+						<li></li>
+					</ul>
+						<div class="options">保险产品相关(选项类)</div>
+					<ul>
+						<li>保单：
+							<select name="insurance_policy_form" id="insurance_policy_form">
+								<option value="纸质保单">纸质保单</option>
+								<option value="电子保单">电子保单</option>
+							</select>
+						</li>
+						<li>投保人性质：
+							<select name="applicant_nature" id="applicant_nature">
+								<option value="个人">个人</option>
+								<option value="企业">企业</option>
+							</select>
+						</li>
+
+					</ul>
+					<ul>
+						<li>发票：
+							<select name="invoice_form" id="invoice_form">
+								<option value="纸质发票">纸质发票</option>
+								<option value="电子发票">电子发票</option>
+							</select>
+						</li>
+						<li>可否续保：
+							<select name="renewal" id="renewal">
+								<option value="可以">可以</option>
+								<option value="不可以">不可以</option>
+							</select>
+						</li>
+					</ul>
+
+					<ul>
+						<li>承保年龄区间：
+							<select name="insured_age01" id="insured_age01">
+								<option value="1岁">1岁</option>
+								<option value="2岁">2岁</option>
+								<option value="3岁">3岁</option>
+								<option value="4岁">4岁</option>
+								<option value="5岁">5岁</option>
+								<option value="6岁">6岁</option>
+								<option value="7岁">7岁</option>
+								<option value="8岁">8岁</option>
+								<option value="9岁">9岁</option>
+								<option value="10岁">10岁</option>
+								<option value="11岁">11岁</option>
+								<option value="12岁">12岁</option>
+								<option value="13岁">13岁</option>
+								<option value="14岁">14岁</option>
+								<option value="15岁">15岁</option>
+								<option value="16岁">16岁</option>
+								<option value="17岁">17岁</option>
+								<option value="18岁">18岁</option>
+								<option value="19岁">19岁</option>
+								<option value="20岁">20岁</option>
+							</select>
+							<select name="insured_age02" id="insured_age02">
+								<option value="1岁">1岁</option>
+								<option value="2岁">2岁</option>
+								<option value="3岁">3岁</option>
+								<option value="4岁">4岁</option>
+								<option value="5岁">5岁</option>
+								<option value="6岁">6岁</option>
+								<option value="7岁">7岁</option>
+								<option value="8岁">8岁</option>
+								<option value="9岁">9岁</option>
+								<option value="10岁">10岁</option>
+								<option value="11岁">11岁</option>
+								<option value="12岁">12岁</option>
+								<option value="13岁">13岁</option>
+								<option value="14岁">14岁</option>
+								<option value="15岁">15岁</option>
+								<option value="16岁">16岁</option>
+								<option value="17岁">17岁</option>
+								<option value="18岁">18岁</option>
+								<option value="19岁">19岁</option>
+								<option value="20岁">20岁</option>
+							</select>
+						</li>
+						<li>投保份数说明：							
+							<select name="insrance_numer" id="insrance_numer">
+								<option value="一份">一份</option>
+								<option value="不限">不限</option>
+							</select>
+						</li>
+					</ul>
+					<ul>
+						<li>性别限制：
+							<select name="sex_defect" id="sex_defect">
+								<option value="限男性">限男性</option>
+								<option value="限女性">限女性</option>
+								<option value="不限">不限</option>
+							</select>
+						</li>
+						<li>可投保地区：
+							<select name="covered_area" id="covered_area">
+								<option value="大陆">大陆</opion>
+								<option value="港澳台">港澳台</option>
+								<option value="申根国">申根国</option>
+								<option value="全球">全球</option>
+							</select>
+						</li>
+					</ul>
+					<ul>
+						<li>退保所需天数：
+							<select name="remove_day" id="remove_day">
+								<option value="0天">0天</option>
+								<option value="1天">1天</option>
+								<option value="2天">2天</option>
+								<option value="4天">4天</option>
+								<option value="5天">5天</option>
+							</select>
+						</li>
+						<li>赔偿区域：
+							<select name="compensation_area" id="compensation_area">
+								<option value="大陆">大陆</opion>
+								<option value="港澳台">港澳台</option>
+								<option value="申根国">申根国</option>
+								<option value="全球">全球</option>
+							</select>
+						</li>
+					</ul>
+					<ul>
+						<li>是否限制孕妇投保：
+							<select name="pregnant_woman" id="pregnant_woman">
+								<option value="限制">限制</option>
+								<option value="不限制">不限制</option>
+							</select>
+						</li>
+						<li>投保前是否需要体检：
+							<select name="medical" id="medical">
+								<option value="投保前需要体检">投保前需要体检</option>
+								<option value="投保前不需要体检">投保前不需要体检</option>
+							</select>
+						</li>
+					</ul>
+					<ul>
+						<li>投保身份证件类型：
+							<select name="identity_type" id="identity_type">
+								<option value="居民身份证">居民身份证</option>
+								<option value="护照">护照</option>
+								<option value="军官证">军官证</option>
+								<option value="出生证">出生证</option>
+								<option value="港澳通行证">港澳通行证</option>
+							</select>
+						</li>
+						<li>
+
+						</li>
+					</ul>
+					<button class="product-save-three" type="button">保险产品相关</button>
+					<button class="product-save-three-button" type="button">保存</button>
+				</form>
+			</div>	
+		</div>	
+		<script src="js/jquery.js"></script>
+		<script src="js/laydate.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			var list = {}
+			var insured_status;
+			var complain=laydate.render({
+				elem: '#complainTime', //指定元素
+				type: 'time',
+				range: true 
+			});
+			var phone=laydate.render({
+				elem: '#phoneTime', //指定元素
+				type: 'time',
+				range: true 
+			});
+			var human=laydate.render({
+				elem: '#humanTime', //指定元素
+				type: 'time',
+				range: true 
+			});
+
+			var cookie=getCookie('user');
+			if(cookie=="not find"){
+//				window.location.href="login.html";
+			}else{
+				cookie=cookie.split('&&');
+			}
+			$(function(){
+				var url = document.location.toString();
+				console.log(url)
+		　　　　 var arrUrl = url.split("?");
+		　　　　 var para = arrUrl[1];
+				var arrPara = para.split("&");
+	　　　　　　 for (var i = 0; i < arrPara.length; i++) {
+	　　　　　　　　  arr = arrPara[i].split("=");
+					 key= arr[0]
+					 list[key] = arr[1]
+	　　　　　　}
+				ensureGet()
+			})
+			//首页
+			$('.product-save').click(function(){
+				JudgeProductState();
+			})
+			
+			//修改信息
+			function ensureEdit(){　
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"put",
+						url:"merchant/v2.0/robot/insured_product_manage",
+						async:true,
+						data:{
+							product_manage_id:list.product_manage_id,
+							insured_status:insured_status,
+							payment_terms:$("#payment_terms").val(),
+							policy_ccess:$("#policy_ccess").val(),
+							social_security_reuire:$("#social_security_reuire").val(),
+							relationship_limit:$("#relationship_limit").val(),
+							professional_cateory:$("#professional_cateory").val(),
+							insurance_policy:$("#insurance_policy").val(),
+							nationality:$("#nationality").val(),
+							com_ratio:$("#com_ratio").val(),
+							statute_limit:$("#statute_limit").val(),
+							insurance_information:$("#insurance_information").val(),
+							beneficiary_statement:$("#beneficiary_statement").val(),
+							payment_period:$("#payment_period").val(),
+							deduction_cleared:$("#deduction_cleared").val(),
+							basic_requirement:$("#basic_requirement").val(),
+							franchise:$("#franchise").val(),
+							insured_company:$("#insured_company").val(),
+							pregnant_woman:$("#pregnant_woman ").val(),
+							sex_defect:$("#sex_defect").val(),
+							remove_day:$("#remove_day").val(),
+							third_liability:$("#third_liability").val(),
+							invoice_form:$("#invoice_form").val(),
+							identity_type:$("#identity_type").val(),
+							applicant_nature:$("#applicant_nature").val(),
+							insrance_numer:$("#insrance_numer").val(),
+							covered_area:$("#covered_area").val(),
+							compensation_area:$("#compensation_area").val(),
+							medical:$("#medical").val(),
+							profit:$("#profit").val(),
+							renewal:$("#renewal").val(),
+							insured_age: $("#insured_age01").val() + '&' + $("#insured_age02").val(),
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('修改成功')
+							alert('修改成功')
+							window.location.href="product_manage.html";
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+
+			//获取信息
+			function ensureGet(){　
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"get",
+						url:"merchant/v2.0/robot/insured_product_manage",
+						async:true,
+						data:{
+							product_manage_id: list.product_manage_id,
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('获取信息成功')
+							$("#payment_terms").val(data.data.payment_terms);
+							$("#policy_ccess").val(data.data.policy_ccess);
+							$("#social_security_reuire").val(valdata.data.social_security_reuire);
+							$("#relationship_limit").val(data.data.relationship_limit);
+							$("#professional_cateory").val(data.data.professional_cateory);
+							$("#insurance_policy").val(data.data.insurance_policy);
+							$("#nationality").val(data.data.nationality);
+							$("#com_ratio").val(data.data.com_ratio);
+							$("#statute_limit").val(data.data.statute_limit);
+							$("#insurance_information").val(data.data.insurance_information);
+							$("#beneficiary_statement").val(data.data.beneficiary_statement);
+							$("#payment_period").val(data.data.payment_period);
+							$("#deduction_cleared").val(data.data.deduction_cleared);
+							$("#basic_requirement").val(data.data.basic_requirement);
+							$("#franchise").val(data.data.franchise);
+							$("#insured_company").val(data.data.insured_company);
+							$("#pregnant_woman ").val(data.data.pregnant_woman);
+							$("#sex_defect").val(data.data.sex_defect);
+							$("#remove_day").val(data.data.remove_day);
+							$("#insured_age").val(data.data.insured_age);
+							$("#third_liability").val(data.data.third_liability);
+							$("#invoice_form").val(data.data.invoice_form);
+							$("#identity_type").val(data.data.identity_type);
+							$("#applicant_nature").val(data.data.applicant_nature);
+							$("#insrance_numer").val(data.data.insrance_numer);
+							$("#covered_area").val(data.data.covered_area);
+							$("#compensation_area").val(data.data.compensation_area);
+							$("#medical").val(data.data.medical);
+							$("#profit").val(data.data.profit);
+							$("#renewal").val(data.data.renewal);
+							let hesitation = data.data.insured_age[0].split('&');
+							$("#insured_age01").val(hesitation[0]);
+							$("#insured_age02").val(hesitation[1]);
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+			//添加信息
+			function ensureAdd(){
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"post",
+						url:"merchant/v2.0/robot/insured_product_manage",
+						async:true,
+						data:{
+							product_manage_id:list.product_manage_id,
+							insured_status:insured_status,
+							payment_terms:$("#payment_terms").val(),
+							policy_ccess:$("#policy_ccess").val(),
+							social_security_reuire:$("#social_security_reuire").val(),
+							relationship_limit:$("#relationship_limit").val(),
+							nationality:$("#nationality").val(),
+							professional_cateory:$("#professional_cateory").val(),
+							insurance_policy:$("#insurance_policy").val(),
+							statute_limit:$("#statute_limit").val(),
+							insurance_information:$("#insurance_information").val(),
+							beneficiary_statement:$("#beneficiary_statement").val(),
+							payment_period:$("#payment_period").val(),
+							deduction_cleared:$("#deduction_cleared").val(),
+							basic_requirement:$("#basic_requirement").val(),
+							insurance_policy_form:$("#insurance_policy_form").val(),
+							invoice_form:$("#invoice_form").val(),
+							insured_age:$("#insured_age").val(),
+							sex_defect:$("#sex_defect").val(),
+							remove_day:$("#remove_day").val(),
+							pregnant_woman:$("#pregnant_woman").val(),
+							identity_type:$("#identity_type").val(),
+							applicant_nature:$("#applicant_nature").val(),
+							renewal:$("#renewal").val(),
+							insrance_numer:$("#insrance_numer").val(),
+							compensation_area:$("#compensation_area").val(),
+							covered_area:$("#covered_area").val(),
+							medical:$("#medical").val(),
+							insured_age: $("#insured_age01").val() + '&' + $("#insured_age02").val(),
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('提交成功')
+							alert('提交成功')
+							window.location.href="product_manage.html";
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+
+			function JudgeProductState(){
+				if( $("#insured_status").val() && $("#payment_terms").val() && $("#policy_ccess").val()&& $("#social_security_reuire").val()&& $("#relationship_limit").val()&&
+					$("#nationality").val() && $("#professional_cateory").val() && $("#insurance_policy").val()&& $("#statute_limit").val() && $("#insurance_information").val()&&
+					$("#beneficiary_statement").val() && $("#payment_period").val() && $("#deduction_cleared").val() && $("#basic_requirement").val() && $("#insurance_policy_form").val()){
+					insured_status = 0
+				}else{
+					insured_status = 2
+				}
+				if(list.type == 0){
+					ensureAdd()
+				}else{
+					ensureEdit()
+				}
+			}
+
+			$('.product-save-three-button').click(function(){
+				console.log('list.type = ' + list.type)
+				JudgeProductState()
+			})
+			$('.product-save-three').click(function(){
+				window.location.href="product_manage_detail.html?product_manage_id=" + list.product_manage_id + "&type=" + list.type;;
+			})
+		</script>
+	</body>
+</html>

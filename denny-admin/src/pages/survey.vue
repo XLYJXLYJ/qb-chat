@@ -124,7 +124,8 @@
 </template>
 
 <script>
-    // import {login} from 'service/service'
+import {login} from 'service/service'
+import {hotWords} from 'service/service'
 var echarts = require('echarts/lib/echarts');
 // 引入柱状图
 require('echarts/lib/chart/bar');
@@ -459,6 +460,7 @@ export default {
         }
     },
     mounted(){
+        this.getHotwords()
         var myChartDay = echarts.init(document.getElementById('bottomTips'))
         var myChartMonth = echarts.init(document.getElementById('pie'))
         var wordcloud = echarts.init(document.getElementById('wordcloud'))
@@ -583,31 +585,33 @@ export default {
         myChartDay.setOption(this.day)
         myChartMonth.setOption(this.pie)
         wordcloud.setOption(this.word)
-        // this.jump()
+        this.jump()
     },
-    // methods:{
-    //     jump :async function(){
-    //         let res = await login({
-    //             mobile:18320863946,
-    //             password:12345678
-    //         })
-    //         if(res.errcode =='0' && res.errmsg == "登录成功"){
-    //             console.log(res.data)
-    //             localStorage.setItem('useInfo',JSON.stringify(res.data))
-    //             localStorage.setItem('product_id',res.data.product_id),
-    //             this.$router.push({ path: '/platfrom/choosePlatform' })
-    //             this.$message({
-    //                 message: res.errmsg,
-    //                 type: 'success'
-    //             });
-    //         } else {
-    //             this.$message({
-    //                 message: res.errmsg,
-    //                 type: 'fail'
-    //             });
-    //         }
-    //     }
-    // }
+    methods:{
+        async getHotwords(){
+            let data = await hotWords()
+        },
+        jump :async function(){
+                let res = await login({
+                    mobile:18320863946,
+                    password:12345678
+                })
+                if(res.errcode =='0' && res.errmsg == "登录成功"){
+                    localStorage.setItem('useInfo',JSON.stringify(res.data))
+                    localStorage.setItem('product_id',res.data.product_id),
+                    this.$router.push({ path: '/platfrom/choosePlatform' })
+                    this.$message({
+                        message: res.errmsg,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message({
+                        message: res.errmsg,
+                        type: 'fail'
+                    });
+                }
+            }
+        } 
 }
 </script>
 

@@ -20,8 +20,6 @@ if(cookie=="not find"){
 	$(".top .company").css("display","inline")
 	$('.top .username').text(cookie[0]);
 	$('.top .company').text(cookie[1]);
-	console.log(cookie);
-	console.log(cookie[5]);
 	/*if(cookie[1]=="中国人寿保险（海外）股份有限公司"){
 		$('.li_sub').eq(-3).hide();//隐藏销售漏斗
 	}*/
@@ -53,7 +51,7 @@ if(cookie=="not find"){
 }
 
 
-$('.li_father>a').click(function(){
+$('.li_father>a').click(function(){ 
 	var  this_=$(this);
 	if(this_.find('.left').hasClass('active')){
 		this_.find('.left').removeClass('active');
@@ -66,8 +64,10 @@ $('.li_sub>a').click(function(e){
 	var  this_=$(this);
 	if(this_.find('.left').hasClass('active')){
 		this_.find('.left').removeClass('active');
+		console.log('移除')
 	}else{
 		this_.find('.left').addClass('active');
+		console.log('添加')
 	}
 	this_.siblings('ul').slideToggle("fast");
 		

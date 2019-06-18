@@ -152,7 +152,7 @@
         var target = event.target
         this.robot_balance(target.getAttribute("robot_uu_id"), target.getAttribute("dialogId"));
         Bus.$emit('sent', {data_text: target.getAttribute("data-text"), 'index': this_.index,'a':a})
-        this.$ajax.put( "/acs/v1.0/robot_answer",qs.stringify({
+        this.$ajax.put( "/acs/v1.0/robot_answer",Qs.stringify({
               'robot_uu_id': a.robot_uu_id,
               'modify_content': a.a,
               'service_send_status':1
@@ -187,7 +187,7 @@
         //   }],
         // })
 
-        this.$ajax.post("/acs/v1.0/robot_balance",Qs.stingify({
+        this.$ajax.post("/acs/v1.0/robot_balance",Qs.stringify({
             'robot_uu_id': robot_uu_id,
             'dialogId': dialogId
           })).then(res => {

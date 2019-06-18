@@ -172,7 +172,12 @@
       Bus.$on('sent',function (msg) {
         if(msg.index==this_.index){
           this_.temp=msg.data_text;
-          this_.select = msg.a.select
+          if(!msg.a.select){
+            this_.select = msg.a.select
+          }else{
+            this_.select = []
+          }
+
           this_.robot_answer_data = msg.a.robot_answer_data
           this_.sent('false');
         }

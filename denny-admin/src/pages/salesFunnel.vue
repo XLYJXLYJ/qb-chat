@@ -1,8 +1,8 @@
 <template>
     <div class="salasFunnel">
        <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">数据分析</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">销售漏斗</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/salesFunnel' }">数据分析</el-breadcrumb-item>
+            <el-breadcrumb-item >销售漏斗</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="flexBox">
             <div class="day" >
@@ -286,7 +286,7 @@ export default {
                     this.day.series[0].data = [dayResult.yesterday_five_num,dayResult.yesterday_four_num,dayResult.yesterday_three_num,dayResult.yesterday_two_num,dayResult.yesterday_num]
                     this.month.series[0].data = [monthResult.month_five_num,monthResult.month_four_num,monthResult.month_three_num,monthResult.month_two_num,monthResult.month_num]
                     this.all.series[0].data = [allResult.all_five_num,allResult.all_four_num,allResult.all_three_num,allResult.all_two_num,allResult.all_num]
-                    this.precent.series[0].data = [{value:precentResult.all_five_level,name:'5级'},{value:precentResult.all_four_level,name:'4级'},{value:precentResult.all_three_level,name:'3级'},{value:precentResult.all_two_level,name:'2级'},{value:precentResult.all_one_level,name:'1级'},]
+                    this.precent.series[0].data = [{value:precentResult.all_five_num,name:'5级'},{value:precentResult.all_four_num,name:'4级'},{value:precentResult.all_three_num,name:'3级'},{value:precentResult.all_two_num,name:'2级'},{value:precentResult.all_one_num,name:'1级'},]
                     this.init()
                 })
             }

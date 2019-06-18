@@ -1,17 +1,6 @@
 {
     "aside_list": [
-        {
-            "aside_name": "概况统计",
-            "index":"1",
-            "icon": "el-icon-location",
-            "show": true,
-            "belong": [
-                {
-                    "belong_name": "概况统计",
-                    "index":"/manage/survey"
-                }
-            ]
-        },
+        
         {
             "aside_name": "管理中心",
             "index":"2",
@@ -27,15 +16,15 @@
         {
             "aside_name": "用户中心",
             "index":"3",
-            "icon": "el-icon-location",
+            "icon": "el-icon-user-solid",
             "show": true,
             "belong": [
                 {
-                    "belong_name": "套餐/余额管理",
+                    "belong_name": "流量/余额管理",
                     "index":"/manage/packageBalanceManage"
                 },
                 {
-                    "belong_name": "流量/余额管理",
+                    "belong_name": "订单管理",
                     "index":"/manage/flowBalanceManage"
                 }
             ]

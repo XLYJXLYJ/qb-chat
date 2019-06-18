@@ -33,12 +33,18 @@
 				        	</a>
 				        </li>
 				        <li class="li_father">
-				        	<a class="active">
-				        		<span class="icon icon2"></span>
-				        	  	<span>管理中心</span>
-				        	  	<span class="left active"></span>
-				        	</a>
+							<a>
+								<span class="icon icon2"></span>
+									<span>管理中心</span>
+									<span class="left active"></span>
+							</a>
 							<ul class="show">
+								<li class="li_sub">
+									<a href="robot_manage.html">
+										<span class="icon icon4"></span>
+										<span>机器人管理</span>
+									</a>
+								</li>
 								<li class="li_sub">
 									<a href="platform_manage.html">
 										<span class="icon icon3"></span>
@@ -46,19 +52,13 @@
 									</a>
 								</li>
 								<li class="li_sub">
-									<a href="robot_manage.html">
-										<span class="icon icon3"></span>
-										<span>机器人管理</span>
-									</a>
-								</li>
-								<li class="li_sub">
 									<a href="product_manage.html">
-										<span class="icon icon3"></span>
+										<span class="icon icon5"></span>
 										<span>保险产品管理</span>
 									</a>
 								</li>
 							</ul>
-				        </li>
+						</li>
 				        <li class="li_father">
 				        	<a>
 				        		<span class="icon icon7"></span>
@@ -178,7 +178,7 @@
 					<span></span>
 					<span>保险产品管理</span>
 				</p>
-				<div class="newRobot"><button>新增产品</button></div>
+				<div class="newRobot"><a href="product_manage_detail.html?type=0"><button>新增产品</button></a></div>
 				<table class="robot_manage">
 					<thead>
 						<tr>
@@ -244,20 +244,36 @@
 			</div>	
 		</div>	
 		<script src="js/jquery.js"></script>
-		<!-- <script src="js/common.js"></script> -->
+		<script src="js/common.js"></script>
 		<script>
-			var cookie=getCookie('user');
-			if(cookie=="not find"){
-//				window.location.href="login.html";
-			}else{
-				cookie=cookie.split('&&');
-			}
-			$(function(){
-				paging(1).then(function(){
+				var cookie=getCookie('user');
+				if(cookie=="not find"){
+	//				window.location.href="login.html";
+				}else{
+					cookie=cookie.split('&&');
+				}
+				$(function(){
+					productManage(1).then(function(){
+						var number=$('.number').text();
+						number=parseInt(number);
+						$('.page').show();
+						$('.start').hide();
+						$.each($('.page'), function(i) {
+							if(1+i>number){
+								$(this).hide();
+								$('.end').hide();
+							}else{
+								$(this).text(1+i);
+							}
+						});
+						$('page').eq(0).show();
+					});
+				})
+				//首页
+				$('.start').click(function(){
+					productManage(1);
 					var number=$('.number').text();
-					number=parseInt(number);
 					$('.page').show();
-					$('.start').hide();
 					$.each($('.page'), function(i) {
 						if(1+i>number){
 							$(this).hide();
@@ -266,121 +282,17 @@
 							$(this).text(1+i);
 						}
 					});
-					$('page').eq(0).show();
-				});
-			})
-			//首页
-			$('.start').click(function(){
-				paging(1);
-				var number=$('.number').text();
-				$('.page').show();
-				$.each($('.page'), function(i) {
-					if(1+i>number){
-						$(this).hide();
-						$('.end').hide();
-					}else{
-						$(this).text(1+i);
-					}
-				});
-				$('.end').show();
-				$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
-			})
-			//末页
-			$('.end').click(function(){
-				var p=$('.number').text();
-				paging(p);
-				$('.page').show();
-				var index=Math.floor(p/5);
-				index=index*5;
-				var page= $('.number').text();
-				$.each($('.page'), function(i) {
-					if(index+1+i>page){
-						$(this).hide();
-						$('.end').hide();
-					}
-					$(this).text(index+1+i);
-					if(index+1+i==p){
-						$(this).addClass('active');
-						$('.page').not(this).removeClass('active');
-						$('.end').hide();
-					}
-					$('.start').show();
-				});
-				$('.end').hide();
-			})
-			//上一页
-			$('.pre').click(function(){
-				var value=$('.page').eq(0).text();
-				value=parseInt(value);
-				if(value==1){
-					return false;
-				}else{
-					$('.page').show();
-					$.each($('.page'), function(i) {
-						$(this).text(value-5+i);
-					});
-				}
-				var p=$('.page.active').text();
-				paging(value-1);
-				$('.end').show();
-			})	
-			//下一页
-			$('.next').click(function(){
-				var value=$('.page:visible').eq(-1).text();
-				value=parseInt(value);
-				var number=$('.number').text();
-				number=parseInt(number);
-				var p=$('.page.active').text();
-				if(value==number){
-					return false;
-				}else{
-					paging(value+1);
-					$(".page").show();
-					$.each($('.page'),function(i) {
-						if(value+1+i>number){
-							$(this).hide();
-							$('.end').hide();
-						}else{
-							$(this).text(value+1+i);
-						}
-					});
+					$('.end').show();
 					$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
-				}
-			})
-			//分页
-			$('.page').click(function(){
-				var number=$('.number').text();
-				var this_=$(this);
-				var p=$(this).text();
-				paging(p);
-				var temp=false;;
-				$.each($('.page'),function(i) {
-					if(temp){
-						$(this).hide();
-						$('.end').hide();
-					}
-					if(parseInt($(this).text())==parseInt(number)){
-						temp=true;
-					}
-				});
-				$(this_).addClass('active');
-				$('.page').not(this_[0]).removeClass('active');
-			})
-			//跳转
-			$('.ship').click(function(){
-				if($(this).hasClass('active')){
-					var p=$(".footer input").val();
-					$(".footer input").val('');
-					paging(p);
+				})
+				//末页
+				$('.end').click(function(){
+					var p=$('.number').text();
+					productManage(p);
 					$('.page').show();
 					var index=Math.floor(p/5);
 					index=index*5;
 					var page= $('.number').text();
-					if(page>5){
-						$('.end').show();
-					}else{
-						$('.end').hide();
-					}
 					$.each($('.page'), function(i) {
 						if(index+1+i>page){
 							$(this).hide();
@@ -390,67 +302,149 @@
 						if(index+1+i==p){
 							$(this).addClass('active');
 							$('.page').not(this).removeClass('active');
+							$('.end').hide();
+						}
+						$('.start').show();
+					});
+					$('.end').hide();
+				})
+				//上一页
+				$('.pre').click(function(){
+					var value=$('.page').eq(0).text();
+					value=parseInt(value);
+					if(value==1){
+						return false;
+					}else{
+						$('.page').show();
+						$.each($('.page'), function(i) {
+							$(this).text(value-5+i);
+						});
+					}
+					var p=$('.page.active').text();
+					productManage(value-1);
+					$('.end').show();
+				})	
+				//下一页
+				$('.next').click(function(){
+					var value=$('.page:visible').eq(-1).text();
+					value=parseInt(value);
+					var number=$('.number').text();
+					number=parseInt(number);
+					var p=$('.page.active').text();
+					if(value==number){
+						return false;
+					}else{
+						productManage(value+1);
+						$(".page").show();
+						$.each($('.page'),function(i) {
+							if(value+1+i>number){
+								$(this).hide();
+								$('.end').hide();
+							}else{
+								$(this).text(value+1+i);
+							}
+						});
+						$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
+					}
+				})
+				//分页
+				$('.page').click(function(){
+					var number=$('.number').text();
+					var this_=$(this);
+					var p=$(this).text();
+					productManage(p);
+					var temp=false;;
+					$.each($('.page'),function(i) {
+						if(temp){
+							$(this).hide();
+							$('.end').hide();
+						}
+						if(parseInt($(this).text())==parseInt(number)){
+							temp=true;
 						}
 					});
-					$('.ship').removeClass('active');
-				}
-			})
-			
-			//merchant/v2.0/robot/robot_manage
-			function paging(pageSize){
-				$('tbody').empty();
-				console.log(cookie[2],pageSize)
-				return  new  Promise(function(resolve,reject){
-					$.ajax({
-						type:"get",
-						url:"merchant/v2.0/robot/robot_manage",
-						async:true,
-						data:{'product_id':cookie[2],'pageSize':pageSize},
-					}).done((data)=>{
-						if(data.status=='200'){
-							var size= data.total_num%5==0 ? data.total_num/5: parseInt(data.total_num/5)+1;
-							data=data.data;
-							console.log(data)
-							$('.footer').show();
-							var temp
-							if(data.length>0){
-								var str='';
-								var temp="";
-								var title="";
-								for(var i=0;i<data.length;i++){
-									str+='<tr>';
-									str+='<td>'+data[i].robot_code+'</td>';
-									str+='<td>'+data[i].robot_name+'</td>';
-									str+='<td>'+data[i].robot_type+'</td>';
-									str+='<td>'+data[i].deployment_form+'</td>';
-									if(data[i].comment&&data[i].comment.length>20){
-										temp=data[i].comment.substring(0,20);
-										str+='<td><p><span title="'+data[i].comment+'">'+temp+'...</span></p></td>';
-									}else{
-										str+='<td><p><span>'+data[i].comment+'</span></p></td>';
-									}
-									str+='<td>';
-								    str+='<a href="Individualization.html?robot_id='+data[i].id+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
-									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>详情</span></a>';
-									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>知识库</span></a>';
-									str+='</td>';
-									str+='</tr>';
-								}
-								$('tbody').append(str);
-								$('.footer').show();
-								
-							}else{
-								$('.footer').hide();
-							}
-							$('.footer .number').text(size);
-							resolve();
-						}else if(data.errmsg=='用户未登录'){
-							// window.location.href="login.html";
+					$(this_).addClass('active');
+					$('.page').not(this_[0]).removeClass('active');
+				})
+				//跳转
+				$('.ship').click(function(){
+					if($(this).hasClass('active')){
+						var p=$(".footer input").val();
+						$(".footer input").val('');
+						productManage(p);
+						$('.page').show();
+						var index=Math.floor(p/5);
+						index=index*5;
+						var page= $('.number').text();
+						if(page>5){
+							$('.end').show();
+						}else{
+							$('.end').hide();
 						}
-					})
-					
-				})	
-			}
-		</script>
-	</body>
-</html>
+						$.each($('.page'), function(i) {
+							if(index+1+i>page){
+								$(this).hide();
+								$('.end').hide();
+							}
+							$(this).text(index+1+i);
+							if(index+1+i==p){
+								$(this).addClass('active');
+								$('.page').not(this).removeClass('active');
+							}
+						});
+						$('.ship').removeClass('active');
+					}
+				})
+				
+				//merchant/v2.0/robot/robot_manage
+				function productManage(pageSize){
+					$('tbody').empty();
+					return  new  Promise(function(resolve,reject){
+						$.ajax({
+							type:"get",
+							url:"merchant/v2.0/robot/robot_product_manage",
+							async:true,
+							data:{'product_name':'','pageSize':pageSize},
+						}).done((data)=>{
+							if(data.status=='200'){
+								var size= data.data.total_num%5==0 ? data.data.total_num/5: parseInt(data.data.total_num/5)+1;
+								data=data.data.all_product;
+								$('.footer').show();
+								var temp
+								if(data.length>0){
+									var str='';
+									var temp="";
+									var title="";
+									var html;
+									for(var i=0;i<data.length;i++){
+										str+='<tr>';
+										str+='<td>'+data[i].product_name+'</td>';
+										str+='<td>'+data[i].robot_name+'</td>';
+										str+='<td>'+data[i].robot_status+'</td>';
+										str+='<td>';
+										if(data[i].robot_status=='已完成'){
+											str+='<a href="product_manage_detail.html?type=1&robot_id='+data[i].robot_id+'&product_manage_id='+data[i].product_manage_id+'"><span>修改</span></a>';
+										}else{
+											str+='<a href="product_manage_detail.html?type=2&robot_id='+data[i].robot_id+'&product_manage_id='+data[i].product_manage_id+'"><span>继续配置</span></a>';
+										}
+										str+='</td>';
+										str+='</tr>';
+									}
+									$('tbody').append(str);
+									$('.footer').show();
+									
+								}else{
+									$('.footer').hide();
+								}
+								$('.footer .number').text(size);
+								resolve();
+							}else if(data.errmsg=='用户未登录'){
+								// window.location.href="login.html";
+							}
+						})
+						
+					})	
+				}
+			</script>
+		</body>
+	</html>

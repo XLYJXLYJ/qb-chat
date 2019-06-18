@@ -1,12 +1,12 @@
 <template>
     <div class="robotManage">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">管理中心</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">机器人管理</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/robotManage' }">管理中心</el-breadcrumb-item>
+            <el-breadcrumb-item >机器人管理</el-breadcrumb-item>
         </el-breadcrumb>
         <el-row> 
-            <el-button type="primary">添加</el-button>
-            <el-button type="primary">批量添加</el-button>
+            <!-- <el-button type="primary">添加</el-button> -->
+            <!-- <el-button type="primary">批量添加</el-button> -->
         </el-row>
         <el-table
             ref="multipleTable"
@@ -15,11 +15,12 @@
             tooltip-effect="dark"
             header-row-class-name='lll'
             style="width: 100%"
-            @selection-change="handleSelectionChange">
-                <el-table-column
+            @selection-change="handleSelectionChange"
+            >
+                <!-- <el-table-column
                 type="selection"
                 width="55">
-                </el-table-column>
+                </el-table-column> -->
             <el-table-column
                 label="编号"
                 type="index"
@@ -56,8 +57,8 @@
                 >
                 <template slot-scope="scope">
                     <el-button @click="handleClick(scope.row)" type="text" size="small">个性化设置</el-button>
-                    <el-button type="text" size="small">详情</el-button>
-                    <el-button type="text" size="small">知识库</el-button>
+                    <el-button type="text" size="small" @click='robotDetail(scope.row)'>设置</el-button>
+                    <el-button type="text" size="small" @click='toQA(scope.row)'>知识库</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -65,9 +66,9 @@
              <el-pagination
                 background
                 @current-change="handleCurrentChange"
-                :page-size="5"
+                :page-size="1"
                 layout="prev, pager, next,jumper"
-                :total='total_num ||100'>
+                :total='total_page ||1'>
             </el-pagination>
            
         </el-row>
@@ -98,6 +99,20 @@ export default {
                 product_id :rows.product_id
             }
             this.$router.push({ path: '/manage/robotPersonal' ,query: params})
+        },
+        robotDetail(rows){
+            let params = {
+                robot_code:rows.robot_code,
+                product_id :rows.product_id
+            }
+            this.$router.push({ path: '/manage/robotDetail' ,query: params})
+        },
+        toQA(rows){
+            let params = {
+                robot_code:rows.robot_code,
+                product_id :rows.product_id
+            }
+            this.$router.push({ path: '/manage/QA' ,query: params})
         },
         toggleSelection(rows) {
             if (rows) {

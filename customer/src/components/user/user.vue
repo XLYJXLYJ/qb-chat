@@ -88,7 +88,12 @@
       }
     },
     created:function () {
-      this.$ajax.get('/acs/v1.0/service_message').then(res=>{
+      this.$ajax.get('/acs/v1.0/service_message',
+        {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }
+
+        ).then(res=>{
          this.username=res.data.data.s_name;
          this.company=res.data.data.company;
          this.identity=res.data.data.identity;

@@ -1,8 +1,8 @@
 <template>
     <div class="robotDate">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">人工客服</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">当天/历史客服工作统计</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/workStatistics' }">人工客服</el-breadcrumb-item>
+            <el-breadcrumb-item >当天/历史客服工作统计</el-breadcrumb-item>
         </el-breadcrumb>
          <!-- <el-radio-group v-model="tabPosition">
             <el-radio-button label="top">当天客服工作统计</el-radio-button>
@@ -11,33 +11,39 @@
 
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <el-form-item label="" style="float:left">
-                <el-select v-model="formInline.region" placeholder="接待客户数">
-                <el-option label="当天客户统计" value="shanghai"></el-option>
-                <el-option label="历史客户统计" value="beijing"></el-option>
+                <el-select v-model="formInline.type" placeholder="客户统计类型">
+                <el-option label="当天客户统计" value="1"></el-option>
+                <el-option label="历史客户统计" value="0"></el-option>
                 </el-select>
             </el-form-item>
              <el-form-item label="" style="float:left">
-                <el-select v-model="formInline.region" placeholder="客户统计">
-                <el-option label="区域一" value=""></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="formInline.region" placeholder="排序">
+                    <el-option label="按接待客户数" value="1"></el-option>
+                    <el-option label="按客服在线时长" value="2"></el-option>
+                    <el-option label="按客户咨询总数量" value="3"></el-option>
+                    <el-option label="按机器人答案数量" value="5"></el-option>
+                    <el-option label="按客户反馈不满意数" value="4"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="" style="float:left;" >
-                <el-select v-model="formInline.region" placeholder="最高">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="formInline.level" placeholder="最高">
+                <el-option label="最高" value="1"></el-option>
+                <el-option label="最低" value="2"></el-option>
                 </el-select>
             </el-form-item>
            <el-form-item style="float:right;">
-                <el-button type="primary" @click="onSubmit">导出当前列表</el-button>
+                <el-button type="primary" @click="exportExcle">导出</el-button>
             </el-form-item>
-            <el-form-item label="" style="float:right">
+            <el-form-item style="float:right;">
+                <el-button type="primary" @click="onSubmit">搜索</el-button>
+            </el-form-item>
+            <el-form-item label="" style="float:right" v-show="daily">
                 <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
                 </el-col>
-                <el-col class="line" :span="2">&nbsp至&nbsp </el-col>
+                <el-col class="line" :span="2">&nbsp;至&nbsp;</el-col>
                 <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date2" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date2" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
                 </el-col>
             </el-form-item>
            
@@ -67,7 +73,7 @@
             </el-table-column>
             <el-table-column
             prop="city"
-            label="客服在线时常(小时)"
+            label="客服在线时长(小时)"
             >
             <template slot-scope="scope">{{ scope.row.service_hours_online }}</template>
             </el-table-column>
@@ -95,57 +101,108 @@
             </el-table-column>
         </el-table>
         <el-row>
-            <el-pagination
-                @size-change="handleSizeChange"
+             <el-pagination
+                background
                 @current-change="handleCurrentChange"
-                :current-page.sync="currentPage2"
-                :page-sizes="[10, 20, 30, 40]"
-                :page-size="100"
-                layout="sizes, prev, pager, next ,jumper"
-                :total="100">
+                :page-size="1"
+                layout="prev, pager, next,jumper"
+                :total='total_page || 1'>
             </el-pagination>
-        </el-row>
 
+        </el-row>
             </div>
         </template>
 
 <script>
-import { serviceAccount} from 'service/service'
+import { serviceAccount,dailyAccount,getServiceExcel,getDailyExcel} from 'service/service'
 export default {
     data() {
         return {
             tabPosition: 'top',
+            total_page:'',
+            total_num:'',
             formInline: {
                 user: '',
                 region: '',
-                data1:'',
-                date2:''
+                date1:'',
+                date2:'',
+                level:'',
+                type:'0'
             },
-            tableData: []
+            tableData: [],
+            daily:true
 
         }
     },
     mounted(){
-        this.getServiceAccount()
+        if(this.formInline.type == '1'){
+            this.getDailyAccount()
+        }
+        if(this.formInline.type == '0'){
+            this.getServiceAccount()
+        }
+        
+    },
+    watch:{
+        "formInline.type":function(val){
+            if(val == 0){
+                this.daily = true
+            }else{
+                this.daily = false
+            }
+        }
     },
     methods: {
-        onSubmit() {
-            console.log('submit!');
+        onSubmit(){
+            if(this.formInline.type == 0){
+                this.getServiceAccount()
+            }else{
+                this.getDailyAccount()
+            }
         },
-        async getServiceAccount(){
+        handleCurrentChange(val){
+            this.getServiceAccount(val)
+        },
+        async getServiceAccount(val){
             let serviceData = await serviceAccount({
-                order_by_name: '',
-                start_date: '',
-                end_date: '',
-                p: 1,
-                sort_by_name: ''
+                order_by_name: this.formInline.region,
+                start_date: this.formInline.date1,
+                end_date: this.formInline.date2,
+                p: val || 1,
+                sort_by_name: this.formInline.level
             })
             if(serviceData.errcode == '200'&&serviceData.errmsg =="OK"){
-                this.tableData = serviceData.data.log_dict_list
+                this.tableData = serviceData.log_dict_list
+                this.total_page = serviceData.total_page
             }
-            console.log(serviceData)
+        },
+        async getDailyAccount(val){
+            let serviceData = await dailyAccount({
+                order_by_name: this.formInline.region,
+                p: val || 1,
+                sort_by_name: this.formInline.level
+            })
+            if(serviceData.errcode == '200'&&serviceData.errmsg =="OK"){
+                this.tableData = serviceData.log_dict_list
+                this.total_page = serviceData.total_page
+            }
+        },
+        async exportExcle(){
+            var data ,filename
+            var a = document.createElement('a')
+            if(this.formInline.type == '1'){
+                data = await getDailyExcel()
+                filename = 'ServiceWorkDaily.xlsx'
+                a.download = filename;
+            }
+            if(this.formInline.type == '0'){
+                data = await getServiceExcel()
+                filename = 'ServiceWork.xlsx'
+                a.download = filename;
+            }
+            a.href= window.URL.createObjectURL(data)
+            a.click()
         }
-
     }
 
 }

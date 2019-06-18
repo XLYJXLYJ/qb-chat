@@ -79,6 +79,12 @@
             RongIMClient.getInstance().logout()
           }
         })
+        .catch(err =>{
+          console.log(err)
+          if(err = 'Request failed with status code 302'){
+            this_.$router.push({'path': '/'});
+          }
+        })
       },
       delCookie(name){
         var exp = new Date();

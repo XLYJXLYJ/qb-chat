@@ -1,21 +1,21 @@
 <template>
     <div class="robotDate"  >
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">数据分析</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">机器人数据</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/robotData' }">数据分析</el-breadcrumb-item>
+            <el-breadcrumb-item >机器人数据</el-breadcrumb-item>
         </el-breadcrumb>
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <el-form-item label="筛选:" style="float:left">
                 <el-select v-model="formInline.region" placeholder="按机器人名称筛选">
                 <el-option  v-for="(item,key) in options"
                  :key="key"
-                 :label="key"
-                 :value="key"></el-option>
+                 :label="item.robot_name"
+                 :value="item.robot_code"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item style="float:right;margin-right:40px">
-                <el-button type="primary" @click="onSubmit">导出当前列表</el-button>
-            </el-form-item>
+            <!-- <el-form-item style="float:right;margin-right:40px">
+                <el-button type="primary" @click="getCsv">导出当前列表</el-button>
+            </el-form-item> -->
              <el-form-item style="float:right">
                 <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-form-item>
@@ -23,7 +23,7 @@
                 <el-col :span="11">
                 <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-col>
-                <el-col class="line" :span="2">  &nbsp 至 </el-col>
+                <el-col class="line" :span="2">  &nbsp; 至 </el-col>
                 <el-col :span="11">
                 <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date2" style="width: 100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-col>
@@ -41,7 +41,7 @@
             <el-table-column
                 label="对话组ID"
                 type="index"
-                :show-overflow-tooltip='true'
+                show-overflow-tooltip
                 width="100"
                 >
                 <template slot-scope="scope">{{ scope.row.id }}</template>
@@ -65,7 +65,7 @@
             </el-table-column>
             <el-table-column
                 prop="address"
-                :show-overflow-tooltip='true'
+                show-overflow-tooltip
                 label="答案"
                 >
                 <template slot-scope="scope">{{ scope.row.content }}</template>
@@ -93,9 +93,9 @@
              <el-pagination
                 background
                 @current-change="handleCurrentChange"
-                :page-size="5"
+                :page-size="1"
                 layout="prev, pager, next,jumper"
-                :total='total_page ||100'>
+                :total='total_page ||1'>
             </el-pagination>
 
         </el-row>
@@ -105,7 +105,7 @@
         </template>
 
 <script>
-import {getRobot,robotNumber,recordCsv,solveChange} from 'service/service'
+import {getRobot,robotNumber,recordCsv,solveChange,Csv} from 'service/service'
 export default {
     data() {
         return {
@@ -138,17 +138,17 @@ export default {
             this.getRobotDate(val)
         },
         async getRobotDate(val){
-            this.loading = true
             let robotDate = await getRobot({
                 start_date: this.formInline.date1 || '',
                 end_date: this.formInline.date2 || '',
                 p: val || 1,
-                product_id: JSON.parse(localStorage.getItem('useInfo')).product_id
+                product_id: JSON.parse(localStorage.getItem('useInfo')).product_id || 1,
+                robot_code:this.formInline.region
             })
-            if(robotDate && robotDate.errcode == '0' && robotDate.errmsg == 'OK' ){
+            // console.log(robotDate)
+            if(robotDate && robotDate.errcode == '200' && robotDate.errmsg == 'OK' ){
                 this.tableData = robotDate.data.log_dict_list
                 this.total_page = robotDate.data.total_page
-                console.log(this.tableData)
                 this.loading = false
             }
         },
@@ -158,15 +158,24 @@ export default {
                 product_id: JSON.parse(localStorage.getItem('useInfo')).product_id
             })
             if(robotSelectData.msg == 'ok' ){
-                console.log(robotSelectData)
                 this.$nextTick(() => {
                     this.options = robotSelectData.data
                 })
             }
         },
+        async getCsv(){
+            let data = await Csv({
+                start_date: this.formInline.date1 || '',
+                end_date: this.formInline.date2 || '',
+                robot_code:this.formInline.region
+            })
+            var a = document.createElement('a')
+            var filename = 'robotFail.xls'
+            a.download = filename;
+            a.href= window.URL.createObjectURL(data)
+            a.click()
+        },
         async good(scope){
-            console.log(scope)
-            console.log(this.tableData[scope.$index].user_solve)
             this.$nextTick(() => {
                 this.tableData[scope.$index].user_solve = '1'
             })

@@ -15,6 +15,7 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios;
 Vue.prototype.$jquery = $jquery
+
 /*eslint-disable no-new */
 new Vue({
   el: '#app',

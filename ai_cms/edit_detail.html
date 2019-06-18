@@ -128,20 +128,32 @@
                     </a>
                 </li>
                 <li class="li_father">
-                    <a class="active">
-                        <span class="icon icon2"></span>
-                        <span>管理中心</span>
-                        <span class="left active"></span>
-                    </a>
-                    <ul class="show">
-                        <li class="li_sub">
-                            <a href="robot_manage.html">
-                                <span class="icon icon3"></span>
-                                <span>机器人管理</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                        <a class="active">
+                            <span class="icon icon2"></span>
+                              <span>管理中心</span>
+                              <span class="left active"></span>
+                        </a>
+                        <ul class="show">
+                            <li class="li_sub">
+                                <a href="robot_manage.html">
+                                    <span class="icon icon4"></span>
+                                    <span>机器人管理</span>
+                                </a>
+                            </li>
+                            <li class="li_sub">
+                                <a href="platform_manage.html">
+                                    <span class="icon icon3"></span>
+                                    <span>平台管理</span>
+                                </a>
+                            </li>
+                            <li class="li_sub">
+                                <a href="product_manage.html">
+                                    <span class="icon icon5"></span>
+                                    <span>保险产品管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <!--  <li class="li_father">
                       <a>
                           <span class="icon icon11"></span>
@@ -417,6 +429,7 @@
             }
         })
         $('.save').click(function () {
+            alert('222')
             var text = $('.comment textarea').val();//备注内容
             var welcome_words = $(".welcome textarea").val();//欢迎语
             var wait_words = $(".wait textarea").val();//结束语

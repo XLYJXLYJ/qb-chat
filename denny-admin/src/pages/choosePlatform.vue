@@ -1,31 +1,22 @@
 <template>
     <div class="chooseplateform">
         <div class="platForm">
-             <div class="Customer" :class="{'prowerCustomer':userInfo.customer_service_status != '1'} ">
+             <div class="Customer" @click='goQuility()' :class="{'prowerCustomer':userInfo.customer_service_status != '1'} ">
                  <p>在线客服中心</p>
                  <div class="intro">
-                     为语音质检系统，其
-                    内包含语音质检、查
-                    看质检结果、创建质
-                    检任务等。
+                    在线客服中心是机器人产品管理员对机器人及其配套产品进行管理的一体化平台。包括知识&训练管理、数据管理、数据监控等。
                  </div>
              </div>
-             <div class="Quality" @click='goQuility()' :class="{'prowerQuality':userInfo.customer_service_status != '1'} ">
+             <div class="Quality"  :class="{'prowerQuality':userInfo.customer_service_status != '1'} " @click='goQt()'>
                  <p>智能质检中心</p>
                  <div class="intro">
-                     为语音质检系统，其
-                    内包含语音质检、查
-                    看质检结果、创建质
-                    检任务等。
+                     智能质检中心是质检管理员对质检进行管理的一体化平台。包括语音质检上传、我的任务、查看结果等。
                  </div>
              </div>
              <div class="Call" :class="{'prowerCall':userInfo.user_xa_status != '1' }" @click='goCall()'>
                  <p>智能呼叫中心</p>
                  <div class="intro">
-                     为语音质检系统，其
-                    内包含语音质检、查
-                    看质检结果、创建质
-                    检任务等。
+                    智能呼叫中心是一款智能语音电话机器人，是AI人工智能时代专为企业量身打造的AI+SaaS全智能营销客服系统平台。包括数据分析、话术管理、用户管理等。
                  </div>
              </div>
         </div>
@@ -48,10 +39,17 @@ export default {
             // location.href = '/index.html'
             window.open('/index.html','_blank');
         },
+        goQt(){
+            // location.href = '/index.html'
+            if(window.location.href.indexOf("test") > 0){
+                window.open('http://test.merchant.qb-tech.net/qt.html#/','_blank');
+            }else{
+                window.open('http://merchant.qb-tech.net/qt.html#/','_blank');
+            }
+        },
         async goCall(){
             if(this.userInfo && this.userInfo.customer_service_status == '1'){
                 let res = await smartCall()
-                console.log(res)
             }
         }
     }
@@ -92,17 +90,19 @@ export default {
         .Customer{
             background: url('../assets/image/chat@2x.png') no-repeat top 80px center;
             background-size:120px 120px;
+            cursor: pointer;
         }
         .Quality{
              background: url('../assets/image/quality@2x.png') no-repeat top 80px center;
             background-size:120px 120px;
+            cursor: pointer;
         }
         .Call{
              background: url('../assets/image/call@2x.png') no-repeat top 80px center;
             background-size:120px 120px;
+            cursor: pointer;
         }
         .Customer:hover{
-           
             background-size:120px 120px;
             border-radius:27px;
             background:linear-gradient(0deg,rgba(0,0,0,0.68) 32%,rgba(202,202,202,0) 100%);
@@ -116,7 +116,7 @@ export default {
                 display: block;
                 text-align: center;
                 padding: 40px 20px;
-                font-size:18px;
+                font-size:14px;
                 font-weight:500;
                 color:white;
                 line-height:40px;
@@ -136,7 +136,7 @@ export default {
                 display: block;
                 text-align: center;
                 padding: 40px 20px;
-                font-size:18px;
+                font-size:14px;
                 font-weight:500;
                 color:white;
                 line-height:40px;
@@ -156,7 +156,7 @@ export default {
                 display: block;
                 text-align: center;
                 padding: 40px 20px;
-                font-size:18px;
+                font-size:14px;
                 font-weight:500;
                 color:white;
                 line-height:40px;

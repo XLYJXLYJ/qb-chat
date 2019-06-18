@@ -1,8 +1,8 @@
 <template>
     <div class="pbm">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">用户中心</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">套餐/余额管理</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/packageBalanceManage' }">用户中心</el-breadcrumb-item>
+            <el-breadcrumb-item >套餐/余额管理</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="balance" v-loading="loading">
             <div class="accont-balance">
@@ -33,8 +33,8 @@
             <el-breadcrumb-item >套餐类型</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="types" v-loading="loading">
-            <div class="flow" v-for="(value,key) in setType" :class="activeClass == key ? 'active' : ''" :key='key' v-if="key<4" @click="bgColor(key,value)" ref="flow">
-                <div style="line-height: 45px;height: 10px;text-indent:10px">{{value.type}}</div>
+            <div class="flow" v-for="(value,key) in setType" :class="activeClass == key ? 'active' : ''" :key='key'  @click="bgColor(key,value)" ref="flow">
+                <div style="line-height: 45px;height: 10px;text-indent:10px">年度流量</div>
                 <el-divider></el-divider>
                 <div style="text-align:center">
                     <span style="font-size:30px;font-weight:500;color:rgba(46,0,139,1);">{{value.total_num}}</span>
@@ -46,18 +46,19 @@
         <div class="formList">
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item label="对话条数">
-                    <el-input v-model="formInline.user" placeholder="请输入需要购买的对话条数"></el-input>
+                    <el-input v-model="formInline.dialogue_number" placeholder="请输入需要购买的对话条数" v-bind:disabled="isDisabled"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">购买</el-button>
                 </el-form-item>
+                <span style="line-height:42px;font-size:13px;color: #616161;">价格:{{formInline.price}}</span>
             </el-form>
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item label="充值余额：">
                     <el-input v-model="formInline.region" placeholder="请输入需要充值的金额"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">购买</el-button>
+                    <el-button type="primary" @click="onbuy">购买</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -74,15 +75,28 @@ export default {
             mMan:{},//套餐余额数据
             activeClass:'',//选择套餐颜色
             loading:false,
+            selectPrice:200,
+            isDisabled:true,
+            price:'',
+            type:'',
             formInline: {
-                user: 3000,
+                dialogue_number: 3000,
+                price:200,
                 region: ''
             }
         }
     },
-    mounted(){
+    created(){
         this.moneyType()
         this.moneyManage()
+    },
+    watch: {
+        'formInline.dialogue_number': function () {
+            // alert(11)
+            if(this.type == 2){
+                this.formInline.price = this.formInline.dialogue_number*0.1
+            }
+        }
     },
     methods: {
         async moneyType(){
@@ -97,21 +111,52 @@ export default {
             this.loading = true;
             let resultData = await planBalance()
             if(resultData.msg == 'ok' && resultData.status == '200'){
-                this.mMan = resultData.data[0]
+                this.mMan = resultData.data
             }
             this.loading = false;
         },
         bgColor(key,value){
             this.activeClass = key
-            if(value.total_num == '自定义'){
-                this.formInline.user = ''
-            }else{
-                this.formInline.user = value.total_num
+            this.price = value.total_num
+            console.log(key,value)
+            // this.formInline.price = ''
+            if(value.type == 2){
+                this.type = 2
+                this.isDisabled = false
+                this.formInline.dialogue_number = ''
+                // formInline.price = this.formInline.dialogue_number*0.1
+                // this.selectPrice = this.formInline.dialogue_number * 0.1
             }
-
+            if(value.type == 1){
+                this.type = 1
+                this.formInline.dialogue_number = value.total_num
+                this.formInline.price = value.money
+                this.isDisabled = true
+                this.selectPrice = value.money + '元'
+            }
         },
         onSubmit(){
+            if(this.price !== '自定义'){
+                var params = {
+                    dialogue_number:this.formInline.dialogue_number,
+                    price:this.formInline.price
+                }
+            }else{
+                var params = {
+                    dialogue_number:this.formInline.dialogue_number,
+                    price:this.formInline.dialogue_number*0.1
+                }
+            }
 
+   
+            this.$router.push({ path: '/manage/orderSubmit' ,query: params})
+        },
+        onbuy(){
+            let params = {
+                region:this.formInline.region,
+                // price:this.formInline.price
+            }
+            this.$router.push({ path: '/manage/orderSubmit' ,query: params})
         }
     }
 }

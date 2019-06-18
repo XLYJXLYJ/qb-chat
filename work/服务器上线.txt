@@ -1,0 +1,21 @@
+﻿测试环境：
+
+客户：	/data/php/open-aimi/public
+	/data/php/open-aimi/resource/views/chat
+	拉取代码路径：data/javascript/interlocution/dist
+ 
+客服：	/data/php/chat/      ---   先删除  上传解压
+
+客户管理后台   /data/php/merchant
+
+
+	
+正式环境：
+
+客户：	/bigdata/wwwroot/open-aimi/public
+	/bigdata/wwwroot/open-aimi/resource/views/chat 
+	拉取代码路径：bigdata/wwwroot/static/interlocution
+  
+客服	/data/wwwroot/chat/   ---   先删除  上传解压
+
+客户管理后台   /data/wwwroot/merchant

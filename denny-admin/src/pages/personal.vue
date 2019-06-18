@@ -1,12 +1,12 @@
 <template>
     <div class="robotManage">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">管理中心</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">机器人管理</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">个性化设置</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/robotManage'}">管理中心</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/robotManage'}">机器人管理</el-breadcrumb-item>
+            <el-breadcrumb-item >个性化设置</el-breadcrumb-item>
         </el-breadcrumb>
         <el-row> 
-            <el-button type="primary" @click="dialogFormVisible = true">新增</el-button>
+            <el-button type="primary" @click="news()" >新增</el-button>
         </el-row>
         <el-table
             ref="multipleTable"
@@ -43,34 +43,49 @@
             </el-table-column>
             
         </el-table>
-         <el-dialog title="新增个性化设置" :visible.sync="dialogFormVisible" center>
-            <el-form :model="form">
+         <el-dialog :title="title" :visible.sync="dialogFormVisible">
+            <el-form :model="form" :rules="rule">
                 <el-form-item label="功能图标：" :label-width="formLabelWidth">
                     <!-- <div>lalal</div> -->
                     <div style="display:flex">
-                        <div style="width:200px"></div>
-                        <el-button type="primary">选择图标</el-button>
+                        <div style="width:200px"> 
+                            <span :class="className" style="width: 70px;display:block;margin:auto; text-align: center;line-height: 40px;font-size: 30px;color:rgba(46,0,139,1);background:rgba(239,235,246,1);
+                            border-radius:10px;font-weight: bold;">
+                            </span>
+                        </div>
+                        <el-button type="primary" @click="dialogVisible = true">选择图标</el-button>
                     </div>
-                    
                 </el-form-item>
-                <el-form-item label="功能名称：" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                <el-form-item label="功能名称：" :label-width="formLabelWidth" prop="name">
+                    <el-input v-model="form.name" autocomplete="off" placeholder="请输入功能名称"></el-input>
                 </el-form-item>
-                <el-form-item label="超链接：" :label-width="formLabelWidth">
-                    <el-input v-model="form.url" autocomplete="off"></el-input>
+                <el-form-item label="超链接：" :label-width="formLabelWidth" prop="url">
+                    <el-input v-model="form.url" autocomplete="off" placeholder="请输入超链接"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                <el-button  @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="newAdd()" v-if='showAdd'>确 定</el-button>
+                <el-button type="primary" @click="repire()" v-else>确 定</el-button>
             </div>
+        </el-dialog>
+        <el-dialog
+             title="选择图标"
+            :visible.sync="dialogVisible"
+            width="400px">
+            <ul style="display:flex;flex-wrap: wrap; justify-content: center;">
+                <li v-for="i in 20" :key='i' @click="getClass($event,i)" :class="'iconfont iconicon-test'+i" :ref="'ref'+i"></li>
+            </ul>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
 
 <script>
 import {robotPersonal,newRobotPersonal,delOrRepireRobot} from 'service/service'
-import { type } from 'os';
 export default {
     data() {
         return {
@@ -78,11 +93,27 @@ export default {
             total_page:'',
             loading:true,
             tableData: [],
-            dialogTableVisible: false,
+            dialogVisible:false,
             dialogFormVisible: false,
+            title:'新增个性化配置',
+            showAdd:true,
+            id:'',
+            className:'iconfont iconicon-test',
             form: {
                 name: '',
                 url:''
+            },
+            rule:{
+                name: [
+                    { required: true, message: '请输入功能名称', trigger: 'blur' },
+                    { max:200,message: '长度不超过200', trigger: 'blur' },
+                    // { validator:checkUsername, trigger: 'blur' },
+                ],
+                url: [
+                    { required: true, message: '请输入超链接', trigger: 'blur' },
+                    { type:'url',max:200,message: '超链接不合法', trigger: 'blur' },
+                    // { validator:checkUsername, trigger: 'blur' },
+                ],
             },
             formLabelWidth: '100px'
            
@@ -91,20 +122,46 @@ export default {
     mounted(){
         this.getPersonalList();
     },
-
     methods: {
-        
+        getClass(e,i){
+            Object.values(this.$refs).forEach(item=>{
+                if(item[0] == undefined){
+                    return
+                }else{
+                   item[0].style.backgroundColor = '#FFFFFF'
+                } 
+            })
+            this.$refs['ref'+i][0].style.backgroundColor = 'rgba(239,235,246,1)'
+            this.className = "iconfont iconicon-test"+i
+        },
         handleCurrentChange(val) {
             this.getManageList(val)
         },
-        async handleRepire(rows){
+        async handleRepire(rows,key){
+            this.dialogFormVisible = true;
+            this.title = '修改个性化配置'
+            this.id = rows.id
+            this.className = rows.personal_image
+            this.form.name = rows.personal_name
+            this.form.url= rows.personal_url
+            this.showAdd = false
+        },
+        async repire(){
             let result = await delOrRepireRobot({
-                detail_id: rows.id,
-                personal_image: rows.personal_image,
-                personal_name: rows.personal_name,
-                personal_url: rows.personal_url,
+                detail_id: this.id,
+                personal_image: this.className,
+                personal_name: this.form.name,
+                personal_url: this.form.url,
                 is_delete: 0
             })
+            if(result.msg == 'ok' && result.status =='200'){
+                this.dialogFormVisible = false;
+                this.$message({
+                    type: 'success',
+                    message: '修改成功'
+                });
+                this.getPersonalList()
+            }
         },
         handleDel(rows,type){
             this.$confirm('此操作将删除该个性化, 是否继续?', '提示', {
@@ -112,7 +169,21 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.delOrRepire(rows,type) 
+                this.delOrRepire(rows,type).then(result=>{
+                    if(result.status =='200'){
+                        this.getPersonalList()  
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功'
+                        });
+                    }else{
+                        this.$message({
+                            type: 'error',
+                            message: result.msg
+
+                        });
+                    }
+                })
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -122,7 +193,6 @@ export default {
             
         },
         async getPersonalList(){
-            alert(1)
             let tableData = await robotPersonal({
                 robot_id: this.$route.query.robot_id
             })
@@ -130,13 +200,53 @@ export default {
                 this.tableData = tableData.data;
             }
         },
+        news(){
+             this.dialogFormVisible = true
+            this.title = '新增个性化配置'
+            this.id =''
+            this.className ='iconfont iconicon-test'
+            this.form.name = ''
+            this.form.url= ''
+            this.showAdd = true
+        },
         async newAdd (){
-            let addResult = await newRobotPersonal({
-                robot_id: 1,
-                personal_image: 'iconfont iconicon-test11',
-                personal_name: 'wewe',
-                personal_url: 'http://baidu.com'
-            })
+            if(this.form.name.length<1&&this.form.name.length>200){
+                this.$message({
+                    type: 'error',
+                    message: '功能名称长度在1~200之间'
+                });
+            }else if(this.form.url.length<10&&this.form.url.length>200){
+                this.$message({
+                    type: 'error',
+                    message: 'url长度在10~200之间'
+                });
+            }else if(!(this.form.url.indexOf('http') == 0 || this.form.url.indexOf('https') == 0)){
+                this.$message({
+                    type: 'error',
+                    message: 'url应该包含http或者https协议头'
+                });
+            }else{
+                let addResult = await newRobotPersonal({
+                    robot_id: this.$route.query.robot_id,
+                    personal_image: this.className,
+                    personal_name: this.form.name,
+                    personal_url: this.form.url
+                })
+                if(addResult.msg == 'ok' && addResult.status =='200'){
+                    this.$message({
+                        type: 'success',
+                        message: '新增成功'
+                    });
+                    this.dialogFormVisible = false
+                    this.getPersonalList()
+                }else{
+                    this.$message({
+                        type: 'error',
+                        message: addResult.data
+                    });
+                    this.dialogFormVisible = false
+                }
+            }
         },
         async delOrRepire (rows ,type){
             let result = await delOrRepireRobot({
@@ -146,20 +256,7 @@ export default {
                 personal_url: rows.personal_url,
                 is_delete: type
             })
-            if(result.msg == 'ok' && result.msg =='200'){
-                this.getPersonalList()
-                this.$message({
-                    type: 'success',
-                    message: result.data
-                });
-                
-            }else{
-                this.$message({
-                    type: 'error',
-                    message: result.data
-                });
-            }
-           
+            return result
         }
 
     }
@@ -184,6 +281,32 @@ export default {
         font-weight:500;
         color:rgba(80,80,80,1);
     }
+    .el-dialog__body ul li{
+        width:68px;
+        height:68px;
+        border-radius:9px;
+        background:#ffffff;
+        line-height: 68px;
+        font-size:35px;
+        color:rgba(46,0,139,1)
+    }
+    .el-dialog__body ul li:hover{
+        width:68px;
+        height:68px;
+        background:rgba(239,235,246,1);
+        border-radius:9px;
+        line-height: 68px;
+        font-size:35px;
+        color:rgba(46,0,139,1)
+    }
+    .el-dialog__title{
+        color:#2E008B;
+        font-size: 17px;
+
+    }
+    .el-form-item__label{
+        font-weight: bold;
+    }
 }
 .el-table__body tr td{
     text-align: center;
@@ -205,10 +328,8 @@ export default {
 .el-dialog{
     width: 400px;
 }
-.el-dialog__title{
-    color:#2E008B
+.active{
+    background:rgba(239,235,246,1);
 }
-.el-form-item__label{
-    font-weight: bold;
-}
+
 </style>

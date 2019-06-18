@@ -134,10 +134,22 @@
                         <span class="left active"></span>
                     </a>
                     <ul class="show">
-                        <li class="li_sub">
+                        <li>
                             <a href="robot_manage.html">
-                                <span class="icon icon3"></span>
+                                <span class="icon icon4"></span>
                                 <span>机器人管理</span>
+                            </a>
+                        </li>
+                        <li class="li_sub">
+                            <a href="platform_manage.html">
+                                <span class="icon icon3"></span>
+                                <span>平台管理</span>
+                            </a>
+                        </li>
+                        <li class="li_sub">
+                            <a href="product_manage.html">
+                                <span class="icon icon5"></span>
+                                <span>保险产品管理</span>
                             </a>
                         </li>
                     </ul>
@@ -294,8 +306,17 @@
             <div class="robot_settings">
                 <div>常用语设置</div>
                 <span class="product_id"></span>
+                <div class="robot">
+                    <span title="请输入机器人名称">机器人名称：</span>
+                    <p class="robot_name01"></p>
+                    <textarea type="text" id="robot_name01"></textarea>
+                    <span class="edit">
+                        <span class="edit_icon"></span>
+                    <span class="edit_text">编辑</span>
+                    </span>
+                </div>
                 <div class="welcome">
-                    <span>欢迎语：</span>
+                    <span title="请输入客户第一次进来机器人进行恢复的欢迎语">欢迎语：</span>
                     <p class="welcome_words"></p>
                     <textarea type="text" class="welcome_words"></textarea>
                     <span class="edit">
@@ -304,7 +325,7 @@
                     </span>
                 </div>
                 <div class="wait">
-                    <span>等待答复用语：</span>
+                    <span title="当机器人在查找客户询问的问题时，将会显示等待服用语告知客户正在查找答案">等待答复用语：</span>
                     <p class="wait_words"></p>
                     <textarea type="text" class="wait_words"></textarea>
                     <span class="edit">
@@ -313,7 +334,7 @@
                     </span>
                 </div>
                 <div class="timeout">
-                    <span>超时结束用语：</span>
+                    <span title="当客户超过15分钟未询问机器人将会自动结束，这是机器人将会恢复超时结束语">超时结束用语：</span>
                     <p class="timeout_words"></p>
                     <textarea type="text" class="timeout_words"></textarea>
                     <span class="edit">
@@ -321,8 +342,17 @@
                     <span class="edit_text">编辑</span>
                     </span>
                 </div>
+                <div>
+                    <span title="客户咨询问题无法回答时，将使用兜底答复回复客户">兜底答复语：</span>
+                    <p class="say_bottom"></p>
+                    <textarea type="text" id="say_bottom"></textarea>
+                    <span class="edit">
+                        <span class="edit_icon"></span>
+                    <span class="edit_text">编辑</span>
+                    </span>
+                </div>
                 <div class="comment">
-                    <span>备注：</span>
+                    <span title="请对机器人进行备注，以备区分">备注：</span>
                     <p class="weight"></p>
                     <textarea type="text" class="weight"></textarea>
                     <span class="edit">
@@ -330,12 +360,12 @@
 							<span class="edit_text">编辑</span>
 						</span>
                 </div>
-                <div class="hosting">
-                    <!-- <span class="robot_hosting">机器人托管</span>
-                     <span title="点击机器人托管按钮后，在所有客服不在线时机器人将会自动回复客户。"></span>-->
-                </div>
+                <!-- <div class="hosting">
+                    <span class="robot_hosting">机器人托管</span>
+                     <span title="点击机器人托管按钮后，在所有客服不在线时机器人将会自动回复客户。"></span>
+                </div> -->
                 <p class="remark red">*限100字以内</p>
-                <a href="edit_detail.html"><span class="save">发布并保存</span></a>
+                <span class="save"><button type="button" style="background-color:#524AE7;border:none;color:#fff;">发布并保存</button></span>
             </div>
         </div>
     </div>
@@ -365,20 +395,21 @@
                     url: "merchant/v2.0/robot/robot_detail",
                     /*  url: "mockJson/xiangqing.json",*/
                     async: true,
-                    data: {'robot_code': temp[0][1], 'product_id': temp[1][1]},
+                    data: {'robot_code': temp[0][1], 'robot_id': temp[1][1]},
                     success: function (data) {
                         var html = '';
                         var html1 = '';
                         if (data.status == '200') {
-                            data = data.data[0];
+                            console.log(data)
+                            data = data.data;
                             if (data.avatar) {
-                                html += '<img src="' + data.avatar + '" />';
+                                html += '<img style="width:130px;height:130px;" src="' + data.avatar + '" />';
                             } else {
                                 html += '<img src="img/robot.png" />';
                             }
 
                             if (data.customer_service_priority == 1) {
-//					var robot_hosting = msg[i].robot_hosting == 0 ? "机器人托管" : "取消托管";
+                            //var robot_hosting = msg[i].robot_hosting == 0 ? "机器人托管" : "取消托管";
 
                                 if (data.robot_hosting == 0) {
                                     html1 += '<span class="robot_hosting">' + "机器人托管" + '</span>'
@@ -390,16 +421,20 @@
 
                             $('.img').append(html);
                             $('.hosting').append(html1);
-                            $('.rightWord .robot_name').text("机器人名称：" + data.robot_name);
+                            // $('.rightWord .robot_name').text("机器人名称：" + data.robot_name);
                             $('.robot_type').text("机器人类型：" + data.robot_type);
                             $('.robot_code').text("机器人编号：" + data.robot_code);
                             $('.deployment_form').text("部署形式：" + data.deployment_form);
                             $('.uri').text("链接地址：" + data.uri);
                             $(".product_id").text(data.product_id);
                             $(".welcome_words").text(data.welcome_words);
+                            $(".robot_name01").text(data.robot_name);
                             $(".wait_words").text(data.wait_words);
                             $(".timeout_words").text(data.timeout_words);
                             $(".weight").text(data.comment)
+                            $(".say_bottom").text(data.common_answer)
+
+                       
 
                         } else if (data.errmsg == '用户未登录') {
                             window.location.href = "login.html";
@@ -417,10 +452,14 @@
             }
         })
         $('.save').click(function () {
+            console.log($(".robot_name01").text())
+            console.log($(".robot_name01").val())
             var text = $('.comment textarea').val();//备注内容
             var welcome_words = $(".welcome textarea").val();//欢迎语
             var wait_words = $(".wait textarea").val();//结束语
             var timeout_words = $(".timeout textarea").val();//超时语
+            var robot_name01 = $("#robot_name01").val() || $(".robot_name01").text();
+            var common_answer = $("#say_bottom").val() || $(".say_bottom").text();
             var robot_hosting = $('.robot_hosting').hasClass('active') ? 1 : 0;//机器人是否托管
             if ($.trim(text).length > 100) {
                 alert('限100字以内');
@@ -430,10 +469,10 @@
                 alert('备注不能为空');
                 return false;
             }
-            if ($.trim(welcome_words).length <= 0) {
-                alert('请输入欢迎语');
-                return false;
-            }
+            // if ($.trim(welcome_words).length <= 0) {
+            //     alert('请输入欢迎语');
+            //     return false;
+            // }
             if ($.trim(wait_words).length <= 0) {
                 alert('请输入等待答复语');
                 return false;
@@ -443,23 +482,25 @@
                 return false;
             }
             $.ajax({
-                type: "post",
+                type: "put",
                 url: "merchant/v2.0/robot/robot_detail",
                 /* url: "mockJson/xiangqing.json",*/
                 async: true,
                 data: {
                     'robot_code': temp[0][1],
-                    'product_id': temp[1][1],
+                    'robot_id': temp[1][1],
                     'comment': text,
+                    'robot_name':robot_name01,
+                    'common_answer':common_answer,
                     'welcome_words': welcome_words,
                     'wait_words': wait_words,
                     'timeout_words': timeout_words,
                     'robot_hosting': robot_hosting
                 },
                 success: function (data) {
-                    if (data.data == '备注信息更新成功') {
+                    if (data.status == 200) {
                         alert("更新成功！");
-                        window.location.href = "robot_manage.html";
+                        window.location.href="edit_robot_detail.html?robot_id=" + temp[1][1];
                     } else if (data.errmsg == '用户未登录') {
                         window.location.href = "login.html";
                     }
@@ -467,6 +508,7 @@
             });
         })
     });
+
 
     $(document).on('click', '.robot_hosting', function () {
         var this_ = $(this)

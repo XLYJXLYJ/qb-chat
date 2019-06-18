@@ -1,12 +1,57 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="showData">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Qs from 'qs' // 格式化数据格式
+import Vue from 'vue'
 export default {
   name: 'app',
+  data(){
+    return{
+      showData:false
+    }
+  },
+  created(){
+        let url = window.location.href
+        let name01 = /\/insurebotaimi\/([a-zA-Z0-9-]+)/.exec(url)[1]
+        let getThen = new Promise((resolve, reject) => {
+        let getRobotData  = Qs.stringify({
+            name:name01
+        });
+        Vue.axios.post('http://test.open.qb-tech.net/api/v1/chat/index',getRobotData)
+            .then(res => {
+                window.rusultData = res.data.data,
+                window.show_claims_consultation = window.rusultData.show_claims_consultation, //是否显示理赔咨询
+                window.slogon = window.rusultData.slogon,
+                window.avatar_big = "http://test.open.qb-tech.net/img/aimi-big.png",
+                window.qas = window.rusultData.qas.length==0?[] : window.rusultData.qas,
+                window.extendList = window.rusultData.extends,
+                window.key = window.rusultData.key,
+                window.skey = "{{$skey}}",
+                window.aimi_name = window.rusultData.display_name,
+                window.avatar_small = "http://test.open.qb-tech.net/img/aimi-big.png",
+                window.wait_response = window.rusultData.wait,
+                window.greet_msg = window.rusultData.greet,
+                window.timeout_msg = window.rusultData.timeout,
+                window.url = "http://test.open.qb-tech.net/api/v1/",
+                window.send_url = "http://test.open.qb-tech.net/api/v1/chat/send",
+                window.feedback_url = "http://test.open.qb-tech.net/api/v1/chat/feedback";
+                // document.title =  window.rusultData.title
+                // $(document).attr("title",window.rusultData.title);
+                // window.res_url = window.url
+                if(localStorage.getItem('uuid') == null){
+                   localStorage.setItem('uuid', window.rusultData.dialog_id);
+                }
+                this.showData = true
+
+            })
+            .catch(err =>{
+            })
+        })
+  },
   mounted () {
   }
 }

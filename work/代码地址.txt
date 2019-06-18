@@ -1,0 +1,28 @@
+Git管理
+1.git 远程仓库地址：http://lind:442129230@120.79.134.216:8001/qbzz/static.git
+2.git配置，email = sarah.yi@qibao-tech.com
+	name = sarah.yi
+	password = 1253872481
+项目文件目录
+1.h5页面：static-->interlocution-->-->html-->show-->aimi.html
+2.聊天客服：static-->chat（vue）
+3.官网：static-->index3.0-->qbkj
+4.客户后台系统:static-->ai_cms-->ai_cms
+
+
+
+
+
+
+
+测试环境地址：
+1.聊天客服：http://test.chat.qb-tech.net/#/chat
+2.h5页面：http://test.open.qb-tech.net/insurebotaimi/002（通用机器人）
+http://test.open.qb-tech.net/insurebotaimi/SDC-bwyl#/Chat（水滴筹）
+3.官网：http://www.qibaozz.com/（没有测试环境）
+4.客户后台系统：http://test.merchant.qb-tech.net/login.html
+
+
+wifi密码：账号：yushun-wedo-5G
+	  密码：wedo6666
+

@@ -11,7 +11,7 @@
 			<div class="top">
 				<span>当前位置:<span class="current">管理中心</span><span>></span><span>保险产品管理</span><span>></span><span class="active">新增保险产品</span></span>
 				<span>
-					<a href='user.html'><span class="user"></span><span class="username"></span><span class="company"></span></a>
+					<a href='user.html'><span class="user"></span><span class="username"></span><span class="insured_company"></span></a>
 					<span class="login_out">退出</span>
 				</span>	
 				
@@ -38,7 +38,13 @@
 				        	  	<span>管理中心</span>
 				        	  	<span class="left active"></span>
 				        	</a>
-							<ul>
+							<ul class="show">
+								<li class="li_sub">
+									<a href="robot_manage.html">
+										<span class="icon icon4"></span>
+										<span>机器人管理</span>
+									</a>
+								</li>
 								<li class="li_sub">
 									<a href="platform_manage.html">
 										<span class="icon icon3"></span>
@@ -46,14 +52,8 @@
 									</a>
 								</li>
 								<li class="li_sub">
-									<a href="robot_manage.html">
-										<span class="icon icon3"></span>
-										<span>机器人管理</span>
-									</a>
-								</li>
-								<li class="li_sub">
 									<a href="product_manage.html">
-										<span class="icon icon3"></span>
+										<span class="icon icon5"></span>
 										<span>保险产品管理</span>
 									</a>
 								</li>
@@ -181,136 +181,167 @@
 				<form action="">
 					<div class="necessary">保险产品相关(填写类)</div>
 					<ul>
-						<li>保险产品名称：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>除外责任：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>保险产品名称：<textarea name="name" id="name" cols="50" rows="3"></textarea></li>
+						<li>除外责任：<textarea name="exclusions" id="exclusions" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>产品亮点：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>咨询理赔资料说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>产品亮点：<textarea name="highlight" id="highlight" cols="50" rows="3"></textarea></li>
+						<li>咨询理赔资料说明：<textarea name="consulting_claims" id="consulting_claims" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>保险期限：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>保险责任简述：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>保险期限：<textarea name="guarantee_period" id="guarantee_period" cols="50" rows="3"></textarea></li>
+						<li>保险责任简述：<textarea name="insurance_liability" id="insurance_liability" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>生效时间：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>给付型赔偿项目：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>生效时间：<textarea name="effect_time" id="effect_time" cols="50" rows="3"></textarea></li>
+						<li>给付型赔偿项目：<textarea name="compensation_payment" id="compensation_payment" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>保费豁免说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>报销型赔偿项目：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>保费豁免说明：<textarea name="premium_waiver" id="premium_waiver" cols="50" rows="3"></textarea></li>
+						<li>报销型赔偿项目：<textarea name="reimbursement" id="reimbursement" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>疾病分组说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>费用免除型赔偿项目：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>疾病分组说明：<textarea name="disease_group" id="disease_group" cols="50" rows="3"></textarea></li>
+						<li>费用免除型赔偿项目：<textarea name="relief_type" id="relief_type" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>不同保险责任间的赔付逻辑说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>免赔说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>不同保险责任间的赔付逻辑说明：<textarea name="com_logic" id="com_logic" cols="50" rows="3"></textarea></li>
+						<li>免赔说明：<textarea name="franchise" id="franchise" cols="50" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>赔付比例说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>赔付比例说明：<textarea name="com_ratio" id="com_ratio" cols="50" rows="3"></textarea></li>
 						<li></li>
 					</ul>
 						<div class="options">保险产品相关(选项类)</div>
 					<ul>
 						<li>承保公司名称：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="insured_insured_company" id="insured_insured_company">
 							</select>
 						</li>
+						<li>宽限期：
+							<select name="grace_period" id="grace_period">
+								<option value="无">无</option>
+								<option value="1天">1天</option>
+								<option value="2天">2天</option>
+								<option value="3天">3天</option>
+								<option value="4天">4天</option>
+								<option value="5天">5天</option>
+							</select>
+						</li>
+
+					</ul>
+					<ul>
 						<li>给付型/报销型：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="payment_method" id="payment_method">
+								<option value="给付型">给付型</option>
+								<option value="报销型">报销型</option>
+							</select>
+						</li>
+						<li>医院等级要求：							
+							<select name="hospital_grade" id="hospital_grade">
+								<option value="二级及以上">二级及以上</option>
+								<option value="三甲医院">三甲医院</option>
+								<option value="不限制">不限制</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
-						<li>医院等级要求：							
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
-							</select></li>
 						<li>消费型/返还型：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="product_type" id="product_type">
+								<option value="消费型">消费型</option>
+								<option value="返还型">返还型</option>
+							</select>
+						</li>
+						<li>有无保险费豁免：
+							<select name="permium_waiver" id="permium_waiver">
+								<option value="无">无</option>
+								<option value="有">有</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>险种名称：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="insurance_type" id="insurance_type">
+								<option value="寿险">寿险</option>
+								<option value="重疾险">重疾险</option>
+								<option value="医疗险">医疗险</option>
+								<option value="意外险">意外险</option>
+								<option value="旅游险">旅游险</option>
 							</select>
 						</li>
-						<li>有无保险费豁免：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+						<li>有无适度治疗规定：
+							<select name="apprt_trtment" id="apprt_trtment">
+								<option value="无">无</option>
+								<option value="有">有</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>犹豫期：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="hesitation_period01" id="hesitation_period01">
+								<option value="自然日">自然日</option>
+								<option value="工作日">工作日</option>
+							</select>
+							<select name="hesitation_period02" id="hesitation_period02">
+								<option value="0天">0天</option>
+								<option value="1天">1天</option>
+								<option value="2天">2天</option>
 							</select>
 						</li>
-						<li>有无适度治疗规定：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+						<li>有无现金价值：
+							<select name="cash_value" id="cash_value">
+								<option value="无">无</option>
+								<option value="有">有</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>是否承包三责：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="third_liability" id="third_liability">
+								<option value="承保">承保</option>
+								<option value="不承保">不承保</option>
 							</select>
 						</li>
-						<li>有无现金价值：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+						<li>有无分红：
+							<select name="profit" id="profit">
+								<option value="无">无</option>
+								<option value="有">有</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>等待期：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="wait_period" id="wait_period">
+								<option value="无">无</option>
+								<option value="1天">1天</option>
+								<option value="2天">2天</option>
+								<option value="3天">3天</option>
+								<option value="4天">4天</option>
+								<option value="5天">5天</option>
 							</select>
 						</li>
-						<li>有无分红：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+						<li>有无垫底服务：
+							<select name="advances" id="advances">
+								<option value="无">无</option>
+								<option value="有">有</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>复效期：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="reinstate" id="reinstate">
+								<option value="无">无</option>
+								<option value="1年">1年</option>
+								<option value="2年">2年</option>
+								<option value="3年">3年</option>
 							</select>
 						</li>
-						<li>有无垫底服务：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
-							</select>
+						<li>
+
 						</li>
 					</ul>
-					<button class="product-save">保存</button>
+					<button class="product-save-two" type="button">投保相关</button>
+					<button class="product-save" type="button">保存</button>
 				</form>
 			</div>	
 		</div>	
@@ -318,6 +349,8 @@
 		<script src="js/laydate.js"></script>
 		<script src="js/common.js"></script>
 		<script>
+			var list = {}
+			var product_status = 0
 			var complain=laydate.render({
 				elem: '#complainTime', //指定元素
 				type: 'time',
@@ -341,197 +374,51 @@
 				cookie=cookie.split('&&');
 			}
 			$(function(){
-				paging(1).then(function(){
-					var number=$('.number').text();
-					number=parseInt(number);
-					$('.page').show();
-					$('.start').hide();
-					$.each($('.page'), function(i) {
-						if(1+i>number){
-							$(this).hide();
-							$('.end').hide();
-						}else{
-							$(this).text(1+i);
-						}
-					});
-					$('page').eq(0).show();
-				});
+				var url = document.location.toString();
+		　　　　 var arrUrl = url.split("?");
+		　　　　 var para = arrUrl[1];
+				var arrPara = para.split("&");
+	　　　　　　 for (var i = 0; i < arrPara.length; i++) {
+	　　　　　　　　  arr = arrPara[i].split("=");
+					 key= arr[0]
+					 list[key] = arr[1]
+	　　　　　　}
+				if(list.type == 0){
+					$('.product-save-two').addClass('show_none')
+				}else{
+					$('.product-save-two').removeClass('show_none')
+				}
+				productGet()
+				getProductCompany()
 			})
 			//首页
-			$('.start').click(function(){
-				paging(1);
-				var number=$('.number').text();
-				$('.page').show();
-				$.each($('.page'), function(i) {
-					if(1+i>number){
-						$(this).hide();
-						$('.end').hide();
-					}else{
-						$(this).text(1+i);
-					}
-				});
-				$('.end').show();
-				$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
+			$('.product-save').click(function(){
+				JudgeProductState();
+				
 			})
-			//末页
-			$('.end').click(function(){
-				var p=$('.number').text();
-				paging(p);
-				$('.page').show();
-				var index=Math.floor(p/5);
-				index=index*5;
-				var page= $('.number').text();
-				$.each($('.page'), function(i) {
-					if(index+1+i>page){
-						$(this).hide();
-						$('.end').hide();
-					}
-					$(this).text(index+1+i);
-					if(index+1+i==p){
-						$(this).addClass('active');
-						$('.page').not(this).removeClass('active');
-						$('.end').hide();
-					}
-					$('.start').show();
-				});
-				$('.end').hide();
-			})
-			//上一页
-			$('.pre').click(function(){
-				var value=$('.page').eq(0).text();
-				value=parseInt(value);
-				if(value==1){
-					return false;
-				}else{
-					$('.page').show();
-					$.each($('.page'), function(i) {
-						$(this).text(value-5+i);
-					});
-				}
-				var p=$('.page.active').text();
-				paging(value-1);
-				$('.end').show();
-			})	
-			//下一页
-			$('.next').click(function(){
-				var value=$('.page:visible').eq(-1).text();
-				value=parseInt(value);
-				var number=$('.number').text();
-				number=parseInt(number);
-				var p=$('.page.active').text();
-				if(value==number){
-					return false;
-				}else{
-					paging(value+1);
-					$(".page").show();
-					$.each($('.page'),function(i) {
-						if(value+1+i>number){
-							$(this).hide();
-							$('.end').hide();
-						}else{
-							$(this).text(value+1+i);
-						}
-					});
-					$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
-				}
-			})
-			//分页
-			$('.page').click(function(){
-				var number=$('.number').text();
-				var this_=$(this);
-				var p=$(this).text();
-				paging(p);
-				var temp=false;;
-				$.each($('.page'),function(i) {
-					if(temp){
-						$(this).hide();
-						$('.end').hide();
-					}
-					if(parseInt($(this).text())==parseInt(number)){
-						temp=true;
-					}
-				});
-				$(this_).addClass('active');
-				$('.page').not(this_[0]).removeClass('active');
-			})
-			//跳转
-			$('.ship').click(function(){
-				if($(this).hasClass('active')){
-					var p=$(".footer input").val();
-					$(".footer input").val('');
-					paging(p);
-					$('.page').show();
-					var index=Math.floor(p/5);
-					index=index*5;
-					var page= $('.number').text();
-					if(page>5){
-						$('.end').show();
-					}else{
-						$('.end').hide();
-					}
-					$.each($('.page'), function(i) {
-						if(index+1+i>page){
-							$(this).hide();
-							$('.end').hide();
-						}
-						$(this).text(index+1+i);
-						if(index+1+i==p){
-							$(this).addClass('active');
-							$('.page').not(this).removeClass('active');
-						}
-					});
-					$('.ship').removeClass('active');
-				}
-			})
-			
-			//merchant/v2.0/robot/robot_manage
-			function paging(pageSize){
-				$('tbody').empty();
-				console.log(cookie[2],pageSize)
+			//获取公司信息
+			function getProductCompany(){　
 				return  new  Promise(function(resolve,reject){
 					$.ajax({
 						type:"get",
-						url:"merchant/v2.0/robot/robot_manage",
+						url:"merchant/v2.0/robot/robot_insurance_company",
 						async:true,
-						data:{'product_id':cookie[2],'pageSize':pageSize},
+						data:{
+						},
 					}).done((data)=>{
 						if(data.status=='200'){
-							var size= data.total_num%5==0 ? data.total_num/5: parseInt(data.total_num/5)+1;
-							data=data.data;
-							console.log(data)
-							$('.footer').show();
-							var temp
-							if(data.length>0){
-								var str='';
-								var temp="";
-								var title="";
-								for(var i=0;i<data.length;i++){
-									str+='<tr>';
-									str+='<td>'+data[i].robot_code+'</td>';
-									str+='<td>'+data[i].robot_name+'</td>';
-									str+='<td>'+data[i].robot_type+'</td>';
-									str+='<td>'+data[i].deployment_form+'</td>';
-									if(data[i].comment&&data[i].comment.length>20){
-										temp=data[i].comment.substring(0,20);
-										str+='<td><p><span title="'+data[i].comment+'">'+temp+'...</span></p></td>';
-									}else{
-										str+='<td><p><span>'+data[i].comment+'</span></p></td>';
-									}
-									str+='<td>';
-								    str+='<a href="Individualization.html?robot_id='+data[i].id+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
-									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>详情</span></a>';
-									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>知识库</span></a>';
-									str+='</td>';
-									str+='</tr>';
-								}
-								$('tbody').append(str);
-								$('.footer').show();
+							console.log('修改成功')
+							console.log(data.data)
+							var html = '';
+							for(let i=0;i<data.data.length;i++){
+								console.log(data.data[i])
+								html += '<option value = "'+ data.data[i] +'">' + data.data[i] + '</option>'
 								
-							}else{
-								$('.footer').hide();
 							}
-							$('.footer .number').text(size);
-							resolve();
+							$('#insured_insured_company').append(html);
+							
+							
+							
 						}else if(data.errmsg=='用户未登录'){
 							// window.location.href="login.html";
 						}
@@ -539,6 +426,197 @@
 					
 				})	
 			}
+
+			//修改信息
+			function productEdit(){　
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"put",
+						url:"merchant/v2.0/robot/detail_product_manage",
+						async:true,
+						data:{
+							product_manage_id:list.product_manage_id,
+							product_status: product_status,
+							name:$("#name").val(),
+							highlight:$("#highlight").val(),
+							guarantee_period:$("#guarantee_period").val(),
+							effect_time:$("#effect_time").val(),
+							premium_waiver:$("#premium_waiver").val(),
+							disease_group:$("#disease_group").val(),
+							com_logic:$("#com_logic").val(),
+							com_ratio:$("#com_ratio").val(),
+							exclusions:$("#exclusions").val(),
+							consulting_claims:$("#consulting_claims").val(),
+							insurance_liability:$("#insurance_liability").val(),
+							compensation_payment:$("#compensation_payment").val(),
+							reimbursement:$("#reimbursement").val(),
+							relief_type:$("#relief_type").val(),
+							franchise:$("#franchise").val(),
+							insured_company:$("#insured_company").val(),
+							payment_method:$("#payment_method ").val(),
+
+							product_type:$("#product_type").val(),
+							insurance_type:$("#insurance_type").val(),
+							third_liability:$("#third_liability").val(),
+							wait_period:$("#wait_period").val(),
+							reinstate:$("#reinstate").val(),
+							grace_period:$("#grace_period").val(),
+							hospital_grade:$("#hospital_grade").val(),
+							permium_waiver:$("#permium_waiver").val(),
+							apprt_trtment:$("#apprt_trtment").val(),
+							cash_value:$("#cash_value").val(),
+							profit:$("#profit").val(),
+							advances:$("#advances").val(),
+
+							hesitation_period: $("#hesitation_period01").val() + '&' + $("#hesitation_period02").val(),
+
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('修改成功')
+							alert('修改成功')
+							window.location.href="product_manage_detail_next.html?product_manage_id=" + list.product_manage_id + "&type=" + list.type;
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+
+			//获取信息
+			function productGet(){　
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"get",
+						url:"merchant/v2.0/robot/detail_product_manage",
+						async:true,
+						data:{
+							product_manage_id: list.product_manage_id,
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('获取信息成功')
+							console.log(data)
+							let redata = data.data
+							$("#name").val(redata.name);
+							$("#highlight").val(redata.highlight);
+							$("#guarantee_period").val(redata.guarantee_period);
+							$("#effect_time").val(redata.effect_time);
+							$("#premium_waiver").val(redata.premium_waiver);
+							$("#disease_group").val(redata.disease_group);
+							$("#com_logic").val(redata.com_logic);
+							$("#com_ratio").val(redata.com_ratio);
+							$("#exclusions").val(redata.exclusions);
+							$("#consulting_claims").val(redata.consulting_claim);
+							$("#insurance_liability").val(redata.insurance_liability);
+							$("#compensation_payment").val(redata.compensation_payment);
+							$("#reimbursement").val(redata.reimbursement);
+							$("#relief_type").val(redata.relief_type);
+							$("#franchise").val(redata.franchise);
+							$("#insured_company").val(redata.insured_company);
+							$("#payment_method ").val(redata.payment_method);
+
+							$("#product_type").val(redata.product_type);
+							$("#insurance_type").val(redata.insurance_type);
+							$("#hesitation_period").val(redata.hesitation_period);
+							$("#third_liability").val(redata.third_liability);
+							$("#wait_period").val(redata.wait_period);
+							$("#reinstate").val(redata.reinstate);
+							$("#grace_period").val(redata.grace_period);
+							$("#hospital_grade").val(redata.hospital_grade);
+							$("#permium_waiver").val(redata.permium_waiver);
+							$("#apprt_trtment").val(redata.apprt_trtment);
+							$("#cash_value").val(redata.cash_value);
+							$("#profit").val(redata.profit);
+							$("#advances").val(redata.advances);
+
+							let hesitation = redata.hesitation_period.split('&');
+							$("#hesitation_period01").val(hesitation[0]);
+							$("#hesitation_period02").val(hesitation[1]);
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+			//添加信息
+			function productAdd(){
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"post",
+						url:"merchant/v2.0/robot/detail_product_manage",
+						async:true,
+						data:{
+							name:$("#name").val(),
+							highlight:$("#highlight").val(),
+							product_manage_id:list.product_manage_id,
+							product_status: product_status,
+							guarantee_period:$("#guarantee_period").val(),
+							effect_time:$("#effect_time").val(),
+							premium_waiver:$("#premium_waiver").val(),
+							disease_group:$("#disease_group").val(),
+							com_logic:$("#com_logic").val(),
+							com_ratio:$("#com_ratio").val(),
+							exclusions:$("#exclusions").val(),
+							consulting_claims:$("#consulting_claims").val(),
+							insurance_liability:$("#insurance_liability").val(),
+							compensation_payment:$("#compensation_payment").val(),
+							reimbursement:$("#reimbursement").val(),
+							relief_type:$("#relief_type").val(),
+							franchise:$("#franchise").val(),
+							insured_company:$("#insured_company").val(),
+							payment_method:$("#payment_method ").val(),
+
+							product_type:$("#product_type").val(),
+							insurance_type:$("#insurance_type").val(),
+							third_liability:$("#third_liability").val(),
+							wait_period:$("#wait_period").val(),
+							reinstate:$("#reinstate").val(),
+							grace_period:$("#grace_period").val(),
+							hospital_grade:$("#hospital_grade").val(),
+							permium_waiver:$("#permium_waiver").val(),
+							apprt_trtment:$("#apprt_trtment").val(),
+							cash_value:$("#cash_value").val(),
+							profit:$("#profit").val(),
+							advances:$("#advances").val(),
+
+							hesitation_period: $("#hesitation_period01").val() + '&' + $("#hesitation_period02").val(),
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('提交成功')
+							alert('提交成功')
+							window.location.href="product_manage_detail_next.html?product_manage_id=" + data.data.product_manage_id + "&type=" + list.type;
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+
+			function JudgeProductState(){
+				if( $("#name").val() && $("#guarantee_period").val() && $("#effect_time").val()&& $("#premium_waiver").val()&& $("#disease_group").val()&&
+					$("#com_logic").val() && $("#com_ratio").val() && $("#exclusions").val()&& $("#consulting_claims").val() && $("#insurance_liability").val()&&
+					$("#compensation_payment").val() && $("#reimbursement").val() && $("#relief_type").val() && $("#franchise").val() && $("#insured_company").val()&&
+					$("#payment_method ").val() && $("#service_online_time").val() && $("#complaint_time").val() && $("#call_service_time").val()){
+					product_status = 0
+				}else{
+					product_status = 2
+				}
+				if(list.type == 0){
+					productAdd()
+				}else{
+					productEdit()
+				}
+			}
+			
+			$('.product-save-two').click(function(){
+				console.log('list.type = ' + list.type)
+				window.location.href="product_manage_detail_next.html?product_manage_id=" + list.product_manage_id + "&type=" + list.type;
+			})	
 		</script>
 	</body>
 </html>

@@ -119,7 +119,7 @@
       v_head
     },
     created: function () {
-      this.$ajax.get('/acs/v1.0/robot_number').then(res => {
+      this.$ajax.get('http://193.112.210.244:8010/acs/v1.0/robot_number').then(res => {
         this.robot_number = res.data.data;
 
       })
@@ -147,7 +147,7 @@
         elem: '#datetimeEnd', //指定元素
         type: 'datetime'
       });
-      this.$ajax.get('/acs/v1.0/record_dialogs').then(res => {
+      this.$ajax.get('http://193.112.210.244:8010/acs/v1.0/record_dialogs').then(res => {
         this.records = res.data.data.log_dict_list;
         this.initPageNo = res.data.data.current_page;
         this.totalPages = res.data.data.total_page;
@@ -279,7 +279,7 @@
 //        this.paging()
       },
       paging() {
-        this.$ajax.get('/acs/v1.0/record_dialogs', {
+        this.$ajax.get('http://193.112.210.244:8010/acs/v1.0/record_dialogs', {
           params: {
             role: this.role,
             start_date: this.$refs.datetimeStart.value,

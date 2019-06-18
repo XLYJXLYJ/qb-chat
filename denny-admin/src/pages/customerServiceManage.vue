@@ -1,8 +1,8 @@
 <template>
     <div class="robotManage">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path:'/' }">人工客服</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path:'salesFunnel'}">客服管理</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path:'/manage/customerServiceManage' }">人工客服</el-breadcrumb-item>
+            <el-breadcrumb-item >客服管理</el-breadcrumb-item>
         </el-breadcrumb>
         <el-row>
             <el-button type="primary" @click="addCustomer()">添加</el-button>
@@ -56,9 +56,10 @@
                 label="负责机器人"
                 width="120">
                  <template slot-scope="scope">
-                    <ul v-for= 'item in scope.row.robot' :key='item'>
+                    <!-- <ul v-for= 'item in scope.row.robot' :key='item'>
                         <li>{{item}}</li>
-                    </ul>
+                    </ul> -->
+                    {{scope.row.robot}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -66,9 +67,10 @@
                 label="负责的产品"
                 >
                 <template slot-scope="scope">
-                    <ul v-for= 'item in scope.row.product' :key='item'>
+                    <!-- <ul v-for= 'item in scope.row.product' :key='item'>
                         <li>{{item}}</li>
-                    </ul>
+                    </ul> -->
+                    {{scope.row.product}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -88,7 +90,7 @@
                     <el-input v-model="form.resetName" aria-placeholder="请输入客服用户名"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" :label-width="formLabelWidth">
-                    <el-input type='password' v-model="form.resetPassword" aria-placeholder="请输入客服密码"></el-input>
+                    <el-input type='text' v-model="form.resetPassword" aria-placeholder="请输入客服密码"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer" style="text-align:center">
@@ -101,9 +103,9 @@
              <el-pagination
                 background
                 @current-change="handleCurrentChange"
-                :page-size="5"
+                :page-size="1"
                 layout="prev, pager, next,jumper"
-                :total='total_page'>
+                :total='total_num || 1' >
             </el-pagination>
         </el-row>
 
@@ -146,28 +148,34 @@ export default {
                 this.$refs.multipleTable.clearSelection();
             }
         },
+        handleCurrentChange(val) {
+            this.getServiceManage(val)
+        },
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
         async getServiceManage(val){
+
             this.loading = true
-           let manageData = await serviceManage({
+            let manageData = await serviceManage({
                 pageSize: val || 1
-           })
-           if(manageData.msg == 'ok' && manageData.status == '200'){
-               this.$nextTick(() => {
-                    this.tableData = manageData.data
-                    this.total_page = manageData.total_page*5
-               })
-               this.loading = false
-           }
+            })
+            if(manageData.msg == 'ok' && manageData.status == '200'){
+                this.tableData = manageData.data
+                this.total_num = manageData.total_page
+                this.loading = false
+            }
         },
-        async addCustomer(){
+        addCustomer(){
             this.dialogFormVisible = true
+            this.form.phone = ''
+            this.form.name = ''
         },
-        async editCustomer(scope){
+        editCustomer(scope){
             this.editDialogFormVisible = true
             this.editScope = scope
+            this.form.resetName = scope.row.mobile
+            this.form.resetPassword = scope.row.s_name
         },
         async difineAddCustomer(){
             this.dialogFormVisible = false
@@ -177,14 +185,17 @@ export default {
            })
             if(resultData.msg == 'ok' && resultData.status == '200'){
                 this.$message({
-                    type: 'info',
+                    type: 'success',
                     message: resultData.data
                 });
+                this.getServiceManage()
             }
+
             this.loading = false;
         },
         async difineEditCustomer(){
-            this.editDialogFormVisible = false
+             this.editDialogFormVisible = false
+             
             let resultData = await eServiceManage({
                 service_id:this.editScope.row.id,
                 service_password:this.form.resetPassword,
@@ -193,28 +204,30 @@ export default {
            })
             if(resultData.msg == 'ok' && resultData.status == '200'){
                 this.$message({
-                    type: 'info',
+                    type: 'success',
                     message: resultData.data
                 });
-                this.$router.go(0)
+                this.getServiceManage()
             }
         },
         handleDelete(scope){
             let that = this
             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-            }).then(async function(){
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async ()=>{
                 let resultData = await dServiceManage({
                     service_id: scope.row.id
-            })
-            if(resultData.msg == 'ok' && resultData.status == '200'){
-                that.$message({
-                    type: 'info',
-                    message: resultData.data
-                });
-            }  
+                })
+                if(resultData.msg == 'ok' && resultData.status == '200'){
+                    that.$message({
+                        type: 'success',
+                        message: resultData.data
+                    });
+                    this.getServiceManage()
+                }  
+            
             })
         },
         handleCurrentChange(val){

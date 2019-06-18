@@ -33,12 +33,18 @@
 				        	</a>
 				        </li>
 				        <li class="li_father">
-				        	<a class="active">
+				        	<a>
 				        		<span class="icon icon2"></span>
 				        	  	<span>管理中心</span>
 				        	  	<span class="left active"></span>
 				        	</a>
-							<ul>
+							<ul class="show">
+								<li class="li_sub">
+									<a href="robot_manage.html">
+										<span class="icon icon4"></span>
+										<span>机器人管理</span>
+									</a>
+								</li>
 								<li class="li_sub">
 									<a href="platform_manage.html">
 										<span class="icon icon3"></span>
@@ -46,14 +52,8 @@
 									</a>
 								</li>
 								<li class="li_sub">
-									<a href="robot_manage.html">
-										<span class="icon icon3"></span>
-										<span>机器人管理</span>
-									</a>
-								</li>
-								<li class="li_sub">
 									<a href="product_manage.html">
-										<span class="icon icon3"></span>
+										<span class="icon icon5"></span>
 										<span>保险产品管理</span>
 									</a>
 								</li>
@@ -181,74 +181,78 @@
 				<form action="">
 					<div class="necessary">平台(填写类)</div>
 					<ul>
-						<li>平台名称：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>理赔电话：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>平台名称：<textarea name="name" id="name" cols="40" rows="3"></textarea></li>
+						<li>理赔电话：<textarea name="claims_phone" id="claims_phone" cols="40" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>增值服务说明：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>投诉电话：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>增值服务说明：<textarea name="add_value_service" id="add_value_service" cols="40" rows="3"></textarea></li>
+						<li>投诉电话：<textarea name="complaints" id="complaints" cols="40" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>官方APP名称：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>员工数量：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>官方APP名称：<textarea name="official_name" id="official_name" cols="40" rows="3"></textarea></li>
+						<li>员工数量：<textarea name="employee_number" id="employee_number" cols="40" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>投保方式：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>商务合作电话：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>投保方式：<textarea name="insured_type" id="insured_type" cols="40" rows="3"></textarea></li>
+						<li>商务合作电话：<textarea name="business_call" id="business_call" cols="40" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>充值网址：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>官方微信号名称：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>充值网址：<textarea name="recharge_url" id="recharge_url" cols="40" rows="3"></textarea></li>
+						<li>官方微信号名称：<textarea name="official_wechat" id="official_wechat" cols="40" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>服务费发票规则网址：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>微信服务内容：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>服务费发票规则网址：<textarea name="invoice" id="invoice" cols="40" rows="3"></textarea></li>
+						<li>微信服务内容：<textarea name="wechat_service_content" id="wechat_service_content" cols="40" rows="3"></textarea></li>
 					</ul>
 					<ul>
-						<li>保费收入：<textarea name="" id="" cols="50" rows="3"></textarea></li>
-						<li>结算规则网址：<textarea name="" id="" cols="50" rows="3"></textarea></li>
+						<li>保费收入：<textarea name="premium_income" id="premium_income" cols="40" rows="3"></textarea></li>
+						<li>结算规则网址：<textarea name="settlement_rule" id="settlement_rule" cols="40" rows="3"></textarea></li>
+					</ul>
+					<ul>
+						<li>结算查询网址：<textarea name="settlement_enquiry" id="settlement_enquiry" cols="40" rows="3"></textarea></li>
+						<li>邮费说明：<textarea name="postage_instruction" id="postage_instruction" cols="40" rows="3"></textarea></li>
 					</ul>
 						<div class="options">平台(选项类)</div>
 					<ul>
 						<li>公司名称：
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="company" id="company">
+								<!-- <option value="1">1</option>
+								<option value="2">2</option> -->
 							</select>
 						</li>
 						<li>投诉受理服务时间：
-							<input type="text" id="complainTime" style="margin-right:10px;">
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<input type="text" id="complaint_time" style="margin-right:10px;">
+							<select name="complaint_time_day" id="complaint_time_day">
+								<option value="工作日">工作日</option>
+								<option value="自然日">自然日</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>官方APP：							
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<select name="is_official_app" id="is_official_app">
+								<option value="有官方APP">有官方APP</option>
+								<option value="无官方APP">无官方APP</option>
 							</select></li>
 						<li>电话客服工作时间：
-							<input type="text" id="phoneTime" style="margin-right:10px;">
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<input type="text" id="call_service_time" style="margin-right:10px;">
+							<select name="call_service_time_day" id="call_service_time_day">
+								<option value="工作日">工作日</option>
+								<option value="自然日">自然日</option>
 							</select>
 						</li>
 					</ul>
 					<ul>
 						<li>在线客服工作时间：
-							<input type="text" id="humanTime" style="margin-right:10px;">
-							<select name="" id="">
-								<option value="">1</option>
-								<option value="">2</option>
+							<input type="text" id="service_online_time" style="margin-right:10px;">
+							<select name="service_online_time_day" id="service_online_time_day">
+								<option value="工作日">工作日</option>
+								<option value="自然日">自然日</option>
 							</select>
 						</li>
 						<li></li>
 					</ul>
-					<button class="product-save">保存</button>
+					<button class="product-save" type="button">保存</button>
 				</form>
 			</div>	
 		</div>	
@@ -256,18 +260,20 @@
 		<script src="js/laydate.js"></script>
 		<script src="js/common.js"></script>
 		<script>
+			var list = {}
+			var platform_status = 0
 			var complain=laydate.render({
-				elem: '#complainTime', //指定元素
+				elem: '#complaint_time', //指定元素
 				type: 'time',
 				range: true 
 			});
 			var phone=laydate.render({
-				elem: '#phoneTime', //指定元素
+				elem: '#call_service_time', //指定元素
 				type: 'time',
 				range: true 
 			});
 			var human=laydate.render({
-				elem: '#humanTime', //指定元素
+				elem: '#service_online_time', //指定元素
 				type: 'time',
 				range: true 
 			});
@@ -279,203 +285,239 @@
 				cookie=cookie.split('&&');
 			}
 			$(function(){
-				paging(1).then(function(){
-					var number=$('.number').text();
-					number=parseInt(number);
-					$('.page').show();
-					$('.start').hide();
-					$.each($('.page'), function(i) {
-						if(1+i>number){
-							$(this).hide();
-							$('.end').hide();
-						}else{
-							$(this).text(1+i);
-						}
-					});
-					$('page').eq(0).show();
-				});
+				var url = document.location.toString();
+		　　　　 var arrUrl = url.split("?");
+		　　　　 var para = arrUrl[1];
+				var arrPara = para.split("&");
+	　　　　　　 for (var i = 0; i < arrPara.length; i++) {
+	　　　　　　　　  arr = arrPara[i].split("=");
+					 key= arr[0]
+					 list[key] = arr[1]
+	　　　　　　}
+	
+				platformGet()
+				getCompany()
 			})
 			//首页
-			$('.start').click(function(){
-				paging(1);
-				var number=$('.number').text();
-				$('.page').show();
-				$.each($('.page'), function(i) {
-					if(1+i>number){
-						$(this).hide();
-						$('.end').hide();
-					}else{
-						$(this).text(1+i);
-					}
-				});
-				$('.end').show();
-				$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
-			})
-			//末页
-			$('.end').click(function(){
-				var p=$('.number').text();
-				paging(p);
-				$('.page').show();
-				var index=Math.floor(p/5);
-				index=index*5;
-				var page= $('.number').text();
-				$.each($('.page'), function(i) {
-					if(index+1+i>page){
-						$(this).hide();
-						$('.end').hide();
-					}
-					$(this).text(index+1+i);
-					if(index+1+i==p){
-						$(this).addClass('active');
-						$('.page').not(this).removeClass('active');
-						$('.end').hide();
-					}
-					$('.start').show();
-				});
-				$('.end').hide();
-			})
-			//上一页
-			$('.pre').click(function(){
-				var value=$('.page').eq(0).text();
-				value=parseInt(value);
-				if(value==1){
-					return false;
-				}else{
-					$('.page').show();
-					$.each($('.page'), function(i) {
-						$(this).text(value-5+i);
-					});
-				}
-				var p=$('.page.active').text();
-				paging(value-1);
-				$('.end').show();
-			})	
-			//下一页
-			$('.next').click(function(){
-				var value=$('.page:visible').eq(-1).text();
-				value=parseInt(value);
-				var number=$('.number').text();
-				number=parseInt(number);
-				var p=$('.page.active').text();
-				if(value==number){
-					return false;
-				}else{
-					paging(value+1);
-					$(".page").show();
-					$.each($('.page'),function(i) {
-						if(value+1+i>number){
-							$(this).hide();
-							$('.end').hide();
-						}else{
-							$(this).text(value+1+i);
-						}
-					});
-					$('.page').eq(0).addClass('active').siblings('.page').removeClass('active');
-				}
-			})
-			//分页
-			$('.page').click(function(){
-				var number=$('.number').text();
-				var this_=$(this);
-				var p=$(this).text();
-				paging(p);
-				var temp=false;;
-				$.each($('.page'),function(i) {
-					if(temp){
-						$(this).hide();
-						$('.end').hide();
-					}
-					if(parseInt($(this).text())==parseInt(number)){
-						temp=true;
-					}
-				});
-				$(this_).addClass('active');
-				$('.page').not(this_[0]).removeClass('active');
-			})
-			//跳转
-			$('.ship').click(function(){
-				if($(this).hasClass('active')){
-					var p=$(".footer input").val();
-					$(".footer input").val('');
-					paging(p);
-					$('.page').show();
-					var index=Math.floor(p/5);
-					index=index*5;
-					var page= $('.number').text();
-					if(page>5){
-						$('.end').show();
-					}else{
-						$('.end').hide();
-					}
-					$.each($('.page'), function(i) {
-						if(index+1+i>page){
-							$(this).hide();
-							$('.end').hide();
-						}
-						$(this).text(index+1+i);
-						if(index+1+i==p){
-							$(this).addClass('active');
-							$('.page').not(this).removeClass('active');
-						}
-					});
-					$('.ship').removeClass('active');
-				}
+			$('.product-save').click(function(){
+				JudgeState();
 			})
 			
-			//merchant/v2.0/robot/robot_manage
-			function paging(pageSize){
-				$('tbody').empty();
-				console.log(cookie[2],pageSize)
+			function getCompany(){　
 				return  new  Promise(function(resolve,reject){
 					$.ajax({
 						type:"get",
-						url:"merchant/v2.0/robot/robot_manage",
+						url:"merchant/v2.0/robot/robot_platform_company",
 						async:true,
-						data:{'product_id':cookie[2],'pageSize':pageSize},
+						data:{
+						},
 					}).done((data)=>{
 						if(data.status=='200'){
-							var size= data.total_num%5==0 ? data.total_num/5: parseInt(data.total_num/5)+1;
-							data=data.data;
-							console.log(data)
-							$('.footer').show();
-							var temp
-							if(data.length>0){
-								var str='';
-								var temp="";
-								var title="";
-								for(var i=0;i<data.length;i++){
-									str+='<tr>';
-									str+='<td>'+data[i].robot_code+'</td>';
-									str+='<td>'+data[i].robot_name+'</td>';
-									str+='<td>'+data[i].robot_type+'</td>';
-									str+='<td>'+data[i].deployment_form+'</td>';
-									if(data[i].comment&&data[i].comment.length>20){
-										temp=data[i].comment.substring(0,20);
-										str+='<td><p><span title="'+data[i].comment+'">'+temp+'...</span></p></td>';
-									}else{
-										str+='<td><p><span>'+data[i].comment+'</span></p></td>';
-									}
-									str+='<td>';
-								    str+='<a href="Individualization.html?robot_id='+data[i].id+'&product_id='+data[i].product_id+'"><span>个性化设置</span></a>';
-									str+='<a href="detail.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>详情</span></a>';
-									str+='<a href="Q&A.html?robot_code='+data[i].robot_code+'&product_id='+data[i].product_id+'"><span>知识库</span></a>';
-									str+='</td>';
-									str+='</tr>';
-								}
-								$('tbody').append(str);
-								$('.footer').show();
+							console.log('修改成功')
+							console.log(data.data)
+							var html = '';
+							for(let i=0;i<data.data.length;i++){
+								console.log(data.data[i])
+								html += '<option value = "'+ data.data[i] +'">' + data.data[i] + '</option>'
 								
-							}else{
-								$('.footer').hide();
 							}
-							$('.footer .number').text(size);
-							resolve();
+							$('#company').append(html);
+							
+							
+							
 						}else if(data.errmsg=='用户未登录'){
 							// window.location.href="login.html";
 						}
 					})
 					
 				})	
+			}
+
+
+
+			//修改信息
+			function platformEdit(){　
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"put",
+						url:"merchant/v2.0/robot/detail_platform_manage",
+						async:true,
+						data:{
+							platform_manage_id: list.platform_manage_id,
+							name: $("#name").val(),
+							platform_status: platform_status,
+							add_value_service: $("#add_value_service").val(),
+							official_name: $("#official_name").val(),
+							insured_type: $("#insured_type").val(),
+							recharge_url: $("#recharge_url").val(),
+							invoice: $("#invoice").val(),
+							premium_income: $("#premium_income").val(),
+							claims_phone: $("#claims_phone").val(),
+							complaints: $("#complaints").val(),
+							employee_number: $("#employee_number").val(),
+							business_call: $("#business_call").val(),
+							official_wechat: $("#official_wechat").val(),
+							wechat_service_content: $("#wechat_service_content").val(),
+							settlement_rule: $("#settlement_rule").val(),
+							company: $("#company").val(),
+							is_official_app: $("#is_official_app").val(),
+							settlement_enquiry: $("#settlement_enquiry").val(),
+							postage_instruction: $("#postage_instruction").val(),
+							service_online_time: $("#service_online_time").val() + '&' + $("#service_online_time_day").val(),
+							complaint_time: $("#complaint_time").val() + '&' + $("#complaint_time_day").val(),
+							call_service_time: $("#call_service_time").val() + '&' + $("#call_service_time_day").val()
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('修改成功')
+							alert('修改成功')
+							window.location.href="platform_manage.html";
+							// $("#name").val() = name;
+							// $("#platform_status").val() = platform_status;
+							// $("#add_value_service").val() = add_value_service;
+							// $("#official_name").val() = official_name;
+							// $("#insured_type").val() = insured_type;
+							// $("#recharge_url").val() = recharge_url;
+							// $("#invoice").val() = invoice;
+							// $("#premium_income").val() = premium_income;
+							// $("#claims_phone").val() = claims_phone;
+							// $("#complaints").val() = complaints;
+							// $("#employee_number").val() = employee_number;
+							// $("#business_call").val() = business_call;
+							// $("#official_wechat").val() = official_wechat;
+							// $("#wechat_service_content").val() = wechat_service_content;
+							// $("#settlement_rule").val() = settlement_rule;
+							// $("#company").val() = company;
+							// $("#is_official_app").val() = is_official_app;
+							// let serviceOnline = service_online_time.split('&');
+							// let complaint = complaint_time.split('&');
+							// let call_service = call_service_time.split('&');
+							// $("#service_online_time").val() = service_online_time[0];
+							// $("#complaint_time").val() = complaint_time[0];
+							// $("#call_service_time").val() = call_service_time[0];
+							// $("#service_online_time_day").val() = service_online_time[1];
+							// $("#complaint_time_day").val() = complaint_time[1];
+							// $("#call_service_time_day").val() = call_service_time[1];
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+
+			//获取信息
+			function platformGet(){　
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"get",
+						url:"merchant/v2.0/robot/detail_platform_manage",
+						async:true,
+						contentType: 'application/json',
+						data:{
+							platform_manage_id: list.platform_manage_id,
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('获取信息成功')
+							console.log(data.data[0])
+							console.log($("#name"))
+							console.log($("#name").text())
+							console.log(data.data[0].name)
+							$("#name").val(data.data[0].name);
+							$("#add_value_service").val(data.data[0].add_value_service);
+							$("#official_name").val(data.data[0].official_name);
+							$("#insured_type").val(data.data[0].insured_type);
+							$("#recharge_url").val(data.data[0].recharge_url);
+							$("#invoice").val(data.data[0].invoice);
+							$("#premium_income").val(data.data[0].premium_income);
+							$("#claims_phone").val(data.data[0].claims_phone);
+							$("#complaints").val(data.data[0].complaints);
+							$("#employee_number").val(data.data[0].employee_number);
+							$("#business_call").val(data.data[0].business_call);
+							$("#official_wechat").val(data.data[0].official_wechat);
+							$("#wechat_service_content").val(data.data[0].wechat_service_content);
+							$("#settlement_rule").val(data.data[0].settlement_rule);
+							$("#company").val(data.data[0].company);
+							$("#is_official_app").val(data.data[0].is_official_app);
+							$("#settlement_enquiry").val(data.data[0].settlement_enquiry);
+							$("#postage_instruction").val(data.data[0].postage_instruction);
+							
+							let serviceOnline = data.data[0].service_online_time.split('&');
+							let complaint = data.data[0].complaint_time.split('&');
+							let call_service = data.data[0].call_service_time.split('&');
+							$("#service_online_time").val(service_online_time[0]);
+							$("#complaint_time").val(complaint_time[0]);
+							$("#call_service_time").val(call_service_time[0]);
+							$("#service_online_time_day").val(service_online_time[1]);
+							$("#complaint_time_day").val(complaint_time[1]);
+							$("#call_service_time_day").val(call_service_time[1]);
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+			//添加信息
+			function platformAdd(){
+				return  new  Promise(function(resolve,reject){
+					$.ajax({
+						type:"post",
+						url:"merchant/v2.0/robot/detail_platform_manage",
+						async:true,
+						data:{
+							name: $("#name").val(),
+							platform_status: platform_status,
+							add_value_service: $("#add_value_service").val(),
+							official_name: $("#official_name").val(),
+							insured_type: $("#insured_type").val(),
+							recharge_url: $("#recharge_url").val(),
+							invoice: $("#invoice").val(),
+							premium_income: $("#premium_income").val(),
+							claims_phone: $("#claims_phone").val(),
+							complaints: $("#complaints").val(),
+							employee_number: $("#employee_number").val(),
+							business_call: $("#business_call").val(),
+							official_wechat: $("#official_wechat").val(),
+							wechat_service_content: $("#wechat_service_content").val(),
+							settlement_rule: $("#settlement_rule").val(),
+							company: $("#company").val(),
+							is_official_app: $("#is_official_app").val(),
+							settlement_enquiry:$("#settlement_enquiry").val(),
+							postage_instruction:$("#postage_instruction").val(),
+							service_online_time: $("#service_online_time").val() + '&' + $("#service_online_time_day").val(),
+							complaint_time: $("#complaint_time").val() + '&' + $("#complaint_time_day").val(),
+							call_service_time: $("#call_service_time").val() + '&' + $("#call_service_time_day").val()
+						},
+					}).done((data)=>{
+						if(data.status=='200'){
+							console.log('提交成功')
+							alert('提交成功')
+							window.location.href="platform_manage.html";
+						}else if(data.errmsg=='用户未登录'){
+							// window.location.href="login.html";
+						}
+					})
+					
+				})	
+			}
+
+			function JudgeState(){
+				if( $("#name").val() && $("#add_value_service").val() && $("#official_name").val()&& $("#insured_type").val()&& $("#recharge_url").val()&&
+					$("#invoice").val() && $("#premium_income").val() && $("#claims_phone").val()&& $("#complaints").val() && $("#employee_number").val()&&
+					$("#business_call").val() && $("#official_wechat").val() && $("#wechat_service_content").val() && $("#settlement_rule").val() && $("#company").val()&&
+					$("#is_official_app").val() && $("#service_online_time").val() && $("#complaint_time").val() && $("#call_service_time").val()){
+					platform_status = 0
+				}else{
+					platform_status = 2
+				}
+
+				if(list.type==0){
+					platformAdd()
+				}else{
+					platformEdit()
+				}
 			}
 		</script>
 	</body>
