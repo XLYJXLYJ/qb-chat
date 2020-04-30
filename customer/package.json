@@ -18,7 +18,7 @@
     "element-ui": "^2.6.0",
     "es6-promisify": "^6.0.1",
     "html-webpack-plugin": "^3.2.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "layui-src": "^2.4.5",
     "rongcloud-sdk": "^3.0.1",
     "stylus": "^0.54.5",
